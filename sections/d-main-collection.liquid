@@ -1,0 +1,611 @@
+{%- paginate collection.products by section.settings.products_per_page -%}
+<setion id="d-main-collection" class="container">
+<div class="container-lg animate-fadeIn {{ section.settings.padding_top }} {{ section.settings.padding_bottom }}">
+  
+  <div class="d-flex justify-content-between align-items-center skmb-md collection-toolbar">
+    <div class="fs-16 text-gray skfwn">
+      Showing {{ paginate.current_offset | plus: 1 }}-{% if paginate.next %}{{ paginate.current_offset | plus: paginate.page_size }}{% else %}{{ collection.products_count }}{% endif %} of {{ collection.products_count }} products
+    </div>
+    
+    <div class="d-flex gap-12 align-items-center flex-wrap">
+      <button type="button" class="sk-pill-button filter-toggle-btn fs-16" id="SKFilterToggle" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M9.375 6.66825C9.14294 6.66825 8.92038 6.75603 8.75628 6.91227C8.59219 7.0685 8.5 7.28041 8.5 7.50136C8.5 7.72231 8.59219 7.93422 8.75628 8.09046C8.92038 8.24669 9.14294 8.33447 9.375 8.33447C9.60706 8.33447 9.82962 8.24669 9.99372 8.09046C10.1578 7.93422 10.25 7.72231 10.25 7.50136C10.25 7.28041 10.1578 7.0685 9.99372 6.91227C9.82962 6.75603 9.60706 6.66825 9.375 6.66825ZM6.89875 6.66825C7.07953 6.18044 7.41477 5.75803 7.85827 5.45924C8.30178 5.16045 8.8317 5 9.375 5C9.9183 5 10.4482 5.16045 10.8917 5.45924C11.3352 5.75803 11.6705 6.18044 11.8512 6.66825H18.125C18.3571 6.66825 18.5796 6.75603 18.7437 6.91227C18.9078 7.0685 19 7.28041 19 7.50136C19 7.72231 18.9078 7.93422 18.7437 8.09046C18.5796 8.24669 18.3571 8.33447 18.125 8.33447H11.8512C11.6705 8.82228 11.3352 9.24469 10.8917 9.54348C10.4482 9.84227 9.9183 10.0027 9.375 10.0027C8.8317 10.0027 8.30178 9.84227 7.85827 9.54348C7.41477 9.24469 7.07953 8.82228 6.89875 8.33447H5.875C5.64294 8.33447 5.42038 8.24669 5.25628 8.09046C5.09219 7.93422 5 7.72231 5 7.50136C5 7.28041 5.09219 7.0685 5.25628 6.91227C5.42038 6.75603 5.64294 6.66825 5.875 6.66825H6.89875ZM14.625 11.6669C14.3929 11.6669 14.1704 11.7547 14.0063 11.9109C13.8422 12.0671 13.75 12.279 13.75 12.5C13.75 12.721 13.8422 12.9329 14.0063 13.0891C14.1704 13.2453 14.3929 13.3331 14.625 13.3331C14.8571 13.3331 15.0796 13.2453 15.2437 13.0891C15.4078 12.9329 15.5 12.721 15.5 12.5C15.5 12.279 15.4078 12.0671 15.2437 11.9109C15.0796 11.7547 14.8571 11.6669 14.625 11.6669ZM12.1488 11.6669C12.3295 11.1791 12.6648 10.7567 13.1083 10.4579C13.5518 10.1591 14.0817 9.99864 14.625 9.99864C15.1683 9.99864 15.6982 10.1591 16.1417 10.4579C16.5852 10.7567 16.9205 11.1791 17.1012 11.6669H18.125C18.3571 11.6669 18.5796 11.7547 18.7437 11.9109C18.9078 12.0671 19 12.279 19 12.5C19 12.721 18.9078 12.9329 18.7437 13.0891C18.5796 13.2453 18.3571 13.3331 18.125 13.3331H17.1012C16.9205 13.8209 16.5852 14.2433 16.1417 14.5421C15.6982 14.8409 15.1683 15.0014 14.625 15.0014C14.0817 15.0014 13.5518 14.8409 13.1083 14.5421C12.6648 14.2433 12.3295 13.8209 12.1488 13.3331H5.875C5.64294 13.3331 5.42038 13.2453 5.25628 13.0891C5.09219 12.9329 5 12.721 5 12.5C5 12.279 5.09219 12.0671 5.25628 11.9109C5.42038 11.7547 5.64294 11.6669 5.875 11.6669H12.1488ZM9.375 16.6655C9.14294 16.6655 8.92038 16.7533 8.75628 16.9095C8.59219 17.0658 8.5 17.2777 8.5 17.4986C8.5 17.7196 8.59219 17.9315 8.75628 18.0877C8.92038 18.244 9.14294 18.3317 9.375 18.3317C9.60706 18.3317 9.82962 18.244 9.99372 18.0877C10.1578 17.9315 10.25 17.7196 10.25 17.4986C10.25 17.2777 10.1578 17.0658 9.99372 16.9095C9.82962 16.7533 9.60706 16.6655 9.375 16.6655ZM6.89875 16.6655C7.07953 16.1777 7.41477 15.7553 7.85827 15.4565C8.30178 15.1577 8.8317 14.9973 9.375 14.9973C9.9183 14.9973 10.4482 15.1577 10.8917 15.4565C11.3352 15.7553 11.6705 16.1777 11.8512 16.6655H18.125C18.3571 16.6655 18.5796 16.7533 18.7437 16.9095C18.9078 17.0658 19 17.2777 19 17.4986C19 17.7196 18.9078 17.9315 18.7437 18.0877C18.5796 18.244 18.3571 18.3317 18.125 18.3317H11.8512C11.6705 18.8196 11.3352 19.242 10.8917 19.5408C10.4482 19.8395 9.9183 20 9.375 20C8.8317 20 8.30178 19.8395 7.85827 19.5408C7.41477 19.242 7.07953 18.8196 6.89875 18.3317H5.875C5.64294 18.3317 5.42038 18.244 5.25628 18.0877C5.09219 17.9315 5 17.7196 5 17.4986C5 17.2777 5.09219 17.0658 5.25628 16.9095C5.42038 16.7533 5.64294 16.6655 5.875 16.6655H6.89875Z" fill="black"/>
+</svg>
+        <span>Filters</span>
+      </button>
+
+      <div class="sort-dropdown-wrapper">
+        <select id="SortBy" class="sk-pill-button sort-select fs-16" aria-label="Sort products">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>
+              Sort By: {{ option.name }}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="SKFilterDrawer" class="filter-drawer d-none skmb-md skp-sm bd-smoke">
+    <form id="FacetFiltersForm" class="d-flex gap-30 flex-wrap">
+      {%- for filter in collection.filters -%}
+        <div class="filter-group">
+          <h4 class="fs-14 skfwb text-black skmb-15">{{ filter.label }}</h4>
+          <div class="filter-options-list">
+            {%- case filter.type -%}
+              {%- when 'list' or 'boolean' -%}
+                {%- for value in filter.values -%}
+                  <label class="d-flex align-items-center gap-10 fs-14 text-gray skmb-15 cursor-pointer">
+                    <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %}>
+                    <span>{{ value.label }} ({{ value.count }})</span>
+                  </label>
+                {%- endfor -%}
+              {%- when 'price_range' -%}
+                <div class="price-range-inputs d-flex gap-10">
+                  <input type="number" name="{{ filter.min_value.param_name }}" placeholder="Min" min="0" value="{{ filter.min_value.value | money_without_currency }}">
+                  <input type="number" name="{{ filter.max_value.param_name }}" placeholder="Max" min="0" value="{{ filter.max_value.value | money_without_currency }}">
+                </div>
+            {%- endcase -%}
+          </div>
+        </div>
+      {%- endfor -%}
+      <input type="hidden" name="sort_by" value="{{ sort_by }}">
+    </form>
+  </div>
+
+{% comment %} sk-main-product-rendering-start  {% endcomment %}
+<div class="dsection-product d-grid gap-20 {{ class }}" style="flex-wrap: wrap;">
+      {% for product in collection.products limit: product_limit %}
+        <div class="col-3 col-md-6 col-sm-12 collection-grid">
+          <div class="product-card">
+            <div>
+              <div class="hoverhideshow bg-smoke">
+              <a href="{{ product.url }}"> 
+                <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                     alt="{{ product.title | escape }}" 
+                     class="w-100 d-block"
+                     loading="lazy">
+              </a>
+
+              <button type="button" 
+                      class="quick-view-trigger text-white bg-black flex-center" 
+                      data-product-handle="{{ product.handle }}"
+data-product-meta-dimensions="{{ product.metafields.nauticam.dimensions }}"
+data-product-meta-weight_in_air="{{ product.metafields.nauticam.weight_in_air }}"
+data-product-meta-buoyancy_in_water="{{ product.metafields.nauticam.buoyancy_in_water }}"
+data-product-meta-depth_rating="{{ product.metafields.nauticam.depth_rating }}"
+data-product-meta-port_mount="{{ product.metafields.nauticam.port_mount }}"                      
+                      >    
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+            <div class="product-detail">
+                <h3 class="fs-20 text-color skfwn skmb-0 mb-4">{{ product.title }}</h3>
+                <p class="fs-16 text-color skmt-0 skmb-0 mb-4">{{ product.vendor }}</p>
+                <p class="fs-18 text-color-2">
+                  {{ product.price | money }}
+                </p>   
+            </div>    
+          </div>    
+                  <button class="sk-ajax-add skbtn-main skp-xs skmt-0 add-to-cart-button" 
+                          data-variant-id="{{ product.first_available_variant.id }}"
+                    >
+                    Add to Cart
+                  </button>
+          </div>
+        </div>
+      {% endfor %}
+</div>
+{% comment %} Quick View Modal {% endcomment %}
+<div id="skQuickViewModal" class="skqv-modal hide">
+    <div class="skqv-modal-overlay"></div>
+    <div class="skqv-modal-content bg-white skp-md">
+      <button class="skqv-modal-close text-black fs-h4">&times;</button>
+      <div id="skQuickViewData" class="d-flex align-items-center gap-40 ">
+        {% comment %} AJAX Content Loaded Here {% endcomment %}
+      </div>
+    </div>
+</div>
+
+<style>
+/* CSS Styles */
+.quick-view-trigger { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; opacity: 0; border: none; cursor: pointer; transition: var(--transition); z-index: 5; }
+.hoverhideshow:hover .quick-view-trigger { opacity: 1; }
+.quick-view-trigger:hover { background-color: var(--blue-color); }
+
+.skqv-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+.skqv-modal.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.skqv-modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.skqv-modal-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+.skqv-modal-content { position: relative; width: 95%; max-width: 850px; border-radius: 8px; transform: translateY(30px); transition: transform 0.4s ease; z-index: 10001; } 
+.skqv-modal.show .skqv-modal-content { transform: translateY(0); }
+.skqv-modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; cursor: pointer; z-index: 10; font-weight: bold; }
+
+.sk-qty-input { width: 60px; height: 45px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
+.sk-ajax-add.loading { opacity: 0.5; pointer-events: none; }
+.product-card img { aspect-ratio: 1 / 1; object-fit: cover; object-position: center;}
+@media (max-width: 767px) {
+    #skQuickViewData { flex-direction: column; }
+    .skqv-modal-content { padding: 20px; }
+}
+/*quick view css*/
+
+.thumb-item img:hover { border-color: var(--blue-color) !important; }
+
+.main-image-figure img{aspect-ratio: 1 / 1;object-fit: cover;object-position: center;}
+
+  .main-image-viewport {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: var(--white-color);
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: var(--white-color);
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: var(--transition);
+  }
+
+  .gallery-nav:hover {
+    background: var(--smoke-color);
+    color: var(--blue-color);
+  }
+
+  .prev-arrow { left: 15px; }
+  .next-arrow { right: 15px; }
+
+  .thumb-item {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    flex: 0 0 18%; /* Adjust based on how many thumbs you want visible */
+    max-width: 100px;
+  }
+
+  .thumb-item img {
+    display: block;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 1px solid #c4c4c4;
+  }
+
+  .thumb-item.is-active {
+    border-color: var(--blue-color); /* Uses your skcssl.css variable */
+  }
+
+  @media (max-width: 768px) {
+    .gallery-nav { width: 35px; height: 35px; }
+  }
+</style>
+
+<script>
+// 2. Initialize Quick View and Listeners
+function initCollectionFeatures() {
+    const modal = document.getElementById('skQuickViewModal');
+    const contentArea = document.getElementById('skQuickViewData');
+    if (!modal) return;
+
+    // Grid Add to Cart
+    document.querySelectorAll('.sk-ajax-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            addToCart(btn.dataset.variantId, 1, btn);
+        });
+    });
+
+    // Quick View Trigger
+    document.querySelectorAll('.quick-view-trigger').forEach(button => {
+        button.addEventListener('click', async () => {
+            const handle = button.getAttribute('data-product-handle');
+const dimensions = button.getAttribute('data-product-meta-dimensions');
+const weight_in_air = button.getAttribute('data-product-meta-weight_in_air');
+const buoyancy_in_water = button.getAttribute('data-product-meta-buoyancy_in_water');
+const depth_rating = button.getAttribute('data-product-meta-depth_rating');
+const port_mount = button.getAttribute('data-product-meta-port_mount');
+            contentArea.innerHTML = '<div class="text-center w-100 skp-lg">Loading...</div>';
+            modal.classList.remove('hide');
+            modal.classList.add('show');
+
+            try {
+                const response = await fetch(`/products/${handle}.js`);
+                const product = await response.json();
+        const thumbnailsHTML = product.media.map((media, index) => `
+        <div class="thumb-item ${index === 0 ? 'is-active' : ''}" 
+             data-index="${index}"
+             onclick="updateMainImage('${media.src}', ${index}, this)">
+          <img src="${media.src}" alt="${media.alt}" class="w-100" loading="lazy">
+        </div>
+      `).join('');
+                contentArea.innerHTML = `
+                  <div class="col-6 col-sm-12">
+    <div class="product-gallery-wrapper skpl-md skpr-md">
+      
+      <div class="main-image-viewport skmb-sm">
+        <button class="gallery-nav prev-arrow" aria-label="Previous image" onclick="changeSlide(-1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        <figure class="main-image-figure">
+          <img 
+            src="${product.featured_image}" 
+            alt="${product.title}" 
+            class="w-100 main-product-img" 
+            id="MainProductImage"
+            data-index="0">
+        </figure>
+
+        <button class="gallery-nav next-arrow" aria-label="Next image" onclick="changeSlide(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+        <div class="thumbnails-grid d-flex gap-10">${thumbnailsHTML}</div>
+      
+    </div>
+                  </div>
+                  <div class="col-6 col-sm-12">
+                    <h2 class="fs-h5 text-blue skfwb skmb-0">${product.title}</h2>
+                    <p class="fs-16 text-color skmt-0 skmb-15">${product.vendor}</p>
+                    <div class="fs-h6 text-blue skmb-15 font-semibold">${(product.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+                    <div class="fs-16 text-color skpb-xs">
+                    ${product.description}
+                    </div>
+          <div class="specs-table mb-32">
+            <h3 class="fs-18 skfwb text-color" style="text-transform: uppercase; ">
+              Technical Specifications
+            </h3>
+            <div class="table-container">
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Dimensions</div>
+                <div class="col-8 text-color fs-16 leading-160">${dimensions}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Weight in Air</div>
+                <div class="col-8 text-color fs-16 leading-160">${weight_in_air }</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Buoyancy in Water</div>
+                <div class="col-8 text-color fs-16 leading-160">${buoyancy_in_water}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Depth Rating</div>
+                <div class="col-8 text-color fs-16 leading-160">${depth_rating}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Port Mount</div>
+                <div class="col-8 text-color fs-16 leading-160">${port_mount}</div>
+              </div>
+            </div>
+          </div>
+                    <div class="d-flex gap-10 mb-32 mt-32">
+                        <input type="number" id="modal-qty" class="sk-qty-input d-none" value="1" min="1">
+                        <button class="fs-16 skbtn-main flex-center w-100 skmt-0 modal-add-btn" 
+                                data-variant-id="${product.variants[0].id}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>  <span class="skpl-15">Add to Cart</span>
+                        </button>
+                    </div>
+                    <a href="${product.url}" class="text-color fs-16 text-center d-block" style="text-decoration: none;">View full details 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+  <path d="M1 13L7 7L1 1" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </a>
+                  </div>
+                `;
+
+                // Listener for Modal Add Button
+                contentArea.querySelector('.modal-add-btn').addEventListener('click', (e) => {
+                    const qty = document.getElementById('modal-qty').value;
+                    addToCart(e.target.dataset.variantId, qty, e.target);
+                });
+
+            } catch (err) { contentArea.innerHTML = "Error loading product."; }
+        });
+    });
+
+    // Close Modal Logic
+    const closeMD = () => { modal.classList.add('hide'); modal.classList.remove('show'); };
+    modal.querySelector('.skqv-modal-close').addEventListener('click', closeMD);
+    modal.querySelector('.skqv-modal-overlay').addEventListener('click', closeMD);
+}
+
+document.addEventListener('DOMContentLoaded', initCollectionFeatures);
+document.addEventListener('shopify:section:load', initCollectionFeatures);
+
+// Interactivity Logic
+  function updateMainImage(src, index, element) {
+    const mainImg = document.getElementById('MainProductImage');
+    mainImg.src = src;
+    mainImg.dataset.index = index;
+    
+    // Update active class
+    document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('is-active'));
+    element.classList.add('is-active');
+  }
+
+  function changeSlide(direction) {
+    const mainImg = document.getElementById('MainProductImage');
+    const currentIndex = parseInt(mainImg.dataset.index);
+    const thumbs = document.querySelectorAll('.thumb-item');
+    let nextIndex = currentIndex + direction;
+
+    if (nextIndex < 0) nextIndex = thumbs.length - 1;
+    if (nextIndex >= thumbs.length) nextIndex = 0;
+
+    thumbs[nextIndex].click();
+  }
+</script>
+{% comment %} sk-main-product-rendering-end  {% endcomment %}
+
+
+  {%- if paginate.pages > 1 -%}
+    <div class="d-flex justify-content-center align-items-center gap-10 mt-40 pagination-wrapper">
+      <nav role="navigation" aria-label="Pagination">
+        <ul class="d-flex gap-10 pagination-list">
+          
+          {%- if paginate.previous -%}
+            <li>
+              <a href="{{ paginate.previous.url }}" class="pagination-item pagination-arrow" aria-label="Previous Page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" style="
+    transform: rotate(-180deg);
+">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83325 15.0001L10.8333 10.0001L5.83325 5.00008L7.49992 3.33341L14.1666 10.0001L7.49992 16.6667L5.83325 15.0001Z" fill="#0D0D0D" style="
+"></path>
+</svg>
+              </a>
+            </li>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            <li>
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination-item" aria-label="Go to page {{ part.title }}">
+                  {{ part.title }}
+                </a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <span class="pagination-item active" aria-current="page">
+                    {{ part.title }}
+                  </span>
+                {%- else -%}
+                  <span class="pagination-item dots">
+                    {{ part.title }}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <li>
+              <a href="{{ paginate.next.url }}" class="pagination-item pagination-arrow" aria-label="Next Page">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M5.83325 15.0001L10.8333 10.0001L5.83325 5.00008L7.49992 3.33341L14.1666 10.0001L7.49992 16.6667L5.83325 15.0001Z" fill="#0D0D0D"/>
+</svg>
+              </a>
+            </li>
+          {%- endif -%}
+          
+        </ul>
+      </nav>
+    </div>
+  {%- endif -%}
+
+</div>
+</setion>
+{%- endpaginate -%}
+
+<style>
+  /* Custom Unique Non-Overlapping Module Styles Context Elements */
+  .text-none-decoration {
+    text-decoration: none;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .sk-pill-button {
+    background-color: var(--white-color);
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 25px !important;
+    padding: 8px 24px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .sk-pill-button:hover {
+    border-color: var(--black-color) !important;
+  }
+  .sort-dropdown-wrapper {
+    position: relative;
+  }
+  .sort-dropdown-wrapper::after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-top-color: var(--bodytext-color);
+    pointer-events: none;
+  }
+  .sort-select {
+    padding-right: 32px;
+  }
+  .product-image-container {
+    background-color: var(--smoke-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .product-image-container img {
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pagination-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: var(--gray-color);
+    font-family: var(--mainfont);
+    font-size: max(14px, calc(var(--fs-14) * var(--fs-scale)));
+    transition: var(--transition);
+  }
+  .pagination-item.active {
+    background-color: var(--black-color);
+    color: var(--white-color);
+    border-color: var(--black-color);
+    font-weight: var(--bold-font-weight);
+  }
+  .pagination-item.dots {
+    border-color: transparent;
+  }
+  .pagination-item:not(.active):not(.dots):hover {
+    border-color: var(--black-color);
+    color: var(--black-color);
+  }
+  .filter-drawer {
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    transition: var(--transition);
+  }
+  
+  /* System Breakpoint Adaptations Responsive Grids Override Rules */
+  @media (max-width: 991px) {
+    .collectionproductsgrid .col-3 {
+      grid-column: span 6 !important;
+    }
+  }
+  @media (max-width: 575px) {
+    .collectionproductsgrid .col-3 {
+      grid-column: span 12 !important;
+    }
+    .collection-toolbar {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Handling Native Sorting Mechanics Redirect Form Binding
+    const sortSelect = document.getElementById('SortBy');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function(e) {
+        const value = e.target.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', value);
+        window.location.href = url.toString();
+      });
+    }
+
+    // Toggle Filter Layout Window Context Drawer Controls
+    const filterToggle = document.getElementById('SKFilterToggle');
+    const filterDrawer = document.getElementById('SKFilterDrawer');
+    if (filterToggle && filterDrawer) {
+      filterToggle.addEventListener('click', function() {
+        const isHidden = filterDrawer.classList.contains('d-none');
+        if (isHidden) {
+          filterDrawer.classList.remove('d-none');
+          filterToggle.setAttribute('aria-expanded', 'true');
+        } else {
+          filterDrawer.classList.add('d-none');
+          filterToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Form Event Listeners Auto Submit on Checkboxes for Search & Discovery
+    const filterForm = document.getElementById('FacetFiltersForm');
+    if (filterForm) {
+      filterForm.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          const formData = new FormData(filterForm);
+          const searchParams = new URLSearchParams(formData).toString();
+          window.location.search = searchParams;
+        });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "d-main-collection",
+  "tag": "section",
+  "class": "collection-grid-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "label": "Products displayed per page"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "skpt-0", "label": "None" },
+        { "value": "skpt-sm", "label": "Small" },
+        { "value": "skpt-md", "label": "Medium" },
+        { "value": "skpt-lg", "label": "Large" }
+      ],
+      "default": "skpt-lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "skpb-0", "label": "None" },
+        { "value": "skpb-sm", "label": "Small" },
+        { "value": "skpb-md", "label": "Medium" },
+        { "value": "skpb-lg", "label": "Large" }
+      ],
+      "default": "skpb-lg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-main-collection"
+    }
+  ]
+}
+{% endschema %}

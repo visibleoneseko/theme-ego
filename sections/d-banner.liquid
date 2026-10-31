@@ -1,0 +1,94 @@
+{%- style -%}
+  #d-banner-{{ section.id }} {
+    background-image: url('{{ section.settings.image | image_url: width: 2000 }}');
+  }
+
+  {%- if section.settings.image_mobile != blank -%}
+    @media (max-width: 767px) {
+      #d-banner-{{ section.id }} {
+        background-image: url('{{ section.settings.image_mobile | image_url: width: 800 }}') !important;
+      }
+    }
+  {%- endif -%}
+
+  /* Overlay adjustment if needed via settings */
+  .skbanner-overlay-{{ section.id }} {
+    background: rgba(0,0,0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    width: 100%;
+    height: 100%;
+  }
+{%- endstyle -%}
+
+<section class="skbanner" id="d-banner-{{ section.id }}">
+  <div class="skbanner-overlay-{{ section.id }}">
+    <div class="container-lg d-flex align-items-center">
+      <div class="banner-content">
+        
+        {%- if section.settings.show_breadcrumbs -%}
+          <nav class="breadcrumb skmb-15 fs-14 text-white" aria-label="breadcrumbs">
+            <a href="{{ routes.root_url }}" title="Home" class="text-white text-white-hover">Home</a>
+            <span class="skml-15 skmr-15" aria-hidden="true">&gt;</span>
+            <span class="skfwb">{{ page.title | default: section.settings.title }}</span>
+          </nav>
+        {%- endif -%}
+
+        {%- if section.settings.title != blank -%}
+          <h1 class="fs-h1 text-white skfwb skm-0">
+            {{ section.settings.title }}
+          </h1>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-banner",
+  "tag": "section",
+  "class": "d-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Banner Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Banner Image (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Banner Title",
+      "default": "Ambassador"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-banner",
+      "settings": {
+        "title": "Ambassador"
+      }
+    }
+  ]
+}
+{% endschema %}

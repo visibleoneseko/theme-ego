@@ -1,0 +1,144 @@
+{%- style -%}
+  #sk-section-{{ section.id }} {background-color: {{ section.settings.bg_color }};}
+.d-two-collection .sk-collection-card {
+    background-color: #f8f8f8; /* Matches the image background */
+    border-radius: 8px;overflow: hidden;height: 100%;transition: var(--transition);}
+.d-two-collection .sk-collection-card:hover {transform: translateY(-5px);}
+.d-two-collection .sk-card-image img {width: 100%;height: auto;display: block;object-fit: contain;}
+.d-two-collection .sk-btn-custom {background-color: #212121;color: #ffffff;padding: 12px 35px;font-weight: 600;font-size: 14px;
+    border-radius: 50px !important; /* Matches rounded style in image */
+  }
+.d-two-collection .sk-btn-custom:hover {background-color: #444;color: #fff;}
+{%- endstyle -%}
+
+<section id="sk-section-{{ section.id }}" class="skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}">
+  <div class="container-lg">
+    <div class="d-flex gap-30 flex-center">
+      {%- for block in section.blocks -%}
+        <div class="col-6 w-50" {{ block.shopify_attributes }}>
+          <div class="sk-collection-card skp-lg d-flex align-items-center justify-content-between">
+            
+            <div class="sk-card-content col-6">
+              {%- if block.settings.title != blank -%}
+                <h3 class="fs-h3 skfwb text-black skmb-15">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              
+              {%- if block.settings.subtext != blank -%}
+                <div class="fs-16 text-gray skmb-xs lheight-h">
+                  {{ block.settings.subtext }}
+                </div>
+              {%- endif -%}
+
+              {%- if block.settings.btn_label != blank -%}
+                <a href="{{ block.settings.btn_link }}" class="skbtn sk-btn-custom">
+                  {{ block.settings.btn_label }}
+                </a>
+              {%- endif -%}
+            </div>
+
+            <div class="sk-card-image col-6">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                     alt="{{ block.settings.image.alt | escape }}" 
+                     loading="lazy">
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-two-collection",
+  "tag": "section",
+  "class": "d-two-collection",
+  "max_blocks": 2,
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Accessories"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button Label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "two-collection",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,414 @@
+<div id="skQuickViewModal" class="skqv-modal hide">
+    <div class="skqv-modal-overlay"></div>
+    <div class="skqv-modal-content bg-white skp-md">
+      <button class="skqv-modal-close text-black fs-h4">&times;</button>
+      <div id="skQuickViewData" class="d-flex align-items-center gap-40 ">
+        {% comment %} AJAX Content Loaded Here {% endcomment %}
+      </div>
+    </div>
+</div>
+
+<style>
+/* CSS Styles */
+.quick-view-trigger { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border-radius: 50%; opacity: 0; border: none; cursor: pointer; transition: var(--transition); z-index: 5; }
+.hoverhideshow:hover .quick-view-trigger { opacity: 1; }
+.quick-view-trigger:hover { background-color: var(--blue-color); }
+
+.skqv-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+.skqv-modal.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+.skqv-modal.show { opacity: 1; visibility: visible; pointer-events: auto; }
+.skqv-modal-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+.skqv-modal-content { position: relative; width: 95%; max-width: 850px; border-radius: 8px; transform: translateY(30px); transition: transform 0.4s ease; z-index: 10001; } 
+.skqv-modal.show .skqv-modal-content { transform: translateY(0); }
+.skqv-modal-close { position: absolute; top: 10px; right: 15px; background: none; border: none; cursor: pointer; z-index: 10; font-weight: bold; }
+
+.sk-qty-input { width: 60px; height: 45px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
+.sk-ajax-add.loading { opacity: 0.5; pointer-events: none; }
+.product-card img { aspect-ratio: 1 / 1; object-fit: cover; object-position: center;}
+@media (max-width: 767px) {
+    #skQuickViewData { flex-direction: column; }
+    .skqv-modal-content { padding: 20px; }
+}
+/*quick view css*/
+
+.thumb-item img:hover { border-color: var(--blue-color) !important; }
+
+.main-image-figure img{aspect-ratio: 1 / 1;object-fit: cover;object-position: center;}
+
+  .main-image-viewport {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: var(--white-color);
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: var(--white-color);
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: var(--transition);
+  }
+
+  .gallery-nav:hover {
+    background: var(--smoke-color);
+    color: var(--blue-color);
+  }
+
+  .prev-arrow { left: 15px; }
+  .next-arrow { right: 15px; }
+
+  .thumb-item {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    flex: 0 0 18%; /* Adjust based on how many thumbs you want visible */
+    max-width: 100px;
+  }
+
+  .thumb-item img {
+    display: block;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 1px solid #c4c4c4;
+  }
+
+  .thumb-item.is-active {
+    border-color: var(--blue-color); /* Uses your skcssl.css variable */
+  }
+
+  @media (max-width: 768px) {
+    .gallery-nav { width: 35px; height: 35px; }
+  }
+</style>
+
+<script>
+// 2. Initialize Quick View and Listeners
+function initCollectionFeatures() {
+    const modal = document.getElementById('skQuickViewModal');
+    const contentArea = document.getElementById('skQuickViewData');
+    if (!modal) return;
+
+    // Grid Add to Cart
+    document.querySelectorAll('.sk-ajax-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            addToCart(btn.dataset.variantId, 1, btn);
+        });
+    });
+
+    // Quick View Trigger
+    document.querySelectorAll('.quick-view-trigger').forEach(button => {
+        button.addEventListener('click', async () => {
+            const handle = button.getAttribute('data-product-handle');
+const dimensions = button.getAttribute('data-product-meta-dimensions');
+const weight_in_air = button.getAttribute('data-product-meta-weight_in_air');
+const buoyancy_in_water = button.getAttribute('data-product-meta-buoyancy_in_water');
+const depth_rating = button.getAttribute('data-product-meta-depth_rating');
+const port_mount = button.getAttribute('data-product-meta-port_mount');
+            contentArea.innerHTML = '<div class="text-center w-100 skp-lg">Loading...</div>';
+            modal.classList.remove('hide');
+            modal.classList.add('show');
+
+            try {
+                const response = await fetch(`/products/${handle}.js`);
+                const product = await response.json();
+        const thumbnailsHTML = product.media.map((media, index) => `
+        <div class="thumb-item ${index === 0 ? 'is-active' : ''}" 
+             data-index="${index}"
+             onclick="updateMainImage('${media.src}', ${index}, this)">
+          <img src="${media.src}" alt="${media.alt}" class="w-100" loading="lazy">
+        </div>
+      `).join('');
+                contentArea.innerHTML = `
+                  <div class="col-6 col-sm-12">
+    <div class="product-gallery-wrapper skpl-md skpr-md">
+      
+      <div class="main-image-viewport skmb-sm">
+        <button class="gallery-nav prev-arrow" aria-label="Previous image" onclick="changeSlide(-1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        <figure class="main-image-figure">
+          <img 
+            src="${product.featured_image}" 
+            alt="${product.title}" 
+            class="w-100 main-product-img" 
+            id="MainProductImage"
+            data-index="0">
+        </figure>
+
+        <button class="gallery-nav next-arrow" aria-label="Next image" onclick="changeSlide(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+        <div class="thumbnails-grid d-flex gap-10">${thumbnailsHTML}</div>
+      
+    </div>
+                  </div>
+                  <div class="col-6 col-sm-12">
+                    <h2 class="fs-h5 text-blue skfwb skmb-0">${product.title}</h2>
+                    <p class="fs-16 text-color skmt-0 skmb-15">${product.vendor}</p>
+                    <div class="fs-h6 text-blue skmb-15 font-semibold">${(product.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+                    <div class="fs-16 text-color skpb-xs">
+                    ${product.description}
+                    </div>
+          <div class="specs-table mb-32">
+            <h3 class="fs-18 skfwb text-color" style="text-transform: uppercase; ">
+              Technical Specifications
+            </h3>
+            <div class="table-container">
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Dimensions</div>
+                <div class="col-8 text-color fs-16 leading-160">${dimensions}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Weight in Air</div>
+                <div class="col-8 text-color fs-16 leading-160">${weight_in_air }</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Buoyancy in Water</div>
+                <div class="col-8 text-color fs-16 leading-160">${buoyancy_in_water}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Depth Rating</div>
+                <div class="col-8 text-color fs-16 leading-160">${depth_rating}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Port Mount</div>
+                <div class="col-8 text-color fs-16 leading-160">${port_mount}</div>
+              </div>
+            </div>
+          </div>
+                    <div class="d-flex gap-10 mb-32 mt-32">
+                        <input type="number" id="modal-qty" class="sk-qty-input d-none" value="1" min="1">
+                        <button class="fs-16 skbtn-main flex-center w-100 skmt-0 modal-add-btn" 
+                                data-variant-id="${product.variants[0].id}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>  <span class="skpl-15">Add to Cart</span>
+                        </button>
+                    </div>
+                    <a href="${product.url}" class="text-color fs-16 text-center d-block" style="text-decoration: none;">View full details 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+  <path d="M1 13L7 7L1 1" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </a>
+                  </div>
+                `;
+
+                // Listener for Modal Add Button
+                contentArea.querySelector('.modal-add-btn').addEventListener('click', (e) => {
+                    const qty = document.getElementById('modal-qty').value;
+                    addToCart(e.target.dataset.variantId, qty, e.target);
+                });
+
+            } catch (err) { contentArea.innerHTML = "Error loading product."; }
+        });
+    });
+
+    // Close Modal Logic
+    const closeMD = () => { modal.classList.add('hide'); modal.classList.remove('show'); };
+    modal.querySelector('.skqv-modal-close').addEventListener('click', closeMD);
+    modal.querySelector('.skqv-modal-overlay').addEventListener('click', closeMD);
+}
+
+document.addEventListener('DOMContentLoaded', initCollectionFeatures);
+document.addEventListener('shopify:section:load', initCollectionFeatures);
+// Interactivity Logic
+  function updateMainImage(src, index, element) {
+    const mainImg = document.getElementById('MainProductImage');
+    mainImg.src = src;
+    mainImg.dataset.index = index;
+    
+    // Update active class
+    document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('is-active'));
+    element.classList.add('is-active');
+  }
+
+  function changeSlide(direction) {
+    const mainImg = document.getElementById('MainProductImage');
+    const currentIndex = parseInt(mainImg.dataset.index);
+    const thumbs = document.querySelectorAll('.thumb-item');
+    let nextIndex = currentIndex + direction;
+
+    if (nextIndex < 0) nextIndex = thumbs.length - 1;
+    if (nextIndex >= thumbs.length) nextIndex = 0;
+
+    thumbs[nextIndex].click();
+  }
+
+try {
+if(document.querySelector('body.product')){
+
+// 2. Initialize Quick View and Listeners
+function initCollectionFeatures() {
+    const modal = document.getElementById('skQuickViewModal');
+    const contentArea = document.getElementById('skQuickViewData');
+    if (!modal) return;
+
+    // Grid Add to Cart
+    document.querySelectorAll('.sk-ajax-add').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            addToCart(btn.dataset.variantId, 1, btn);
+        });
+    });
+
+    // Quick View Trigger
+    document.querySelectorAll('.quick-view-trigger').forEach(button => {
+        button.addEventListener('click', async () => {
+            const handle = button.getAttribute('data-product-handle');
+const dimensions = button.getAttribute('data-product-meta-dimensions');
+const weight_in_air = button.getAttribute('data-product-meta-weight_in_air');
+const buoyancy_in_water = button.getAttribute('data-product-meta-buoyancy_in_water');
+const depth_rating = button.getAttribute('data-product-meta-depth_rating');
+const port_mount = button.getAttribute('data-product-meta-port_mount');
+            contentArea.innerHTML = '<div class="text-center w-100 skp-lg">Loading...</div>';
+            modal.classList.remove('hide');
+            modal.classList.add('show');
+
+            try {
+                const response = await fetch(`/products/${handle}.js`);
+                const product = await response.json();
+        const thumbnailsHTML = product.media.map((media, index) => `
+        <div class="thumb-item ${index === 0 ? 'is-active' : ''}" 
+             data-index="${index}"
+             onclick="updateMainImage('${media.src}', ${index}, this)">
+          <img src="${media.src}" alt="${media.alt}" class="w-100" loading="lazy">
+        </div>
+      `).join('');
+                contentArea.innerHTML = `
+                  <div class="col-6 col-sm-12">
+    <div class="product-gallery-wrapper skpl-md skpr-md">
+      
+      <div class="main-image-viewport skmb-sm">
+        <button class="gallery-nav prev-arrow" aria-label="Previous image" onclick="changeSlide(-1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        <figure class="main-image-figure">
+          <img 
+            src="${product.featured_image}" 
+            alt="${product.title}" 
+            class="w-100 main-product-img" 
+            id="MainProductImage"
+            data-index="0">
+        </figure>
+
+        <button class="gallery-nav next-arrow" aria-label="Next image" onclick="changeSlide(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+        <div class="thumbnails-grid d-flex gap-10">${thumbnailsHTML}</div>
+      
+    </div>
+                  </div>
+                  <div class="col-6 col-sm-12">
+                    <h2 class="fs-h5 text-blue skfwb skmb-0">${product.title}</h2>
+                    <p class="fs-16 text-color skmt-0 skmb-15">${product.vendor}</p>
+                    <div class="fs-h6 text-blue skmb-15 font-semibold">${(product.price / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>
+                    <div class="fs-16 text-color skpb-xs">
+                    ${product.description}
+                    </div>
+          <div class="specs-table mb-32">
+            <h3 class="fs-18 skfwb text-color" style="text-transform: uppercase; ">
+              Technical Specifications
+            </h3>
+            <div class="table-container">
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Dimensions</div>
+                <div class="col-8 text-color fs-16 leading-160">${dimensions}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Weight in Air</div>
+                <div class="col-8 text-color fs-16 leading-160">${weight_in_air }</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Buoyancy in Water</div>
+                <div class="col-8 text-color fs-16 leading-160">${buoyancy_in_water}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Depth Rating</div>
+                <div class="col-8 text-color fs-16 leading-160">${depth_rating}</div>
+              </div>
+              <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #c4c4c4;">
+                <div class="col-4 text-color fs-16 leading-160 pr-10">Port Mount</div>
+                <div class="col-8 text-color fs-16 leading-160">${port_mount}</div>
+              </div>
+            </div>
+          </div>
+                    <div class="d-flex gap-10 mb-32 mt-32">
+                        <input type="number" id="modal-qty" class="sk-qty-input d-none" value="1" min="1">
+                        <button class="fs-16 skbtn-main flex-center w-100 skmt-0 modal-add-btn" 
+                                data-variant-id="${product.variants[0].id}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>  <span class="skpl-15">Add to Cart</span>
+                        </button>
+                    </div>
+                    <a href="${product.url}" class="text-color fs-16 text-center d-block" style="text-decoration: none;">View full details 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="14" viewBox="0 0 8 14" fill="none">
+  <path d="M1 13L7 7L1 1" stroke="#3F3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> </a>
+                  </div>
+                `;
+
+                // Listener for Modal Add Button
+                contentArea.querySelector('.modal-add-btn').addEventListener('click', (e) => {
+                    const qty = document.getElementById('modal-qty').value;
+                    addToCart(e.target.dataset.variantId, qty, e.target);
+                });
+
+            } catch (err) { contentArea.innerHTML = "Error loading product."; }
+        });
+    });
+
+    // Close Modal Logic
+    const closeMD = () => { modal.classList.add('hide'); modal.classList.remove('show'); };
+    modal.querySelector('.skqv-modal-close').addEventListener('click', closeMD);
+    modal.querySelector('.skqv-modal-overlay').addEventListener('click', closeMD);
+}
+
+document.addEventListener('DOMContentLoaded', initCollectionFeatures);
+document.addEventListener('shopify:section:load', initCollectionFeatures);
+// Interactivity Logic
+  function updateMainImage(src, index, element) {
+    const mainImg = document.getElementById('MainProductImage');
+    mainImg.src = src;
+    mainImg.dataset.index = index;
+    
+    // Update active class
+    document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('is-active'));
+    element.classList.add('is-active');
+  }
+
+  function changeSlide(direction) {
+    const mainImg = document.getElementById('MainProductImage');
+    const currentIndex = parseInt(mainImg.dataset.index);
+    const thumbs = document.querySelectorAll('.thumb-item');
+    let nextIndex = currentIndex + direction;
+
+    if (nextIndex < 0) nextIndex = thumbs.length - 1;
+    if (nextIndex >= thumbs.length) nextIndex = 0;
+
+    thumbs[nextIndex].click();
+  }
+
+}
+} catch (err) {}
+</script>

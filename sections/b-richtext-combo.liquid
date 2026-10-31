@@ -1,0 +1,313 @@
+<section id="b-richtext-combo">
+  <div class="container">
+    {% if section.settings.title %}
+        <h2 class="fs-{{ section.settings.heading_size }} title text-{{ section.settings.align }}" style="color: {{ section.settings.titletextcolor }};">{{ section.settings.title }}</h2>
+    {% endif %}
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {%- when 'subtitlebybgcolor' -%}
+          <h3 class="fs-{{ block.settings.heading_size }} subtitlebybgcolor subtitlebybgcolor{{ forloop.index }}" style="background-color: {{ block.settings.subtitlebgcolor }};color: {{ block.settings.textcolor }};">{{ block.settings.subtitle }}</h3> 
+        {%- when 'subtitle' -%}
+          <p class="fs-{{ block.settings.text_size }} subtitle subtitle{{ forloop.index }}" style="color: {{ block.settings.subtitletextcolor }};">{{ block.settings.subtitle }}</p>
+        {%- when 'description' -%}
+          <div class="fs-{{ block.settings.text_size }} text-{{ block.settings.align }} description description{{ forloop.index }} {% if block.settings.nospacingonchilds %}nospacingonchilds{% endif %}">
+            {{ block.settings.description }}
+          </div>
+          {%- when 'pagecontent' -%}
+            <div class="pagecontent  pagecontent{{ forloop.index }}">
+              {{ page.content }}
+            </div>
+          {%- when 'html' -%} 
+            <div class="html html{{ forloop.index }}">
+              {{ block.settings.html }}
+            </div>
+          {%- when 'spacing' -%} 
+            <div class="spacing{{ forloop.index }}" style="height: {{ block.settings.spacingh }}px;">
+                {{ block.settings.spacingh }}
+            </div>
+      {% endcase %}
+    {% endfor %}
+
+  </div>
+</section>
+<style>
+#b-richtext-combo .subtitlebybgcolor{padding: 8px 10px;font-weight: 500;}
+#b-richtext-combo .subtitle{font-weight: 500;}
+#b-richtext-combo ul{
+list-style-type: disc;
+padding-inline-start: 20px;
+}
+#b-richtext-combo ol{
+list-style-type: decimal;
+padding-inline-start: 20px;
+}
+</style>
+{% schema %}
+{
+    "name": "b-richtext-combo",
+    "class": "b-richtext-combo",
+    "settings": [
+        {
+              "type": "text", 
+              "id": "title",
+              "label": "Main Title",
+              "default": "Main Title"
+        },
+        {
+            "type": "color",
+            "id": "titletextcolor",
+            "label": "Sub title text color",
+            "default": "#B19C68"
+        },
+        {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading size",
+            "default": "h3",
+            "options": [
+              {
+                "value": "h1",
+                "label": "h1"
+              },
+              {
+                "value": "h2",
+                "label": "h2"
+              },
+              {
+                "value": "h3",
+                "label": "h3"
+              },
+              {
+                "value": "h4",
+                "label": "h4"
+              },
+              {
+                "value": "h5",
+                "label": "h5"
+              },
+                            {
+                "value": "h6",
+                "label": "h6"
+              }
+            ]
+          },
+         {
+            "type": "select",
+            "id": "align",
+            "label": "Text align",
+            "default": "center",
+            "options": [
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "value": "left",
+                "label": "left"
+              },
+              {
+                "value": "right",
+                "label": "right"
+              }
+            ]
+          }
+    ],
+    "blocks": [
+      {
+        "type": "spacing",
+        "name": "Spacing",
+        "settings": [
+            {
+            "type": "range",
+            "id": "spacingh",
+            "min": 10,
+            "max": 100,
+            "step": 10,
+            "unit": "px",
+            "label": "Spacing height",
+            "default": 20
+            }
+        ]
+      },
+      {
+        "type": "subtitlebybgcolor",
+        "name": "Sub title with bg color",
+        "settings": [
+          {
+              "type": "text",
+              "id": "subtitle",
+              "label": "Sub title",
+              "default": "Sub title with bg color"
+          },
+          {
+            "type": "color",
+            "id": "subtitlebgcolor",
+            "label": "Sub title bg color",
+            "default": "#F2EBDA"
+          },
+          {
+            "type": "color",
+            "id": "textcolor",
+            "label": "Text color",
+            "default": "#54492C"
+          },
+          {
+            "type": "select",
+            "id": "heading_size",
+            "label": "Heading size",
+            "default": "h4",
+            "options": [
+              {
+                "value": "h1",
+                "label": "h1"
+              },
+              {
+                "value": "h2",
+                "label": "h2"
+              },
+              {
+                "value": "h3",
+                "label": "h3"
+              },
+              {
+                "value": "h4",
+                "label": "h4"
+              },
+              {
+                "value": "h5",
+                "label": "h5"
+              },
+              {
+                "value": "h6",
+                "label": "h6"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "subtitle",
+        "name": "Sub title",
+        "settings": [
+          {
+              "type": "text",
+              "id": "subtitle",
+              "label": "Sub title",
+              "default": "Sub title"
+          },
+          {
+            "type": "color",
+            "id": "subtitletextcolor",
+            "label": "Sub title text color",
+            "default": "#B19C68"
+          },
+          {
+            "type": "select",
+            "id": "text_size",
+            "label": "Text size",
+            "default": "14",
+            "options": [
+              {
+                "value": "20",
+                "label": "20"
+              },
+              {
+                "value": "16",
+                "label": "16"
+              },
+              {
+                "value": "14",
+                "label": "14"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "description",
+        "name": "Description",
+        "settings": [
+          {
+              "type": "richtext",
+              "id": "description",
+              "label": "Description",
+              "default": "<p>Description</p>"
+          }, 
+          {
+            "type": "select",
+            "id": "text_size",
+            "label": "Text size",
+            "default": "14",
+            "options": [
+              {
+                "value": "20",
+                "label": "20"
+              },
+              {
+                "value": "16",
+                "label": "16"
+              },
+              {
+                "value": "14",
+                "label": "14"
+              }
+            ]
+          },
+        {
+            "type": "select",
+            "id": "align",
+            "label": "Text align",
+            "default": "center",
+            "options": [
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "value": "left",
+                "label": "left"
+              },
+              {
+                "value": "right",
+                "label": "right"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "nospacingonchilds",
+            "label": "no spacing on childs",
+            "default": false
+          }
+        ]
+      },
+      {
+        "type": "pagecontent",
+        "name": "Page content",
+        "settings": [
+          {
+            "type": "header",
+            "content": "page content, edit on related backend page."
+          }
+        ] 
+      },
+      {
+        "type": "html",
+        "name": "Html block", 
+        "settings": [
+          {
+            "type": "html",
+            "id": "html",
+            "label": "Html block"
+          }
+        ] 
+      }
+    ],
+      "presets": [
+      {
+        "name": "b-richtext-combo",
+        "category": "Simple Section"
+      }
+    ]
+}
+{% endschema %}

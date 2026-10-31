@@ -1,0 +1,473 @@
+{% comment %}
+  Section: Awards & Certifications
+{% endcomment %}
+
+<div id="e-award" class="ab-awards-wrapper skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}">
+  <div class="container">
+    {% if section.settings.whisker != blank or section.settings.heading != blank or section.settings.description != blank %}
+      <div class="section-head text-center skmb-lg">
+        {% if section.settings.whisker != blank %}
+          <span class="news-whisker text-blue fs-14 skfwb d-block skmb-xs">{{ section.settings.whisker | escape }}</span>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="fs-h2 skfwb text-black skmb-xs">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.description != blank %}
+          <p class="fs-16 text-color">{{ section.settings.description | escape }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="aw-years" role="tablist" aria-label="Award year">
+      {%- assign years_list = '' -%}
+      {% for block in section.blocks %}
+        {% unless years_list contains block.settings.year %}
+          {% assign years_list = years_list | append: block.settings.year | append: ',' %}
+        {% endunless %}
+      {% endfor %}
+      {% assign unique_years = years_list | split: ',' | sort %}
+
+      {% for yr in unique_years %}
+        <button 
+          type="button" 
+          class="aw-year {% if forloop.first %}is-active{% endif %}" 
+          role="tab" 
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" 
+          data-year="{{ yr | strip }}"
+        >
+          {{ yr | strip }}
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="aw-carousel" aria-roledescription="carousel">
+      <div class="aw-track">
+        {% for block in section.blocks %}
+          <article 
+            class="aw-slide {% if forloop.first %}is-active{% endif %}" 
+            data-year="{{ block.settings.year | strip }}" 
+            role="tabpanel" 
+            aria-label="{{ block.settings.title | escape }}" 
+            tabindex="-1"
+            {{ block.shopify_attributes }}
+            {% unless forloop.first %}style="display: none;"{% endunless %}
+          >
+            <div class="aw-slide-media">
+              {% if block.settings.image != blank %}
+                <img 
+                  src="{{ block.settings.image | image_url: width: 1000 }}" 
+                  alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                  loading="lazy"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                >
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+            <div class="aw-slide-body">
+              {% if block.settings.title != blank %}
+                <p class="aw-slide-title fs-16 skfwb text-black">{{ block.settings.title }}</p>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="aw-dotsbar flex-center skmt-md">
+      <button type="button" class="aw-nav aw-nav--prev" aria-label="Previous award">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="aw-dots" role="tablist" aria-label="Awards">
+        {% for block in section.blocks %}
+          <button 
+            type="button" 
+            class="aw-dot {% if forloop.first %}is-active{% endif %}" 
+            role="tab" 
+            aria-label="Award {{ forloop.index }} of {{ forloop.length }}" 
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-index="{{ forloop.index0 }}"
+          ></button>
+        {% endfor %}
+      </div>
+      <button type="button" class="aw-nav aw-nav--next" aria-label="Next award">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #e-award {
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+
+  #e-award .section-head {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #e-award .news-whisker {
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  #e-award .aw-years {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  #e-award .aw-year {
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+  }
+
+  #e-award .aw-year.is-active,
+  #e-award .aw-year:hover {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    border-color: var(--blue-color);
+  }
+
+  #e-award .aw-carousel {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #e-award .aw-track {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+  }
+
+  #e-award .aw-slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 420px;
+    background: var(--white-color);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transition: all 0.4s ease;
+  }
+
+  #e-award .aw-slide-media {
+    width: 100%;
+    height: 300px;
+    background-color: var(--smoke-color);
+  }
+
+  #e-award .aw-slide-media img,
+  #e-award .aw-slide-media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  #e-award .aw-slide-body {
+    padding: 20px;
+    text-align: center;
+  }
+
+  #e-award .aw-dotsbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  #e-award .aw-nav {
+    background: var(--white-color);
+    border: 1px solid #e5e7eb;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  #e-award .aw-nav:hover {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    border-color: var(--blue-color);
+  }
+
+  #e-award .aw-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  #e-award .aw-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #d1d5db;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  #e-award .aw-dot.is-active {
+    background-color: var(--blue-color);
+    width: 24px;
+    border-radius: 5px;
+  }
+
+  @media (max-width: 767px) {
+    #e-award .aw-track {
+      height: 350px;
+    }
+    #e-award .aw-slide-media {
+      height: 240px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionContainer = document.getElementById('e-award');
+    if (!sectionContainer) return;
+
+    const yearButtons = sectionContainer.querySelectorAll('.aw-year');
+    const slides = sectionContainer.querySelectorAll('.aw-slide');
+    const dots = sectionContainer.querySelectorAll('.aw-dot');
+    const prevBtn = sectionContainer.querySelector('.aw-nav--prev');
+    const nextBtn = sectionContainer.querySelector('.aw-nav--next');
+
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+
+      slides.forEach((slide, i) => {
+        if (i === currentIndex) {
+          slide.style.display = 'block';
+          slide.classList.add('is-active');
+        } else {
+          slide.style.display = 'none';
+          slide.classList.remove('is-active');
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.add('is-active');
+          dot.setAttribute('aria-selected', 'true');
+        } else {
+          dot.classList.remove('is-active');
+          dot.setAttribute('aria-selected', 'false');
+        }
+      });
+
+      // Match year button state
+      const activeSlideYear = slides[currentIndex].getAttribute('data-year');
+      yearButtons.forEach(btn => {
+        if (btn.getAttribute('data-year') === activeSlideYear) {
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-selected', 'true');
+        } else {
+          btn.classList.remove('is-active');
+          btn.setAttribute('aria-selected', 'false');
+        }
+      });
+    }
+
+    yearButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetYear = this.getAttribute('data-year');
+        const firstMatchIndex = Array.from(slides).findIndex(slide => slide.getAttribute('data-year') === targetYear);
+        if (firstMatchIndex !== -1) {
+          showSlide(firstMatchIndex);
+        }
+      });
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', function() {
+        showSlide(index);
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        showSlide(currentIndex - 1);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        showSlide(currentIndex + 1);
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "e-award",
+  "tag": "section",
+  "class": "shopify-section-awards",
+  "settings": [
+        {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": "0",
+      "options": [
+        { "value": "0", "label": "None (0)" },
+        { "value": "xs", "label": "Extra Small (xs)" },
+        { "value": "sm", "label": "Small (sm)" },
+        { "value": "md", "label": "Medium (md)" },
+        { "value": "lg", "label": "Large (lg)" },
+        { "value": "xl", "label": "Extra Large (xl)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": "0",
+      "options": [
+        { "value": "0", "label": "None (0)" },
+        { "value": "xs", "label": "Extra Small (xs)" },
+        { "value": "sm", "label": "Small (sm)" },
+        { "value": "md", "label": "Medium (md)" },
+        { "value": "lg", "label": "Large (lg)" },
+        { "value": "xl", "label": "Extra Large (xl)" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "whisker",
+      "label": "Section Whisker",
+      "default": "AWARDS & CERTIFICATIONS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Recognition From Partners and Clients"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section Description",
+      "default": "Vendor and industry awards received across recent programme years."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "award_item",
+      "name": "Award Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Award Year",
+          "default": "2024"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Award Image / Plaque"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Award Title",
+          "default": "Best Performance Award"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "e-award",
+      "blocks": [
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2019",
+            "title": "Best Performance Award 2019"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2020",
+            "title": "Engage FortiPartner Program Certified 2020"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2021",
+            "title": "Aruba FY21 Excellent Partner & Signature Win"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2022",
+            "title": "Fortinet Top Expert Partner 2022"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2023",
+            "title": "Keewin 2023 Top Partner in Hong Kong"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2024",
+            "title": "Fortinet Top Expert Partner & Top Operational Technology Partner 2024"
+          }
+        },
+        {
+          "type": "award_item",
+          "settings": {
+            "year": "2025",
+            "title": "2025 RSTC Top Partner of the Year, Top Business Partner in Automative IoT Solutions and AI Innovation Expert Award"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

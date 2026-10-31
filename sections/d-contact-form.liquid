@@ -1,0 +1,208 @@
+{%- style -%}
+  .d-contact-form-wrapper {
+    background: var(--white-color);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .d-contact-form-image-side {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .d-contact-form-image-side::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+  }
+  .d-contact-form-image-content {
+    position: relative;
+    z-index: 2;
+  }
+  .sk-form-input {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 5px;
+    font-family: var(--mainfont);
+    font-size: 14px;
+  }
+  .sk-form-group {
+    margin-bottom: 20px;
+  }
+  .d-contact-form-tabs {
+    border-bottom: 1px solid #eee;
+  }
+  .sk-tab-item {
+    padding-bottom: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .sk-tab-item.active {
+    border-bottom-color: #008eb0;
+    color: #008eb0;
+  }
+  .sk-submit-btn {
+    background-color: #008eb0;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .sk-submit-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  @media (max-width: 991px) {
+    .d-contact-form-image-side { min-height: 300px; }
+  }
+{%- endstyle -%}
+
+<section class="d-contact-form-section skpt-lg skpb-lg">
+  <div class="container">
+    <div class="d-contact-form-wrapper d-flex w-100">
+      
+      {%- comment -%} Left Side: Image & Info {%- endcomment -%}
+      <div class="col-6 d-contact-form-image-side" 
+           style="background-image: url('{{ section.settings.image | image_url: width: 1200 }}');">
+        <div class="d-contact-form-image-content skp-md text-white">
+          <h2 class="fs-h3 skfwb skmb-15">{{ section.settings.left_heading }}</h2>
+          <div class="fs-16 sklh-n">
+            {{ section.settings.left_text }}
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Right Side: Form {%- endcomment -%}
+      <div class="col-6 skp-md bg-white">
+        <h2 class="fs-h2 text-blue skfwb skmb-xs">{{ section.settings.right_heading }}</h2>
+        
+        <div class="d-contact-form-tabs d-flex gap-30 skmb-md fs-16 skfwb">
+            <span class="sk-tab-item text-gray">{{ section.settings.tab_1 }}</span>
+            <span class="sk-tab-item active">{{ section.settings.tab_2 }}</span>
+        </div>
+
+        <p class="fs-16 skmb-md">{{ section.settings.form_subtext }}</p>
+
+        {% form 'contact', id: 'ContactForm' %}
+          {%- if form.posted_successfully? -%}
+            <p class="text-green skmb-15">Thanks for contacting us. We'll get back to you as soon as possible.</p>
+          {%- elsif form.errors -%}
+            <p class="text-red skmb-15">Please check the fields and try again.</p>
+          {%- endif -%}
+
+          <div class="sk-form-group">
+            <label class="fs-14 skfwb text-gray" for="ContactForm-name">Name</label>
+            <input type="text" 
+              name="contact[name]" 
+              id="ContactForm-name" 
+              class="sk-form-input" 
+              placeholder="Your name" 
+              required>
+          </div>
+
+          <div class="sk-form-group">
+            <label class="fs-14 skfwb text-gray" for="ContactForm-email">Email</label>
+            <input type="email" 
+              name="contact[email]" 
+              id="ContactForm-email" 
+              class="sk-form-input" 
+              placeholder="your.email@example.com" 
+              required>
+          </div>
+
+          <div class="sk-form-group">
+            <label class="fs-14 skfwb text-gray" for="ContactForm-body">Message</label>
+            <textarea 
+              rows="4" 
+              name="contact[body]" 
+              id="ContactForm-body" 
+              class="sk-form-input" 
+              placeholder="{{ section.settings.placeholder_text }}"></textarea>
+          </div>
+
+          <button type="submit" class="sk-submit-btn fs-h6">
+            {{ section.settings.button_label }}
+          </button>
+        {% endform %}
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-contact-form",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side Background Image"
+    },
+    {
+      "type": "text",
+      "id": "left_heading",
+      "label": "Left Side Heading",
+      "default": "Love to hear from you"
+    },
+    {
+      "type": "richtext",
+      "id": "left_text",
+      "label": "Left Side Subtext",
+      "default": "<p>Have a question or need more information? Get in touch with us and our team will be happy to assist.</p>"
+    },
+    {
+      "type": "text",
+      "id": "right_heading",
+      "label": "Form Heading",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "text",
+      "id": "tab_1",
+      "label": "Tab 1 Label",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "tab_2",
+      "label": "Tab 2 Label",
+      "default": "Work for Nauticam"
+    },
+    {
+      "type": "textarea",
+      "id": "form_subtext",
+      "label": "Form Instruction Text",
+      "default": "Interested in joining our team? Tell us about yourself and we'll be in touch."
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Message Placeholder",
+      "default": "Tell us about your experience and why you'd like to work with us"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Text",
+      "default": "Send Message"
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-contact-form"
+    }
+  ]
+}
+{% endschema %}

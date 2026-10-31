@@ -1,0 +1,247 @@
+{%- style -%}
+  .sk-blog-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .sk-blog-image-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    aspect-ratio: 16 / 10;
+  }
+  .sk-blog-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+  }
+  .sk-blog-card:hover .sk-blog-image-wrapper img {
+    transform: scale(1.05);
+  }
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: var(--calc-spacing-md);
+  }
+  .pagination-item {
+    padding: 8px 15px;
+    border: 1px solid #e5e7eb;
+    text-decoration: none;
+    color: var(--black-color);
+    font-family: var(--mainfont);
+    font-size: 14px;
+    transition: var(--transition);
+  }
+  .pagination-item.active {
+    background-color: #212121;
+    color: #fff;
+    border-color: #212121;
+  }
+  .pagination-item:hover:not(.active) {
+    background-color: var(--smoke-color);
+  }
+
+  /* Header and Sort Button Styling */
+  .sk-blog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .sk-sort-btn {
+    cursor: pointer;
+    font-family: var(--mainfont);
+    font-size: 14px;
+    padding: 10px 20px;
+    border: 1px solid var(--black-color);
+    background: transparent;
+    transition: all 0.3s ease;
+  }
+  .sk-sort-btn:hover {
+    background: var(--black-color);
+    color: var(--white-color);
+  }
+{%- endstyle -%}
+
+<section class="sk-news-listing skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}">
+  <div class="container-lg">
+    
+    {%- assign blog = blogs[section.settings.blog] -%}
+    
+    <div class="sk-blog-header">
+      <h2 class="fs-h3 skfwb">{{ blog.title | default: "News" }}</h2>
+      <button id="sk-blog-sort-trigger" class="sk-sort-btn" data-sort="asc">
+        Sort By: Alphabetically Z-A
+      </button>
+    </div>
+
+    {%- paginate blog.articles by section.settings.post_limit -%}
+      
+      {%- comment -%} Added ID 'sk-blog-grid' for JS targeting {%- endcomment -%}
+      <div id="sk-blog-grid" class="d-grid gap-30">
+        {%- for article in blog.articles -%}
+          {%- comment -%} Added data-title for clean JS sorting {%- endcomment -%}
+          <div class="col-3 col-md-6 col-sm-12 sk-blog-item" data-title="{{ article.title | escape }}">
+            <div class="sk-blog-card">
+              <a href="{{ article.url }}" class="sk-blog-image-wrapper">
+                {%- if article.image -%}
+                  <img src="{{ article.image | image_url: width: 600 }}" 
+                       alt="{{ article.image.alt | escape }}" 
+                       loading="lazy">
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'bg-smoke' }}
+                {%- endif -%}
+              </a>
+
+              <div class="sk-blog-content">
+                <span class="fs-14 text-gray d-block skmb-15">
+                  {{ article.published_at | date: "%b %d, %Y" }}
+                </span>
+                
+                <h3 class="fs-h6 skfwb skmb-15 htext-20ch">
+                  <a href="{{ article.url }}" class="text-black text-black-hover">
+                    {{ article.title }}
+                  </a>
+                </h3>
+
+                <div class="fs-14 text-black sklh-n htext-4line">
+                  {%- if article.excerpt.size > 0 -%}
+                    {{ article.excerpt | strip_html }}
+                  {%- else -%}
+                    {{ article.content | strip_html | truncate: 120 }}
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination-wrapper">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="pagination-item">&lt;</a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="pagination-item">{{ part.title }}</a>
+            {%- else -%}
+              <span class="pagination-item {% if part.title == paginate.current_page %}active{% endif %}">
+                {{ part.title }}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="pagination-item">&gt;</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sortBtn = document.getElementById('sk-blog-sort-trigger');
+  const blogGrid = document.getElementById('sk-blog-grid');
+  
+  // Default sorting A-Z on load
+  sortItems('asc');
+
+  sortBtn.addEventListener('click', function() {
+    const currentOrder = this.getAttribute('data-sort');
+    
+    if (currentOrder === 'asc') {
+      // Switch to Z-A
+      sortItems('desc');
+      this.setAttribute('data-sort', 'desc');
+      this.textContent = 'Sort By: Alphabetically A-Z';
+    } else {
+      // Switch to A-Z
+      sortItems('asc');
+      this.setAttribute('data-sort', 'asc');
+      this.textContent = 'Sort By: Alphabetically Z-A';
+    }
+  });
+
+  function sortItems(order) {
+    const items = Array.from(blogGrid.querySelectorAll('.sk-blog-item'));
+    
+    items.sort((a, b) => {
+      const titleA = a.getAttribute('data-title').toLowerCase();
+      const titleB = b.getAttribute('data-title').toLowerCase();
+      
+      if (order === 'asc') {
+        return titleA.localeCompare(titleB);
+      } else {
+        return titleB.localeCompare(titleA);
+      }
+    });
+
+    // Re-append sorted items to the grid
+    items.forEach(item => blogGrid.appendChild(item));
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "d-news-listing-blogs",
+  "tag": "section",
+  "class": "d-news-listing-blogs",
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12,
+      "label": "Posts per page"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" }
+      ],
+      "default": "md"
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-news-listing-blogs"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,278 @@
+{% comment %}
+  Section: Our Team Accordion / Expanding Cards
+{% endcomment %}
+
+<div id="sk-section-{{ section.id }}" class="ab-team-wrapper skpt-lg skpb-lg">
+  <div class="container">
+    {% if section.settings.heading != blank %}
+      <div class="ab-team-head text-center skmb-md">
+        <h2 class="fs-h2 skfwb text-black">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {% endif %}
+
+    <div class="ab-team-carousel" role="group" aria-label="{{ section.settings.heading | escape }}">
+      {% for block in section.blocks %}
+        <article class="ab-team-panel" {{ block.shopify_attributes }}>
+          <label class="ab-team-hit">
+            <input 
+              type="radio" 
+              name="team-{{ section.id }}" 
+              class="ab-team-radio" 
+              {% if forloop.first %}checked{% endif %}
+            >
+            <span class="sr-only">Show {{ block.settings.title | escape }}</span>
+          </label>
+
+          {% if block.settings.image != blank %}
+            <img 
+              src="{{ block.settings.image | image_url: width: 1000 }}" 
+              alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+              loading="lazy"
+              width="{{ block.settings.image.width }}"
+              height="{{ block.settings.image.height }}"
+            >
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+
+          <div class="ab-team-overlay">
+            {% if block.settings.title != blank %}
+              <h3 class="fs-h5 skfwb text-black">{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="fs-16 text-color skmt-xs">
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  #sk-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+  }
+
+  #sk-section-{{ section.id }} .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-carousel {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    height: 520px;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-panel {
+    position: relative;
+    flex: 1 1 0%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: flex-grow 0.62s cubic-bezier(0.2, 0, 0, 1), transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* Expanded state logic using CSS radio hack for accordion behavior */
+  #sk-section-{{ section.id }} .ab-team-panel:has(.ab-team-radio:checked) {
+    flex-grow: 3.5;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-hit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-radio {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-panel img,
+  #sk-section-{{ section.id }} .ab-team-panel .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+  }
+
+  #sk-section-{{ section.id }} .ab-team-overlay {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    background: rgba(248, 248, 248, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 24px;
+    border-radius: 16px;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Show overlay content when panel is expanded */
+  #sk-section-{{ section.id }} .ab-team-panel:has(.ab-team-radio:checked) .ab-team-overlay {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.15s;
+  }
+
+  /* Responsive styling */
+  @media (max-width: 991px) {
+    #sk-section-{{ section.id }} .ab-team-carousel {
+      height: 450px;
+      gap: 12px;
+    }
+    
+    #sk-section-{{ section.id }} .ab-team-overlay {
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      padding: 16px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #sk-section-{{ section.id }} .ab-team-carousel {
+      flex-direction: column;
+      height: auto;
+    }
+
+    #sk-section-{{ section.id }} .ab-team-panel {
+      height: 120px;
+      flex: none;
+      width: 100%;
+    }
+
+    #sk-section-{{ section.id }} .ab-team-panel:has(.ab-team-radio:checked) {
+      height: 380px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionContainer = document.getElementById('sk-section-{{ section.id }}');
+    if (!sectionContainer) return;
+
+    const panels = sectionContainer.querySelectorAll('.ab-team-panel');
+
+    panels.forEach(panel => {
+      panel.addEventListener('click', function() {
+        const radio = this.querySelector('.ab-team-radio');
+        if (radio) {
+          radio.checked = true;
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Our Team Accordion",
+  "tag": "section",
+  "class": "shopify-section-our-team",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Our Team"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "team_member",
+      "name": "Team Panel",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Panel Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Team Name"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Our team provides high-quality solutions for your needs.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Our Team Accordion",
+      "blocks": [
+        {
+          "type": "team_member",
+          "settings": {
+            "title": "Professional Service & Engineering Team",
+            "text": "<p>Our certified engineers provide data network and cyber security solutions</p>"
+          }
+        },
+        {
+          "type": "team_member",
+          "settings": {
+            "title": "Project Management Team",
+            "text": "<p>Our project managers monitor large-scale government and rail projects</p>"
+          }
+        },
+        {
+          "type": "team_member",
+          "settings": {
+            "title": "R&D Team",
+            "text": "<p>Our programmers design and develops tailor-made hardware and software products</p>"
+          }
+        },
+        {
+          "type": "team_member",
+          "settings": {
+            "title": "Technical Support Team",
+            "text": "<p>Our technicians provide round-the-clock local technical support</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

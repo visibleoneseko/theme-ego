@@ -1,0 +1,276 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+
+<section id="d-product-detail" class="d-product-detail {{ section.settings.padding_top }} {{ section.settings.padding_bottom }}">
+  <div class="container-lg">
+    {% comment %} --- Dynamic Breadcrumb --- {% endcomment %}
+    <nav class="sk-breadcrumb fs-14 skmb-sm text-gray" aria-label="breadcrumbs">
+      <a href="/" title="Home" class="text-gray text-blue-hover">Home</a>
+      <span aria-hidden="true" class="skml-15 skmr-15">&gt;</span>
+      
+      {% if template contains 'product' %}
+        {% if collection %}
+          {% if collection.handle %}
+            {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+            {{ collection.title | link_to: url, class: 'text-gray text-blue-hover' }}
+          {% endif %}
+        {% else %}
+          {% comment %} Fallback if no collection is active {% endcomment %}
+          <a href="/collections/all" title="All Products" class="text-gray text-blue-hover">Products</a>
+        {% endif %}
+        
+        <span aria-hidden="true" class="skml-15 skmr-15">&gt;</span>
+        <span class="text-black skfwb">{{ product.title }}</span>
+      {% endif %}
+    </nav>
+
+    <div class="d-flex gap-40 align-items-start">
+      {% comment %} --- Left Column: Media Gallery --- {% endcomment %}
+      <div class="col-6">
+    <div class="product-gallery-wrapper skpl-md skpr-md">
+      
+      <div class="main-image-viewport skmb-sm">
+        <button class="gallery-nav prev-arrow" aria-label="Previous image" onclick="changeSlide(-1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        
+        <figure class="main-image-figure">
+          <img 
+            src="{{ featured_media | image_url: width: 1200 }}" 
+            alt="{{ featured_media.alt | escape }}" 
+            class="w-100 main-product-img" 
+            id="MainProductImage"
+            data-index="0">
+        </figure>
+
+        <button class="gallery-nav next-arrow" aria-label="Next image" onclick="changeSlide(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="thumbnails-grid d-flex gap-10">
+          {%- for media in product.media -%}
+            <div class="thumb-item {% if media == featured_media %}is-active{% endif %}" 
+                 data-index="{{ forloop.index0 }}"
+                 onclick="updateMainImage('{{ media | image_url: width: 1200 }}', {{ forloop.index0 }}, this)">
+              <img 
+                src="{{ media | image_url: width: 200 }}" 
+                alt="{{ media.alt | escape }}" 
+                class="w-100" 
+                loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      
+    </div>
+      </div>
+
+      {% comment %} --- Right Column: Product Info --- {% endcomment %}
+      <div class="col-6">
+        <div class="product-info-wrapper">
+          <h1 class="fs-h2 skfwb text-blue skmb-0">{{ product.title }}</h1>
+          <p class="fs-14 text-gray skmb-15">SKU #{{ current_variant.sku }}</p>
+          <p class="fs-14 text-gray skmb-15">FOR {{ product.vendor }}</p>          
+          <p class="fs-h4 skfwb text-blue skmb-xs">
+            {{ current_variant.price | money }}
+          </p>
+
+          <div class="product-description fs-16 sklh-h text-black skmb-md">
+            {{ product.description }}
+          </div>
+
+          {% comment %} --- Technical Specifications Table --- {% endcomment %}
+          <div class="specs-table skmb-md">
+            <h3 class="fs-h6 skfwb text-black skmb-15" style="text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 5px;">
+              Technical Specifications
+            </h3>
+            <div class="table-container">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'specification' -%}
+                  <div class="d-flex skpb-15 skpt-15" style="border-bottom: 1px solid #f0f0f0;">
+                    <div class="col-4 skfwb text-gray fs-16">{{ block.settings.label }}</div>
+                    <div class="col-8 text-black fs-16">{{ block.settings.value }}</div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+
+          {% comment %} --- Add to Cart Action --- {% endcomment %}
+          {%- form 'product', product -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            <button type="submit" name="add" class="w-100 skbtn-main skfwb flex-center gap-10" style="height: 60px; border-radius: 30px; border:none; cursor: pointer; transition: var(--transition);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              Add to Cart
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.d-product .sk-breadcrumb a { text-decoration: none; transition: var(--transition); }
+.d-product .thumb-item img:hover { border-color: var(--blue-color) !important; }
+.d-product .main-image-figure img{aspect-ratio: 1 / 1;object-fit: cover;object-position: center;}
+
+  .main-image-viewport {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background: var(--white-color);
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: var(--white-color);
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: var(--transition);
+  }
+
+  .gallery-nav:hover {
+    background: var(--smoke-color);
+    color: var(--blue-color);
+  }
+
+  .prev-arrow { left: 15px; }
+  .next-arrow { right: 15px; }
+
+  .thumb-item {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    flex: 0 0 18%; /* Adjust based on how many thumbs you want visible */
+    max-width: 100px;
+  }
+
+  .thumb-item img {
+    display: block;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 1px solid #c4c4c4;
+  }
+
+  .thumb-item.is-active {
+    border-color: var(--blue-color); /* Uses your skcssl.css variable */
+  }
+
+  @media (max-width: 768px) {
+    .gallery-nav { width: 35px; height: 35px; }
+  }
+</style>
+<script>
+  function updateMainImage(url, index, element) {
+    const mainImg = document.getElementById('MainProductImage');
+    const thumbs = document.querySelectorAll('#d-product-detail .thumb-item');
+    
+    // Update Image
+    mainImg.src = url;
+    mainImg.setAttribute('data-index', index);
+    
+    // Update Active Class
+    thumbs.forEach(thumb => thumb.classList.remove('is-active'));
+    if(element) {
+      element.classList.add('is-active');
+    } else {
+      // Fallback for arrow navigation
+      thumbs[index].classList.add('is-active');
+    }
+  }
+
+  function changeSlide(direction) {
+    const mainImg = document.getElementById('MainProductImage');
+    const currentIndex = parseInt(mainImg.getAttribute('data-index'));
+    const thumbs = document.querySelectorAll('#d-product-detail .thumb-item');
+    let newIndex = currentIndex + direction;
+
+    if (newIndex >= thumbs.length) newIndex = 0;
+    if (newIndex < 0) newIndex = thumbs.length - 1;
+
+    thumbs[newIndex].click(); // Trigger the click logic
+  }
+</script>
+{% schema %}
+{
+  "name": "d-product",
+  "class": "d-product",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "skpt-0", "label": "None" },
+        { "value": "skpt-xs", "label": "Extra Small" },
+        { "value": "skpt-sm", "label": "Small" },
+        { "value": "skpt-md", "label": "Medium" },
+        { "value": "skpt-lg", "label": "Large" },
+        { "value": "skpt-xl", "label": "Extra Large" }
+      ],
+      "default": "skpt-lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "skpb-0", "label": "None" },
+        { "value": "skpb-xs", "label": "Extra Small" },
+        { "value": "skpb-sm", "label": "Small" },
+        { "value": "skpb-md", "label": "Medium" },
+        { "value": "skpb-lg", "label": "Large" },
+        { "value": "skpb-xl", "label": "Extra Large" }
+      ],
+      "default": "skpb-lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "specification",
+      "name": "Technical Spec Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Dimensions"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "366mm(W) x 237mm(H)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-product",
+      "blocks": [
+        { "type": "specification", "settings": { "label": "Dimensions", "value": "366mm(W) x 237mm(H) x 131mm(D)" } },
+        { "type": "specification", "settings": { "label": "Weight in air", "value": "3.74kg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

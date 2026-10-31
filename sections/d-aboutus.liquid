@@ -1,0 +1,131 @@
+{%- style -%}
+  .d-aboutus-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  .award-image-wrap {
+    max-width: 150px;
+    height: auto;
+  }
+  @media (max-width: 991px) {
+    .d-aboutus-{{ section.id }} .d-flex {
+      flex-direction: column;
+    }
+    .d-aboutus-{{ section.id }} .col-4,
+    .d-aboutus-{{ section.id }} .col-8 {
+      max-width: 100%;
+      flex-basis: 100%;
+      padding-right: 0;
+    }
+    .d-aboutus-{{ section.id }} .col-4 {
+      margin-bottom: var(--calc-spacing-sm);
+    }
+  }
+{%- endstyle -%}
+
+<section class="d-aboutus-{{ section.id }} skpt-lg skpb-lg">
+  <div class="container-lg">
+    <div class="d-flex align-items-start">
+      
+      {% comment %} Left Column: Headline {% endcomment %}
+      <div class="col-4 skpr-lg">
+        {% if section.settings.sidebar_heading != blank %}
+          <div class="fs-h3 text-blue skfwb sklh-n">
+            {{ section.settings.sidebar_heading | upcase }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Right Column: Content + Awards {% endcomment %}
+      <div class="col-8">
+        {% if section.settings.main_content != blank %}
+          <div class="fs-16 skfwn sklh-h text-black skmb-md">
+            {{ section.settings.main_content }}
+          </div>
+        {% endif %}
+
+        {% comment %} Awards Section {% endcomment %}
+        {% if section.blocks.size > 0 %}
+          <div class="awards-wrapper skmt-md">
+            {% if section.settings.awards_title != blank %}
+              <h3 class="fs-h4 skfwb skmb-15 text-black">{{ section.settings.awards_title }}</h3>
+            {% endif %}
+            
+            <div class="d-flex align-items-center gap-30">
+              {% for block in section.blocks %}
+                {% if block.settings.award_logo != blank %}
+                  <div class="award-image-wrap" {{ block.shopify_attributes }}>
+                    <img 
+                      src="{{ block.settings.award_logo | image_url: width: 300 }}" 
+                      alt="{{ block.settings.award_logo.alt | escape }}"
+                      loading="lazy"
+                      width="150"
+                      height="auto"
+                      class="w-100"
+                    >
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-aboutus",
+  "tag": "section",
+  "class": "d-aboutus",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_heading",
+      "label": "Sidebar Heading (Left)",
+      "default": "We promise to keep evolving, keep innovating and keep making products that will help you..."
+    },
+    {
+      "type": "richtext",
+      "id": "main_content",
+      "label": "Main Content (Right)",
+      "default": "<p>Edward Lai, the founder and Managing Director of Nauticam, spent the past two decades designing and manufacturing high precision injection molds...</p>"
+    },
+    {
+      "type": "text",
+      "id": "awards_title",
+      "label": "Awards Title",
+      "default": "Awards"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "award_item",
+      "name": "Award Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "award_logo",
+          "label": "Award Logo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-aboutus",
+      "blocks": [
+        { "type": "award_item" },
+        { "type": "award_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

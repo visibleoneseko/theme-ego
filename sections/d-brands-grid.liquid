@@ -1,0 +1,125 @@
+{%- style -%}
+.d-brand-grid .brand-grid-container {display: grid;grid-template-columns: repeat(4, 1fr);border-top: 1px solid #e5e7eb;border-left: 1px solid #e5e7eb;}
+.d-brand-grid .brand-item {
+    display: flex;align-items: center;justify-content: center;border-right: 1px solid #e5e7eb;border-bottom: 1px solid #e5e7eb;
+    padding: var(--calc-spacing-md) var(--calc-spacing-15);transition: var(--transition);min-height: 150px;}
+.d-brand-grid .brand-item:hover {background-color: var(--smoke-color);}
+.d-brand-grid .brand-item img {max-width: 100%;height: auto;object-fit: contain;filter: grayscale(1);transition: var(--transition);}
+.d-brand-grid .brand-item:hover img {filter: grayscale(0);}
+@media (max-width: 991px) {
+.d-brand-grid .brand-grid-container {grid-template-columns: repeat(2, 1fr);}
+}
+@media (max-width: 479px) {
+.d-brand-grid .brand-grid-container {grid-template-columns: repeat(1, 1fr);}
+}
+{%- endstyle -%}
+<section class="skpt-lg skpb-lg">
+  <div class="container-lg mx-auto">
+    
+    {%- if section.settings.title != blank or section.settings.description != blank -%}
+      <div class="text-center skmb-md">
+        {%- if section.settings.title != blank -%}
+          <h2 class="fs-h2 text-blue skfwb skmb-15">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.description != blank -%}
+          <div class="fs-16 text-gray mx-auto" style="max-width: 800px;">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="brand-grid-container">
+      {%- for block in section.blocks -%}
+        <div class="brand-item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="w-100 h-100 flex-center">
+          {%- else -%}
+            <div class="w-100 h-100 flex-center">
+          {%- endif -%}
+
+            {%- if block.settings.image != blank -%}
+              <img 
+                src="{{ block.settings.image | image_url: width: 400 }}" 
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+                class="w-175px"
+              >
+            {%- else -%}
+              <span class="fs-h4 text-gray">{{ block.settings.brand_name }}</span>
+            {%- endif -%}
+
+          {%- if block.settings.link != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+{% schema %}
+{
+  "name": "d-brand-grid",
+  "tag": "section",
+  "class": "d-brand-grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Housings By Brands"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Browse underwater housings designed specifically for your camera brand, engineered for precise compatibility.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Brand Logo"
+        },
+        {
+          "type": "text",
+          "id": "brand_name",
+          "label": "Brand Name (Fallback)",
+          "default": "Brand Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Brand Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-brand-grid",
+      "blocks": [
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" }
+      ]
+    }
+  ]
+}
+{% endschema %}

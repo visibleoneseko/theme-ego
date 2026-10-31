@@ -1,0 +1,22 @@
+<section>
+<span>{{section.settings.title }}</span>
+</section>
+{% schema %}
+{
+  "name": "d-holder",
+  "class": "d-holder",
+  "settings": [
+        {
+              "type": "text", 
+              "id": "title",
+              "label": "Main Title",
+              "default": "place holder"
+        }
+  ],
+  "presets": [
+    {
+      "name": "d-holder"
+    }
+  ]
+}
+{% endschema %}

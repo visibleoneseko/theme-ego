@@ -1,0 +1,152 @@
+{%- style -%}
+.d-newsletter .sk-newsletter-input {
+    border: 1px solid #e5e7eb;
+    border-right: none;
+    border-radius: 50px 0 0 50px;
+    padding: 12px 25px;
+    outline: none;
+    width: 100%;
+  }
+.d-newsletter .sk-newsletter-btn {
+    border-radius: 0 50px 50px 0 !important;
+    margin-top: 0 !important;
+    padding: 12px 30px !important;
+    cursor: pointer;
+    border: none !important;
+  }
+.d-newsletter .sk-newsletter-form-wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+.d-newsletter .newsletter-form__message {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+{%- endstyle -%}
+
+<section id="d-newsletter" class="d-newsletter skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="container text-center">
+    
+    {% if section.settings.heading != blank %}
+      <h2 class="fs-h3 skfwb text-blue skmb-15">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.subtext != blank %}
+      <div class="fs-16 skfwn text-gray skmb-md mx-auto" style="max-width: 700px;">
+        {{ section.settings.subtext }}
+      </div>
+    {% endif %}
+
+    <div class="sk-newsletter-form-wrapper">
+      {% form 'customer', class: 'newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        
+        <div class="d-flex align-items-center">
+          <input
+            id="NewsletterForm--{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            class="sk-newsletter-input fs-14"
+            value="{{ form.email }}"
+            aria-required="true"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            {% if form.errors %}
+              autofocus
+              aria-invalid="true"
+              aria-describedby="Newsletter-error--{{ section.id }}"
+            {% elsif form.posted_successfully? %}
+              aria-describedby="Newsletter-success--{{ section.id }}"
+            {% endif %}
+            placeholder="email@example.com"
+            required
+          >
+          <button type="submit" class="sk-newsletter-btn bg-black text-white skfwb fs-16" name="commit" id="Subscribe">
+            {{ section.settings.button_label }}
+          </button>
+        </div>
+
+        {%- if form.errors -%}
+          <small class="skmt-15 newsletter-form__message text-red d-block" id="Newsletter-error--{{ section.id }}">
+            {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </small>
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <h3 class="newsletter-form__message text-green fs-16" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>
+            {{ 'thanks_for_subscribing' | t | default: 'Thanks for subscribing!' }}
+          </h3>
+        {%- endif -%}
+      {% endform %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-newsletter",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Newsletter"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Get the latest gear updates, setup tips, and stories from professionals who shoot underwater."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top (skcssl class)",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (skcssl class)",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "lg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-newsletter"
+    }
+  ]
+}
+{% endschema %}

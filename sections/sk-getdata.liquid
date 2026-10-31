@@ -1,0 +1,44 @@
+<section>
+    <div id="ajax-product-grid">
+    </div>
+</section>
+<script>
+function skGetData() {
+fetch('/products.json?limit=250')
+  .then(response => response.json())
+  .then(data => {
+    const skallproducts = data.products
+    console.log(skallproducts); // Array of products
+    document.querySelector("#ajax-product-grid").innerHTML =
+skallproducts.map(p => `<div class="product-card">
+  <a href="/products/${p.handle}">
+    <p>${p.title}</p>
+  </a>
+  <p>${p.variants[0].price}</p>
+  <p>${p.variants[0].id}</p>
+  <div/>`)
+  })
+  .catch(error => console.error('Error fetching products:', error));
+}
+skGetData();
+</script>
+{% schema %}
+{
+  "name": "sk-getdata", 
+  "class": "sk-getdata",
+  "settings": [
+  {
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "sk-getdata"
+  }
+  ],
+  "presets": [
+    {
+      "name": "sk-getdata",
+      "category": "Simple Section"
+    }
+  ]
+}
+{% endschema %}

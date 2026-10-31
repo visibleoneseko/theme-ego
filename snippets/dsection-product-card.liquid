@@ -1,0 +1,36 @@
+          <div class="product-card {{ class }}">
+            <div>
+              <div class="hoverhideshow bg-smoke">
+              <a href="{{ product.url }}">
+                <img src="{{ product.featured_image | image_url: width: 600 }}" 
+                     alt="{{ product.title | escape }}" 
+                     class="w-100 d-block"
+                     loading="lazy">
+              </a>
+
+              <button type="button" 
+                      class="quick-view-trigger text-white bg-black flex-center" 
+                      data-product-handle="{{ product.handle }}"
+data-product-meta-dimensions="{{ product.metafields.nauticam.dimensions }}"
+data-product-meta-weight_in_air="{{ product.metafields.nauticam.weight_in_air }}"
+data-product-meta-buoyancy_in_water="{{ product.metafields.nauticam.buoyancy_in_water }}"
+data-product-meta-depth_rating="{{ product.metafields.nauticam.depth_rating }}"
+data-product-meta-port_mount="{{ product.metafields.nauticam.port_mount }}"                      
+                      >    
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+            <div class="product-detail">
+                <h3 class="fs-20 text-color skfwn skmb-0 mb-4">{{ product.title }}</h3>
+                <p class="fs-16 text-color skmt-0 skmb-0 mb-4">{{ product.vendor }}</p>
+                <p class="fs-18 text-color-2">
+                  {{ product.price | money }}
+                </p>   
+            </div>    
+          </div>    
+                  <button class="sk-ajax-add skbtn-main skp-xs skmt-0 add-to-cart-button" 
+                          data-variant-id="{{ product.first_available_variant.id }}"
+                    >
+                    Add to Cart
+                  </button>
+          </div>

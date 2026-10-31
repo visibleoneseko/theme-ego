@@ -1,0 +1,170 @@
+{%- style -%}
+  #sk-cta-{{ section.id }} {
+    background-image: linear-gradient(rgba(0,0,0, {{ section.settings.overlay_opacity }}), rgba(0,0,0, {{ section.settings.overlay_opacity }})), 
+                      url('{{ section.settings.image | image_url: width: 2000 }}');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 300px; /* Specific height for a CTA section rather than a full banner */
+    aspect-ratio: {{ section.settings.aspect_ratio }};
+    align-items: end;
+  }
+  
+  #sk-cta-{{ section.id }} .skbtn {
+    background-color: {{ section.settings.btn_color }};
+    border-color: {{ section.settings.btn_color }};
+    color: var(--white-color);
+    padding: 10px 40px;
+    border-radius: 50px !important; /* Matches the rounded pill shape in your image */
+    margin-top: 25px;
+  }
+
+  #sk-cta-{{ section.id }} .skbtn:hover {
+    opacity: 0.9;
+    background-color: {{ section.settings.btn_color }};
+  }
+{%- endstyle -%}
+<div class="{{ section.settings.container}}">
+<section id="sk-cta-{{ section.id }}" class="sk-cta-section d-flex align-items-center skmt-{{ section.settings.margin_top }} skmb-{{ section.settings.margin_bottom }}">
+  <div class="container text-center mx-auto skpb-sm">
+    <div class="d-flex justify-content-center">
+      <div class="col-12 col-lg-8">
+        
+        {%- if section.settings.title != blank -%}
+          <h2 class="fs-h2 text-white skfwb skmb-15 sklh-n">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="fs-18 text-white skfwn sklh-h">
+            {{ section.settings.text }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="skbtn d-inline-block">
+            {{ section.settings.button_label }}
+          </a>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+{% schema %}
+{
+  "name": "d-discover-more",
+  "class": "d-discover-more",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 0.9,
+      "step": 0.1,
+      "label": "Overlay Darkness",
+      "default": 0.6
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Background Image aspect ratio",
+      "options": [
+        { "value": "1.8/1", "label": "For home page" },
+        { "value": "6.27/1", "label": "For product detail page" }
+      ],
+      "default": "1.8/1"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Discover More Similar Products"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Capture those magic moments with the world’s finest and widest range of rugged underwater camera housings."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "View More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "btn_color",
+      "label": "Button Color",
+      "default": "#008CBA"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "select",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra Small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra Large" }
+      ],
+      "default": "0"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Margin Bottom",
+      "options": [
+        { "value": "", "label": "no container" },
+        { "value": "container-base", "label": "container-base" },
+        { "value": "container", "label": "container-huge" },
+        { "value": "container-lg", "label": "container-large" },
+        { "value": "container-sm", "label": "container-small" }
+      ],
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-discover-more"
+    }
+  ]
+}
+{% endschema %}

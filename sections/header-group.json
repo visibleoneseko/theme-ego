@@ -1,0 +1,13 @@
+{
+  "name": "VO Header Group",
+  "type": "header",
+  "sections": {
+    "1": {
+      "type": "d-holder",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1"
+  ]
+} 

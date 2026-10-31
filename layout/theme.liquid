@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{{ page_title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="{{ page_description | escape }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    {{ content_for_header }} 
+  <!-- fontfamily from design -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <!-- Header hook for plugins -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    {{ 'skcssl.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'skjsl.js' | asset_url }}" defer></script>
+  </head>
+<body id="{{ page_title | handleize }}" class="{{ template | replace: '.', '-' }}{% if template == "product" %} {{ product.handle | replace: '.', '-' }}{% endif %}{% if template == "collection" %} {{ collection.handle | replace: '.', '-'}}{% endif %}">
+    {% sections 'header-group' %}
+    <main
+      role="vo-main"
+      role="main"
+      tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  </body>
+</html>

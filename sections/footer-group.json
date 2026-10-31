@@ -1,0 +1,13 @@
+{
+  "name": "VO footer Group",
+  "type": "footer",
+  "sections": {
+    "1": {
+      "type": "d-footer",
+      "settings": {}
+    }
+  },
+  "order": [ 
+    "1"
+  ]
+} 

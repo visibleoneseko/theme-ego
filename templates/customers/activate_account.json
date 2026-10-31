@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "1": {
+      "type": "d-banner"
+      }
+  },
+  "order": [
+      "1"
+  ]
+}

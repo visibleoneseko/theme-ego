@@ -1,0 +1,184 @@
+{%- comment -%}
+  SK Shopify Liquid Architect - Product Recommendations & Complementary Products
+{%- endcomment -%}
+
+<section 
+  class="sk-related-products skpt-lg skpb-lg bg-white" 
+  data-product-id="{{ product.id }}" 
+  data-limit="{{ section.settings.limit }}"
+  data-intent="{{ section.settings.recommendation_type }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="container-lg">
+    {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+      <div class="text-center skmb-md">
+        <h2 class="fs-h2 skfwb text-blue">{{ section.settings.title }}</h2>
+      </div>
+
+      <div class="product-recommendations">
+        <div class="d-flex gap-20 owl-carousel owl-theme" id="related-slider-{{ section.id }}">
+          {%- for related_product in recommendations.products -%}
+            <div class="related-card-item">
+              {% comment %} --- Product Image & Hover Action --- {% endcomment %}
+              <div class="image-wrapper skmb-15 bg-smoke hoverhideshow" style="position: relative; aspect-ratio: 1/1; overflow: hidden;">
+                <a href="{{ related_product.url }}">
+                  <img src="{{ related_product.featured_image | image_url: width: 600 }}" 
+                       alt="{{ related_product.title | escape }}" 
+                       class="w-100 h-100 img1" 
+                       style="object-fit: contain; padding: 20px;"
+                       loading="lazy">
+                  
+                  {%- if related_product.images[1] -%}
+                    <img src="{{ related_product.images[1] | image_url: width: 600 }}" 
+                         class="img2 w-100 h-100" 
+                         style="object-fit: contain; padding: 20px;"
+                         loading="lazy">
+                  {%- endif -%}
+                </a>
+                
+                <div class="quick-view-icon" style="position: absolute; top: 15px; right: 15px;">
+                  <span class="bg-gray text-white flex-center" style="width: 35px; height: 35px; border-radius: 50%; opacity: 0.7;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  </span>
+                </div>
+              </div>
+
+              {% comment %} --- Product Info --- {% endcomment %}
+              <div class="product-detail">
+                <h3 class="fs-16 skfwb text-black skmb-0 sklh-n" style="text-transform: uppercase;">
+                  <a href="{{ related_product.url }}" class="text-black" style="text-decoration: none;">{{ related_product.title }}</a>
+                </h3>
+                
+                <div class="fs-14 text-gray sklh-n skmt-15 skmb-15 htext-4line">
+                   {{ related_product.description | strip_html | truncate: 80 }}
+                </div>
+
+                <p class="fs-14 text-blue skfwb skmb-15">
+                  {{ related_product.price | money }}
+                </p>
+
+                <form method="post" action="/cart/add">
+                  <input type="hidden" name="id" value="{{ related_product.variants.first.id }}" />
+                  <button type="submit" class="bg-black text-white skfwb fs-14 skp-15 w-175px" style="border-radius: 30px; border:none; cursor:pointer;">
+                    Add to Cart
+                  </button>
+                </form>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+.sk-related-products .related-card-item { height: 100%; display: flex; flex-direction: column; }
+.sk-related-products .owl-nav button { position: absolute; top: 40%; transform: translateY(-50%); background: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important; width: 40px; height: 40px; border-radius: 50% !important; }
+.sk-related-products .owl-prev { left: -20px; }
+.sk-related-products .owl-next { right: -20px; }
+.sk-related-products .owl-nav .owl-prev-custom, .sk-related-products .owl-next-custom { font-size: 20px; color: #000; line-height: 38px; }
+.sk-related-products .product-recommendations .quick-view-icon{display:none;}
+.sk-related-products .product-recommendations .product-detail form{display:none;}
+.sk-related-products .product-recommendations .image-wrapper img{aspect-ratio: 1/1;object-fit: cover!important;
+object-position: center;padding: 0px!important;}
+.sk-related-products .product-recommendations .owl-theme .owl-nav{
+    position: absolute;
+    width: 104%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    left: -2%;
+    height: 100%;
+    z-index: -1;}
+</style>
+
+<script>
+  (function() {
+    const productRecommendationsSection = document.querySelector('.sk-related-products[data-section-id="{{ section.id }}"]');
+    
+    const handleIntersection = (entries, observer) => {
+      if (!entries[0].isIntersecting) return;
+      observer.unobserve(productRecommendationsSection);
+
+      const productId = productRecommendationsSection.dataset.productId;
+      const limit = productRecommendationsSection.dataset.limit;
+      const intent = productRecommendationsSection.dataset.intent;
+      const sectionId = productRecommendationsSection.dataset.sectionId;
+      
+      // Construct URL using the predictive search route as a base or fallback to standard path
+      const baseUrl = window.routes ? window.routes.product_recommendations_url : '/recommendations/products';
+      const finalUrl = `${baseUrl}?section_id=${sectionId}&product_id=${productId}&limit=${limit}&intent=${intent}`;
+
+      fetch(finalUrl)
+        .then(response => response.text())
+        .then(text => {
+          const html = document.createElement('div');
+          html.innerHTML = text;
+          const recommendations = html.querySelector('.product-recommendations');
+
+          if (recommendations && recommendations.innerHTML.trim().length > 0) {
+            productRecommendationsSection.querySelector('.container-lg').innerHTML = html.querySelector('.container-lg').innerHTML;
+            
+            // Re-initialize Owl Carousel
+            if (typeof jQuery !== 'undefined' && jQuery.fn.owlCarousel) {
+              const sliderId = "#related-slider-" + sectionId;
+              jQuery(sliderId).owlCarousel({
+                items: 4,
+                margin: 20,
+                nav: true,
+                dots: false,
+                navText: ["<span class='owl-prev-custom'>&lt;</span>","<span class='owl-next-custom'>&gt;</span>"],
+                responsive: { 0: { items: 1 }, 768: { items: 2 }, 992: { items: 4 } }
+              });
+            }
+          }
+        })
+        .catch(e => console.error('Shopify Recommendations Error:', e));
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {rootMargin: '0px 0px 200px 0px'});
+    observer.observe(productRecommendationsSection);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "SK Related Products",
+  "tag": "section",
+  "class": "sk-related-products-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Related Lenses & Accessories"
+    },
+    {
+      "type": "select",
+      "id": "recommendation_type",
+      "label": "Recommendation Type",
+      "options": [
+        { "value": "related", "label": "Related Products" },
+        { "value": "complementary", "label": "Complementary Products" }
+      ],
+      "default": "related",
+      "info": "Complementary products must be set up in the Search & Discovery App."
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "label": "Product Limit",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Related Products"
+    }
+  ]
+}
+{% endschema %}

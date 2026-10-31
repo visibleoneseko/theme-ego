@@ -1,0 +1,356 @@
+<section id="sk-gallery-{{ section.id }}" class="sk-gallery-carousel {{ section.settings.padding_top }} {{ section.settings.padding_bottom }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="container-lg">
+    {% if section.settings.title != blank %}
+      <h2 class="fs-h2 skfwb text-center skmb-md skmt-0" style="color: {{ section.settings.title_color }};">
+        {{ section.settings.title }}
+      </h2>
+    {% endif %}
+
+    {% comment %} Row One: Left to Right {% endcomment %}
+    <div class="owl-carousel sk-gallery-carousel-one-{{ section.id }} sk-gallery-carousel-one">
+      {% for block in section.blocks %}
+        {% if block.type == 'row_one_image' %}
+          <div class="item" {{ block.shopify_attributes }}>
+              <figure class="hover01">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 600 }}" 
+                       alt="{{ block.settings.image.alt | escape }}"
+                       loading="lazy">
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </figure>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% comment %} Row Two: Right to Left {% endcomment %}
+    <div class="owl-carousel sk-gallery-carouse-two-{{ section.id }} sk-gallery-carouse-two skmt-15">
+      {% for block in section.blocks %}
+        {% if block.type == 'row_two_image' %}
+          <div class="item" {{ block.shopify_attributes }}>
+              <figure class="hover01">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 600 }}" 
+                       alt="{{ block.settings.image.alt | escape }}"
+                       loading="lazy">
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </figure>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<div id="sk-image-modal" class="sk-modal">
+    <span class="sk-modal-close">&times;</span>
+    <div class="sk-modal-container">
+        <img class="sk-modal-content" id="sk-modal-img" src="" alt="Full Size Image">
+    </div>
+</div>
+{% style %}
+  #sk-gallery-{{ section.id }} .item {
+    padding: 5px;
+  }
+
+  #sk-gallery-{{ section.id }} .item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: var(--transition);
+  }
+
+  #sk-gallery-{{ section.id }} .item figure.hover01:hover img {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  #sk-gallery-{{ section.id }} .owl-dots {
+    margin-top: var(--calc-spacing-xs);
+    text-align: center;
+  }
+  
+  #sk-gallery-{{ section.id }} .owl-dot span {
+    background: var(--gray-color) !important;
+    opacity: 0.3;
+  }
+  
+  #sk-gallery-{{ section.id }} .owl-dot.active span {
+    background: var(--blue-color) !important;
+    opacity: 1;
+  }
+/* Modal Background Overlay */
+    .sk-modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 99999; /* Ensure it stays above everything */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.9); /* Dark backdrop */
+        backdrop-filter: blur(5px);
+    }
+
+    /* Container for centering */
+    .sk-modal-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding: 20px;
+    }
+
+    /* Modal Image Content */
+    .sk-modal-content {
+        max-width: 90%;
+        max-height: 85vh;
+        border-radius: 12px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        animation: skZoomIn 0.3s ease-out;
+        object-fit: contain;
+    }
+
+    /* Zoom Animation */
+    @keyframes skZoomIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Close Button Styles */
+    .sk-modal-close {
+        position: absolute;
+        top: 30px;
+        right: 40px;
+        color: var(--white-color);
+        font-size: 50px;
+        font-weight: 300;
+        cursor: pointer;
+        line-height: 1;
+        transition: var(--transition); /* Using library transition */
+        z-index: 100000;
+    }
+
+    .sk-modal-close:hover {
+        color: var(--blue-color); /* Using library blue */
+        transform: rotate(90deg);
+    }
+
+    /* Cursor update for carousel items to indicate clickability */
+    .sk-gallery-carousel .item {
+        cursor: pointer;
+    }  
+{% endstyle %}
+<script>
+$(document).ready(function(){
+    $(".sk-gallery-carousel-one").owlCarousel({
+        loop: true,
+        margin: 15,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 1000,
+        autoplayHoverPause: true ,
+        smartSpeed: 800,
+        responsive: {
+            0: {
+                items: 2 // 2 items on mobile
+            },
+            600: {
+                items: 3 // 3 items on tablets
+            },
+            1000: {
+                items: 5 // 5 items on laptops
+            },
+            1400: {
+                items: 6 // 6 items on large desktops to match Figma
+            }
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(".sk-gallery-carouse-two").owlCarousel({
+        rtl: true, // Scroll from right to left
+        loop: true,
+        margin: 15,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 1000,
+        autoplayHoverPause: true ,
+        smartSpeed: 800,
+        responsive: {
+            0: {
+                items: 2 // 2 items on mobile
+            },
+            600: {
+                items: 3 // 3 items on tablets
+            },
+            1000: {
+                items: 5 // 5 items on laptops
+            },
+            1400: {
+                items: 6 // 6 items on large desktops to match Figma
+            }
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('sk-image-modal');
+    const modalImg = document.getElementById('sk-modal-img');
+    const closeBtn = document.querySelector('.sk-modal-close');
+
+    // Helper function to close modal
+    const closeModal = () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = ''; // Restore scroll
+    };
+
+    // 1. Open Modal Logic (Using Event Delegation)
+    document.addEventListener('click', function (e) {
+        // Check if the clicked element is inside a gallery item
+        const item = e.target.closest('.sk-gallery-carousel .item');
+        
+        if (item) {
+            const clickedImg = item.querySelector('img');
+            if (clickedImg) {
+                modalImg.src = clickedImg.src;
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+            }
+        }
+    });
+
+    // 2. Close Modal Logic (Close Button)
+    if (closeBtn) {
+        closeBtn.onclick = closeModal;
+    }
+
+    // 3. Close Modal Logic (Clicking background overlay)
+    modal.addEventListener('click', function (e) {
+        // Close only if clicking the background, not the image itself
+        if (e.target === modal || e.target.classList.contains('sk-modal-container')) {
+            closeModal();
+        }
+    });
+
+    // 4. Close on Escape Key
+    document.addEventListener('keyup', function (e) {
+        if (e.key === "Escape" && modal.style.display === 'block') {
+            closeModal();
+        }
+    });
+});
+</script>
+{% schema %}
+{
+  "name": "SK Gallery Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "#ShotWithsk"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#212121"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Navigation Dots",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "skpt-0", "label": "None" },
+        { "value": "skpt-xs", "label": "Extra Small" },
+        { "value": "skpt-sm", "label": "Small" },
+        { "value": "skpt-md", "label": "Medium" },
+        { "value": "skpt-lg", "label": "Large" },
+        { "value": "skpt-xl", "label": "Extra Large" }
+      ],
+      "default": "skpt-lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "skpb-0", "label": "None" },
+        { "value": "skpb-xs", "label": "Extra Small" },
+        { "value": "skpb-sm", "label": "Small" },
+        { "value": "skpb-md", "label": "Medium" },
+        { "value": "skpb-lg", "label": "Large" },
+        { "value": "skpb-xl", "label": "Extra Large" }
+      ],
+      "default": "skpb-lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row_one_image",
+      "name": "Row 1 Image (LTR)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "row_two_image",
+      "name": "Row 2 Image (RTL)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Gallery Carousel",
+      "blocks": [
+        { "type": "row_one_image" },
+        { "type": "row_one_image" },
+        { "type": "row_one_image" },
+        { "type": "row_two_image" },
+        { "type": "row_two_image" },
+        { "type": "row_two_image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

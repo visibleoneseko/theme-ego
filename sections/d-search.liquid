@@ -1,0 +1,222 @@
+<style>
+  /* Scoped styles keeping UI consistent with search-page.png layout */
+  .search-facet-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f1f1;
+  }
+  .search-facet-group {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .search-facet-group:last-child {
+    border-bottom: none;
+  }
+  .facet-checkbox {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--blue-color);
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .product-grid-item {
+    transition: transform 0.3s ease;
+  }
+  .product-grid-item:hover {
+    transform: translateY(-4px);
+  }
+  .product-image-wrapper {
+    background-color: var(--smoke-color);
+    aspect-ratio: 1.15 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .product-image-wrapper img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+  .disabled-facet {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+#FacetFiltersForm .search-facet-group {display: none;}
+#FacetFiltersForm .search-facet-group.product-type {display: block;}
+#FacetFiltersForm .search-facet-group.model {display: block;}
+</style>
+<div class="container-lg {{ section.settings.padding_top }} {{ section.settings.padding_bottom }}">
+  <div class="skmb-sm skpt-lg">
+    <h1 class="fs-h2 text-blue skfwb skmb-0">
+      {%- if search.performed -%}
+        {{ section.settings.heading_text }}
+      {%- endif -%}
+    </h1>
+    <p class="fs-16 text-gray skmt-15">
+      {%- if search.performed -%}
+        Showing {{ search.results.size }}-{{ search.results_count }} of {{ search.results_count }} results "{{ search.terms | escape }}"
+      {%- endif -%}
+    </p>
+  </div>
+
+  {%- if search.performed -%}
+    {%- paginate search.results by section.settings.products_per_page -%}
+      <div class="d-grid gap-40">
+        
+        <aside class="col-3 search-facet-card skp-xs">
+          <form id="FacetFiltersForm">
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="options[prefix]" value="last">
+
+            {%- for filter in search.filters -%}
+              <div class="search-facet-group skpb-xs skmb-xs {{ filter.label | handleize }}">
+                <h3 class="fs-16 skfwb text-black skmb-15">{{ filter.label }}</h3>
+                
+                <ul class="skm-0 skp-0" style="list-style: none;">
+                  {%- for filter_value in filter.values -%}
+                    <li class="d-flex align-items-center justify-content-between skmb-15 {% if filter_value.count == 0 and filter_value.active == false %}disabled-facet{% endif %}">
+                      <label class="d-flex align-items-center gap-10 fs-14 text-black" style="cursor: pointer;">
+                        <input type="checkbox"
+                          name="{{ filter_value.param_name }}"
+                          value="{{ filter_value.value }}"
+                          class="facet-checkbox"
+                          {% if filter_value.active %}checked{% endif %}
+                          {% if filter_value.count == 0 and filter_value.active == false %}disabled{% endif %}
+                        >
+                        <span>{{ filter_value.label }}</span>
+                      </label>
+                      <span class="fs-14 text-gray">{{ filter_value.count }}</span>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endfor -%}
+            
+            <noscript>
+              <button type="submit" class="skbtn bg-blue text-white w-100">Filter</button>
+            </noscript>
+          </form>
+        </aside>
+
+        <main class="col-9">
+          {%- if search.results.size == 0 -%}
+            <div class="text-center skp-xl">
+              <p class="fs-20 text-gray">No collection items match those filtering constraints.</p>
+            </div>
+          {%- else -%}
+            <div class="d-grid gap-30">
+              {%- for item in search.results -%}
+                {%- if item.object_type == 'product' -%}
+                  {% render 'dsection-product-card' , product: item , class: 'col-3' %} 
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            {% render 'dsection-product-quickview' %} 
+            {%- if paginate.pages > 1 -%}
+              <div class="d-flex justify-content-center skmt-xl gap-10">
+                {%- if paginate.previous -%}
+                  <a href="{{ paginate.previous.url }}" class="skbtn bd-blue text-blue bg-white-hover skp-15" style="margin-top:0;">&laquo;</a>
+                {%- endif -%}
+                
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <a href="{{ part.url }}" class="skbtn bd-gray text-gray skp-15" style="margin-top:0;">{{ part.title }}</a>
+                  {%- else -%}
+                    <span class="skbtn bg-blue text-white skp-15" style="margin-top:0;">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- if paginate.next -%}
+                  <a href="{{ paginate.next.url }}" class="skbtn bd-blue text-blue bg-white-hover skp-15" style="margin-top:0;">&raquo;</a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- endif -%}
+        </main>
+
+      </div>
+    {%- endpaginate -%}
+  {%- else -%}
+    <div class="text-center skp-xl">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="d-flex justify-content-center gap-10 mx-auto" style="max-width: 500px;">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search our catalogs..." class="w-100 fs-16 skp-15" style="border: 1px solid var(--gray-color); border-radius: 5px;">
+        <button type="submit" class="skbtn bg-blue text-white" style="margin-top: 0; padding: 10px 30px;">Search</button>
+      </form>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  // Dynamic JavaScript for auto-submitting Search & Discovery Facets upon clicking checkboxes
+  document.addEventListener("DOMContentLoaded", function() {
+    const facetForm = document.getElementById('FacetFiltersForm');
+    if (facetForm) {
+      facetForm.addEventListener('change', () => {
+        const formData = new FormData(facetForm);
+        const searchParams = new URLSearchParams(formData).toString();
+        window.location.search = searchParams;
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "d-search",
+  "tag": "section",
+  "class": "d-search",
+  "settings": [
+        {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "skpt-0", "label": "None" },
+        { "value": "skpt-xs", "label": "Extra Small" },
+        { "value": "skpt-sm", "label": "Small" },
+        { "value": "skpt-md", "label": "Medium" },
+        { "value": "skpt-lg", "label": "Large" },
+        { "value": "skpt-xl", "label": "Extra Large" }
+      ],
+      "default": "skpt-xl"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "skpb-0", "label": "None" },
+        { "value": "skpb-xs", "label": "Extra Small" },
+        { "value": "skpb-sm", "label": "Small" },
+        { "value": "skpb-md", "label": "Medium" },
+        { "value": "skpb-lg", "label": "Large" },
+        { "value": "skpb-xl", "label": "Extra Large" }
+      ],
+      "default": "skpb-xl"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Section Title Label",
+      "default": "Search Result"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 48,
+      "step": 3,
+      "label": "Items Per Page Page Limit",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-search"
+    }
+  ]
+}
+{% endschema %}

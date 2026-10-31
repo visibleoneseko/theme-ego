@@ -1,0 +1,128 @@
+{%- style -%}
+#d-cart .sk-cart__item {border: 1px solid #eeeeee;border-radius: 8px;background: #fff;}
+#d-cart .sk-cart__image img {width: 100px;height: 100px;object-fit: contain;background: #f8f8f8;}
+#d-cart .sk-cart__summary {background: #fff;border: 1px solid #eeeeee;border-radius: 12px;position: sticky;top: 20px;}
+#d-cart .sk-qty-selector {border: 1px solid #e5e7eb;border-radius: 5px;max-width: 120px;}
+#d-cart .sk-qty-btn {background: none;border: none;cursor: pointer;padding: 5px 10px;}
+#d-cart .sk-qty-input {width: 40px;text-align: center;border: none;pointer-events: none;}
+#d-cart .sk-btn-checkout {background: #212121;color: #fff;border-radius: 30px;padding: 15px;width: 100%;font-weight: 700;}
+#d-cart .sk-btn-continue {border: 1px solid #e5e7eb;border-radius: 30px;padding: 12px;width: 100%;background: #fff;margin-top: 10px;}
+#d-cart .promo-banner {border-radius: 12px;overflow: hidden;color: #fff;position: relative;background-size: cover;background-position: center;min-height: 150px;}
+{%- endstyle -%}
+
+<section id="d-cart" class="skpt-lg skpb-lg">
+  <div class="container">
+    <div class="skmb-md">
+      <h1 class="fs-h2 skfwb">Shopping Cart</h1>
+      <p class="fs-16 text-gray"><span>{{ cart.item_count }} </span> <span>items</span></p>
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <form action="{{ routes.cart_url }}" method="post" id="cart" class="d-grid gap-40">
+        <div class="col-8">
+          {% for item in cart.items %}
+            <div class="sk-cart__item skmb-15 skp-xs d-flex align-items-center justify-content-between" data-key="{{ item.key }}">
+              <div class="d-flex align-items-center gap-20">
+                <div class="sk-cart__image">
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" loading="lazy">
+                </div>
+                <div>
+                  <h3 class="fs-h6 skfwb skmb-0">{{ item.product.title }}</h3>
+                  {%- unless item.product.has_only_default_variant -%}
+                    <p class="fs-14 text-gray skmb-0">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-40">
+                <div class="text-right">
+                  <span class="fs-h6 skfwb">{{ item.final_line_price | money }}</span>
+                  
+                  <div class="sk-qty-selector d-flex align-items-center skmt-15">
+                    <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | minus: 1 }}" class="sk-qty-btn">-</a>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" class="sk-qty-input" readonly>
+                    <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity={{ item.quantity | plus: 1 }}" class="sk-qty-btn">+</a>
+                  </div>
+                </div>
+                
+                <a href="{{ item.url_to_remove }}" class="text-gray-hover">
+                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/></svg>
+                </a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="col-4">
+          <div class="sk-cart__summary skp-xs">
+            <h2 class="fs-h5 skfwb skmb-sm">Order Summary</h2>
+            
+            <div class="d-flex justify-content-between skmb-15">
+              <span class="text-gray">Subtotal</span>
+              <span class="skfwb">{{ cart.total_price | money }}</span>
+            </div>
+            
+            <hr class="skmb-15" style="border-top: 1px solid #eee;">
+
+            <div class="d-flex justify-content-between skmb-md">
+              <span class="fs-h5 skfwb">Total</span>
+              <span class="fs-h5 skfwb">{{ cart.total_price | money }}</span>
+            </div>
+
+            <button type="submit" name="checkout" class="sk-btn-checkout">Proceed to Checkout</button>
+            
+            <a href="{{ routes.all_products_collection_url }}" class="sk-btn-continue d-flex align-items-center justify-content-center gap-10">
+              <span>&larr;</span> Continue Shopping
+            </a>
+
+            <p class="text-center fs-14 text-gray skmt-15">Shipping & taxes calculated at checkout</p>
+          </div>
+
+          {% for block in section.blocks %}
+            {% if block.type == 'promo' %}
+              <div class="promo-banner skmt-md skp-xs d-flex align-items-end" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('{{ block.settings.image | image_url: width: 600 }}');">
+                <div>
+                   <span class="bg-green text-black fs-14 skfwb skp-15" style="border-radius:4px; padding: 2px 8px;">{{ block.settings.badge }}</span>
+                   <h4 class="fs-h5 skfwb skmt-15">{{ block.settings.title }}</h4>
+                   <p class="fs-14">{{ block.settings.subtitle }}</p>
+                   <a href="{{ block.settings.link }}" class="text-white fs-14 skfwb d-flex align-items-center gap-10">Learn More &rarr;</a>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </form>
+    {% else %}
+      <div class="text-center skpt-lg">
+        <p class="fs-h4">Your cart is empty.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="skbtn bg-black text-white skpr-xs skpl-xs">Start Shopping</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "d-cart",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "promo",
+      "name": "Promo Banner",
+      "limit": 1,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Background Image" },
+        { "type": "text", "id": "badge", "label": "Badge Text", "default": "DUTY FREE SAVINGS" },
+        { "type": "text", "id": "title", "label": "Title", "default": "TARIFF-FREE DESTINATION DELIVERY" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "PICK UP YOUR GEAR IN PARADISE." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-cart"
+    }
+  ]
+}
+{% endschema %}

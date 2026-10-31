@@ -1,0 +1,169 @@
+{% comment %}
+  SK Shopify Liquid Architect - Store Locator Section
+  Designed to integrate with Stockist Store Locator App
+{% endcomment %}
+
+<section class="sk-store-locator-section skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="container-lg">
+    <div class="d-flex gap-40 flex-wrap">
+      
+      {% comment %} Left Side: Search & Info {% endcomment %}
+      <div class="col-12 col-4-lg">
+        <h2 class="fs-h2 skfwb skmb-xs text-blue">{{ section.settings.title }}</h2>
+        
+        <div class="sk-search-wrapper skmb-sm d-flex">
+          <div class="search-input-group w-100" style="position: relative;">
+            <span class="search-icon" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </span>
+            <input type="text" placeholder="{{ section.settings.search_placeholder }}" class="w-100" style="padding: 12px 12px 12px 35px; border: 1px solid #ddd; border-radius: 4px 0 0 4px;">
+          </div>
+          <button class="bg-blue text-white flex-center" style="width: 50px; border-radius: 0 4px 4px 0; border: none; cursor: pointer;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+        </div>
+
+        {% comment %} Filters Logic {% endcomment %}
+        <div class="sk-filters-wrapper skmb-md">
+          {% for block in section.blocks %}
+            {% if block.type == 'filter' %}
+              <div class="filter-item d-flex align-items-center gap-10 skmb-15" {{ block.shopify_attributes }}>
+                <input type="checkbox" id="filter-{{ forloop.index }}" style="accent-color: var(--blue-color); width: 18px; height: 18px;">
+                <label for="filter-{{ forloop.index }}" class="fs-16 skfwn text-black">{{ block.settings.filter_label }}</label>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <hr class="skmb-md" style="border: 0; border-top: 1px solid #eee;">
+
+        {% comment %} Placeholder for Stockist List Results {% endcomment %}
+        <div class="store-list-container" style="max-height: 500px; overflow-y: auto;">
+          </div>
+      </div>
+
+      {% comment %} Right Side: Map Widget {% endcomment %}
+      <div class="col-12 col-8-lg">
+        <div class="map-container" style="min-height: 600px; border-radius: 8px; overflow: hidden; background: #f0f0f0;">
+          {% if section.settings.stockist_api_key != blank %}
+            <div id="stockist-widget" data-key="{{ section.settings.stockist_api_key }}">Loading Store Locator...</div>
+            <script src="https://stockist.jp/widget/v1/loader.js" async></script>
+          {% else %}
+            <div class="flex-center h-100 text-gray">
+              <p>Please enter your Stockist API Key in the section settings to display the map.</p>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .sk-search-wrapper input:focus {
+    outline: none;
+    border-color: var(--blue-color) !important;
+  }
+  @media (max-width: 991px) {
+    .col-4-lg, .col-8-lg { flex: 1 1 100%; max-width: 100%; }
+    .map-container { min-height: 400px !important; margin-top: 20px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "d-store-locator",
+  "tag": "section",
+  "class": "d-store-locator",
+  "settings": [
+    {
+      "type": "header",
+      "content": "App Configuration"
+    },
+    {
+      "type": "text",
+      "id": "stockist_api_key",
+      "label": "Stockist Widget ID / API Key",
+      "info": "Found in your Stockist App dashboard under 'Installation'"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Find our Stores"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search Placeholder",
+      "default": "Type a postcode or address..."
+    },
+    {
+      "type": "header",
+      "content": "Design Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        {"value": "0", "label": "None"},
+        {"value": "sm", "label": "Small"},
+        {"value": "md", "label": "Medium"},
+        {"value": "lg", "label": "Large"},
+        {"value": "xl", "label": "Extra Large"}
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        {"value": "0", "label": "None"},
+        {"value": "sm", "label": "Small"},
+        {"value": "md", "label": "Medium"},
+        {"value": "lg", "label": "Large"},
+        {"value": "xl", "label": "Extra Large"}
+      ],
+      "default": "lg"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "filter_label",
+          "label": "Filter Name",
+          "default": "Service Center"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "d-store-locator",
+      "blocks": [
+        { "type": "filter", "settings": { "filter_label": "Cinema Specialist" } },
+        { "type": "filter", "settings": { "filter_label": "Service Center" } },
+        { "type": "filter", "settings": { "filter_label": "Distribution Center" } },
+        { "type": "filter", "settings": { "filter_label": "Stocking Dealer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

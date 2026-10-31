@@ -1,0 +1,18 @@
+
+<li {% if link.active %}class="link-top-bar {% if link.child_active %}child-active{% endif %}"{% endif %}><a href="{{ link.url }}">{{ link.title }}</a>
+  {% if link.links != blank %}
+    <ul class="child">
+      {% for child_link in link.links %}  
+        <li {% if child_link.active %}class="link-top-bar {% if child_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ child_link.url }}">{{ child_link.title }}</a>
+        {% if child_link.links != blank %}
+          <ul class="grandchild">
+            {% for grandchild_link in child_link.links %}  
+            <li {% if grandchild_link.active %}class="link-top-bar {% if grandchild_link.child_active %}child-active{% endif %}"{% endif %}><a href= "{{ grandchild_link.url }}">{{ grandchild_link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}   
+        </li>
+      {% endfor %}
+    </ul> 
+  {% endif %}
+</li>

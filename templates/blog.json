@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "1": {
+      "type": "d-news-listing-blogs",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1"
+  ]
+}  

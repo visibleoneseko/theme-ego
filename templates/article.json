@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "1": {
+      "type": "d-news-details",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1"
+  ]
+}  

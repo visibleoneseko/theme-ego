@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "1": {
+      "type": "d-contact-form"
+      }
+  },
+  "order": [
+      "1"
+  ]
+}

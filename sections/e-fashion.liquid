@@ -1,0 +1,577 @@
+{% comment %}
+  Section: Hero Banner (Interactive Fashion Banner with Dynamic Running Text)
+  File Name: e-fashion.liquid
+{% endcomment %}
+
+<section 
+  id="e-fashion" 
+  class="shopify-section section-hero-banner e-fashion skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+>
+  <div class="section-wrapper section-spacing scheme-scheme-2405bee6-5e05-4d09-8333-0e4e0924c224 section-solid">
+    <div class="hero-banner--wrapper hero-active" data-hero-wrapper="">
+      <swiper-content data-resize="false">
+        <div 
+          class="hero-banner--main-images swiper swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress swiper-backface-hidden"
+          data-swiper='{
+            "autoplay": {
+              "delay": 2000, 
+              "disableOnInteraction": false
+            },
+            "effect": "fade",
+            "speed": 1000
+          }'
+          data-section="e-fashion"
+        >
+          <div class="hero-banner--wrapper is-slider swiper-wrapper" id="swiper-wrapper-e-fashion" aria-live="off">
+            {% for block in section.blocks %}
+              <div 
+                class="hero-banner--item swiper-slide {% if forloop.first %}swiper-slide-visible swiper-slide-fully-visible swiper-slide-active{% endif %}" 
+                data-index="{{ forloop.index }}" 
+                data-running-content="{{ block.settings.running_text | escape }}" 
+                aria-label="{{ forloop.index }} / {{ forloop.length }}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="media d-media-fixed m-media-fixed media-overlay">
+                  {% if block.settings.image != blank %}
+                    <img 
+                      src="{{ block.settings.image | image_url: width: 3840 }}" 
+                      alt="{{ block.settings.image.alt | default: block.settings.running_text | escape }}" 
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"
+                      loading="lazy" 
+                      sizes="100vw"
+                    >
+                  {% else %}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+      </swiper-content>
+
+      <variety-heading>
+        <div class="hero-banner--content">
+          <div class="hero-banner--content-inner">
+            <hero-context>
+              <h4 class="hero-banner--title heading-font text-center fs-h3 skfwb">
+                {% if section.settings.text_part_1 != blank %}
+                  {{ section.settings.text_part_1 | escape }}
+                {% else %}
+                  FASHION
+                {% endif %}
+
+                {% for block in section.blocks %}
+                  {% if forloop.index == 1 %}
+                    <span class="hero-inline--image cursor-pointer" data-hero-item="0">
+                      {% if block.settings.inline_image != blank %}
+                        <img src="{{ block.settings.inline_image | image_url: width: 200 }}" alt="{{ block.settings.inline_image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% elsif block.settings.image != blank %}
+                        <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+
+                {% if section.settings.text_part_2 != blank %}
+                  <span class="markers-text heading-font outline--text">{{ section.settings.text_part_2 | escape }}</span>
+                {% else %}
+                  <span class="markers-text heading-font outline--text">TRENDS</span>
+                {% endif %}
+
+                {% if section.settings.text_part_3 != blank %}
+                  {{ section.settings.text_part_3 | escape }}
+                {% else %}
+                  HAVE
+                {% endif %}
+
+                {% if section.settings.text_part_4 != blank %}
+                  <span class="markers-text heading-font outline--text">{{ section.settings.text_part_4 | escape }}</span>
+                {% else %}
+                  <span class="markers-text heading-font outline--text">TRANSFORMED</span>
+                {% endif %}
+
+                {% for block in section.blocks %}
+                  {% if forloop.index == 2 %}
+                    <span class="hero-inline--image cursor-pointer" data-hero-item="1">
+                      {% if block.settings.inline_image != blank %}
+                        <img src="{{ block.settings.inline_image | image_url: width: 200 }}" alt="{{ block.settings.inline_image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% elsif block.settings.image != blank %}
+                        <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+
+                {% if section.settings.text_part_5 != blank %}
+                  {{ section.settings.text_part_5 | escape }}
+                {% else %}
+                  THIS ESSENTIAL
+                {% endif %}
+
+                {% for block in section.blocks %}
+                  {% if forloop.index == 3 %}
+                    <span class="hero-inline--image cursor-pointer" data-hero-item="2">
+                      {% if block.settings.inline_image != blank %}
+                        <img src="{{ block.settings.inline_image | image_url: width: 200 }}" alt="{{ block.settings.inline_image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% elsif block.settings.image != blank %}
+                        <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+
+                {% if section.settings.text_part_6 != blank %}
+                  <span class="markers-text heading-font outline--text">{{ section.settings.text_part_6 | escape }}</span>
+                {% else %}
+                  <span class="markers-text heading-font outline--text">ACCESSORY</span>
+                {% endif %}
+
+                {% for block in section.blocks %}
+                  {% if forloop.index == 4 %}
+                    <span class="hero-inline--image cursor-pointer" data-hero-item="3">
+                      {% if block.settings.inline_image != blank %}
+                        <img src="{{ block.settings.inline_image | image_url: width: 200 }}" alt="{{ block.settings.inline_image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% elsif block.settings.image != blank %}
+                        <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.image.alt | escape }}" width="200" height="100" loading="lazy">
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </span>
+                  {% endif %}
+                {% endfor %}
+
+                <br>
+                <span class="hero-banner--running-text" data-running-text="">
+                  {% assign first_block = section.blocks | first %}
+                  {{ first_block.settings.running_text | default: 'ICONIC' }}
+                </span>
+              </h4>
+            </hero-context>
+          </div>
+        </div>
+      </variety-heading>
+    </div>
+  </div>
+</section>
+
+<style>
+  #e-fashion {
+    --top_spacing: 0px;
+    --bottom_spacing: 0px;
+    --media_height: {{ section.settings.desktop_height }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #e-fashion .section-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  #e-fashion .hero-banner--wrapper {
+    position: relative;
+    width: 100%;
+    height: var(--media_height);
+  }
+
+  #e-fashion .hero-banner--main-images {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  #e-fashion .hero-banner--item {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+  }
+
+  #e-fashion .hero-banner--item.swiper-slide-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+  }
+
+  #e-fashion .media {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  #e-fashion .media img,
+  #e-fashion .media .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  #e-fashion .media-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    pointer-events: none;
+  }
+
+  #e-fashion .hero-banner--content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 20px;
+    pointer-events: none;
+  }
+
+  #e-fashion .hero-banner--content-inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+
+  #e-fashion .hero-banner--title {
+    color: var(--white-color, #ffffff);
+    line-height: var(--high-line-height, 1.5);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  #e-fashion .outline--text {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--white-color, #ffffff);
+  }
+
+  #e-fashion .hero-inline--image {
+    display: inline-block;
+    vertical-align: middle;
+    width: 80px;
+    height: 40px;
+    border-radius: 30px;
+    overflow: hidden;
+    margin: 0 6px;
+    border: 2px solid var(--white-color, #ffffff);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  #e-fashion .hero-inline--image:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+  }
+
+  #e-fashion .hero-inline--image img,
+  #e-fashion .hero-inline--image .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #e-fashion .hero-banner--running-text {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 30px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    font-weight: var(--bold-font-weight, 700);
+    text-transform: uppercase;
+    color: var(--white-color, #ffffff);
+  }
+
+  @media only screen and (max-width: 767px) {
+    #e-fashion {
+      --top_spacing: 0px !important;
+      --bottom_spacing: 0px !important;
+      --media_height: {{ section.settings.mobile_height }}px;
+    }
+
+    #e-fashion .hero-inline--image {
+      width: 50px;
+      height: 26px;
+      margin: 0 3px;
+    }
+
+    #e-fashion .hero-banner--running-text {
+      padding: 6px 18px;
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionContainer = document.getElementById('e-fashion');
+    if (!sectionContainer) return;
+
+    const slides = sectionContainer.querySelectorAll('.hero-banner--item');
+    const inlineThumbnails = sectionContainer.querySelectorAll('.hero-inline--image');
+    const runningTextElem = sectionContainer.querySelector('[data-running-text]');
+    
+    let currentIndex = 0;
+    const slideCount = slides.length;
+    let autoSlideInterval = null;
+
+    function goToSlide(index) {
+      if (slideCount === 0) return;
+      
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('swiper-slide-active', 'swiper-slide-visible', 'swiper-slide-fully-visible');
+          slide.style.opacity = '1';
+          slide.style.zIndex = '1';
+        } else {
+          slide.classList.remove('swiper-slide-active', 'swiper-slide-visible', 'swiper-slide-fully-visible');
+          slide.style.opacity = '0';
+          slide.style.zIndex = '0';
+        }
+      });
+
+      const activeSlide = slides[index];
+      if (activeSlide && runningTextElem) {
+        const textValue = activeSlide.getAttribute('data-running-content');
+        if (textValue) {
+          runningTextElem.textContent = textValue;
+        }
+      }
+
+      currentIndex = index;
+    }
+
+    function startAutoplay() {
+      if (slideCount <= 1) return;
+      stopAutoplay();
+      autoSlideInterval = setInterval(function() {
+        let nextIndex = (currentIndex + 1) % slideCount;
+        goToSlide(nextIndex);
+      }, {{ section.settings.autoplay_speed | times: 1000 }});
+    }
+
+    function stopAutoplay() {
+      if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = null;
+      }
+    }
+
+    inlineThumbnails.forEach(function(thumb) {
+      thumb.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const itemIndex = parseInt(this.getAttribute('data-hero-item'), 10);
+        if (!isNaN(itemIndex) && itemIndex < slideCount) {
+          goToSlide(itemIndex);
+          startAutoplay(); // Reset autoplay timer after interaction
+        }
+      });
+    });
+
+    sectionContainer.addEventListener('mouseenter', stopAutoplay);
+    sectionContainer.addEventListener('mouseleave', startAutoplay);
+
+    // Initialize initial slide & start slideshow
+    goToSlide(0);
+    startAutoplay();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "e-fashion",
+  "class": "e-fashion",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": "0",
+      "options": [
+        { "value": "0", "label": "None (0)" },
+        { "value": "xs", "label": "Extra Small (xs)" },
+        { "value": "sm", "label": "Small (sm)" },
+        { "value": "md", "label": "Medium (md)" },
+        { "value": "lg", "label": "Large (lg)" },
+        { "value": "xl", "label": "Extra Large (xl)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": "0",
+      "options": [
+        { "value": "0", "label": "None (0)" },
+        { "value": "xs", "label": "Extra Small (xs)" },
+        { "value": "sm", "label": "Small (sm)" },
+        { "value": "md", "label": "Medium (md)" },
+        { "value": "lg", "label": "Large (lg)" },
+        { "value": "xl", "label": "Extra Large (xl)" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop Height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile Height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image Overlay Opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay Speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Hero Title Structure"
+    },
+    {
+      "type": "text",
+      "id": "text_part_1",
+      "label": "Text Part 1",
+      "default": "FASHION"
+    },
+    {
+      "type": "text",
+      "id": "text_part_2",
+      "label": "Text Part 2 (Outlined)",
+      "default": "TRENDS"
+    },
+    {
+      "type": "text",
+      "id": "text_part_3",
+      "label": "Text Part 3",
+      "default": "HAVE"
+    },
+    {
+      "type": "text",
+      "id": "text_part_4",
+      "label": "Text Part 4 (Outlined)",
+      "default": "TRANSFORMED"
+    },
+    {
+      "type": "text",
+      "id": "text_part_5",
+      "label": "Text Part 5",
+      "default": "THIS ESSENTIAL"
+    },
+    {
+      "type": "text",
+      "id": "text_part_6",
+      "label": "Text Part 6 (Outlined)",
+      "default": "ACCESSORY"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Hero Slide",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Main Slide Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "inline_image",
+          "label": "Inline Thumbnail Image (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "running_text",
+          "label": "Running Tag / Badge Text",
+          "default": "ICONIC"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "e-fashion",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "running_text": "ICONIC"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "running_text": "FUSION"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "running_text": "LUXURY"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "running_text": "ELEGANCE"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
