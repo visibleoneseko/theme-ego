@@ -1,0 +1,874 @@
+{%- comment -%}
+  Roctec homepage — Services section
+  Source: Claude standalone homepage export.
+  CSS and JS are isolated to #e-home-services.
+{%- endcomment -%}
+<section id="e-home-services" class="rsvc skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-section-id="{{ section.id }}">
+
+  <div class="rsvc-inner">
+    <div class="rsvc-layout">
+      <div class="rsvc-intro">
+        <span class="rsvc-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        <h2>{{ section.settings.heading | escape }}</h2>
+        <p>{{ section.settings.subheading | escape }}</p>
+        {% if section.settings.button_label != blank %}<a class="btn btn-secondary rsvc-cta" href="{{ section.settings.button_link | default: routes.root_url }}">{{ section.settings.button_label | escape }}</a>{% endif %}
+      </div>
+      <div class="rsvc-carousel" data-service-carousel>
+        <div class="rsvc-viewport">
+          <div class="rsvc-track">
+            {% for block in section.blocks %}
+              <article class="rsvc-slide" {{ block.shopify_attributes }}>
+                <div class="rsvc-media">
+                  {% if block.settings.image != blank %}
+                    {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: block.settings.image_alt, widths: '360, 540, 720, 1000' }}
+                  {% else %}
+                    <img src="{{ block.settings.fallback_asset | asset_url }}" alt="{{ block.settings.image_alt | escape }}" loading="lazy">
+                  {% endif %}
+                </div>
+                <div class="rsvc-body">
+                  <h3>{{ block.settings.title | escape }}</h3>
+                  <p>{{ block.settings.description | escape }}</p>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="rsvc-controls">
+          <span class="rsvc-count"><span class="rsvc-count-current" data-service-current>01</span> / <span data-service-total>{{ section.blocks.size | prepend: '0' | slice: -2, 2 }}</span></span>
+          <div class="rsvc-progress"><span class="rsvc-progress-bar" data-service-progress></span></div>
+          <div class="rsvc-nav">
+            <button class="rsvc-btn rsvc-prev" type="button" aria-label="Previous service"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="rsvc-btn rsvc-next" type="button" aria-label="Next service"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+#e-home-services {
+--color-primary: #249E6B;
+--color-primary-hover: #2E7D4E;
+--color-action: #2E7D4E;
+--color-action-hover: #25663F;
+--color-success: #2E7D4E;
+--color-warning: #F4A261;
+--color-error: #E63946;
+--color-info: #457B9D;
+--color-text: #111111;
+--color-text-strong: #1B1B1B;
+--color-text-secondary: #4A4A4A;
+--color-text-muted: #6E6E6E;
+--color-text-placeholder: #8C8C8C;
+--color-surface-subtle: #F1F1F1;
+--color-surface-subtle-hover: #E7E7E7;
+--color-focus-ring: rgba(46, 125, 78, 0.12);
+--color-border-strong: #C9C9C9;
+--color-surface: #FFFFFF;
+--color-surface-muted: #F7F7F7;
+--color-border: #E4E4E4;
+--color-surface-brand: #124F35;
+--color-surface-brand-light: #16603F;
+--color-surface-brand-mid: var(--color-surface-brand);
+--color-surface-brand-dark: #0C3826;
+--color-surface-inverse: #0D120F;
+--color-surface-inverse-raised: #131A16;
+--color-border-inverse: rgba(255, 255, 255, 0.1);
+--color-border-accent: #249E6B;
+--color-text-inverse: #FFFFFF;
+--color-text-inverse-muted: rgba(255, 255, 255, 0.62);
+--font-en: "Roboto", Arial, sans-serif;
+--font-base: "Roboto", Arial, sans-serif;
+--font-weight-regular: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+--text-display: clamp(4rem, 2.5rem + 5.6vw, 7.25rem);
+--text-h1: 3.25rem;
+--text-h2: 2.5rem;
+--text-h3: 1.75rem;
+--text-h4: 1.5rem;
+--text-h5: 1.25rem;
+--text-h6: 1.0625rem;
+--text-lg: 1.25rem;
+--text-base: 1.125rem;
+--text-sm: 1rem;
+--text-xs: 0.875rem;
+--text-eyebrow-sm: 0.75rem;
+--space-1: 4px;
+--space-2: 8px;
+--space-3: 12px;
+--space-4: 16px;
+--space-5: 20px;
+--space-6: 24px;
+--space-7: 28px;
+--space-8: 32px;
+--space-10: 40px;
+--space-12: 48px;
+--space-16: 64px;
+--space-24: 96px;
+--head-gap: 40px;
+--head-gap-lg: 64px;
+--section-pad: 96px;
+--section-pad-mobile: 64px;
+--hero-clear-display: calc(var(--header-height) + var(--space-24) + var(--space-6));
+--hero-clear-page: calc(var(--header-height) + var(--space-24) + var(--space-8));
+--hero-clear-tight: calc(var(--header-height) + var(--space-16));
+--container: 1280px;
+--radius-sm: 4px;
+--radius-md: 8px;
+--radius-lg: 16px;
+--radius-xl: 24px;
+--radius-pill: 999px;
+--touch-target: 44px;
+--header-height: 104px;
+--shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
+--shadow-md: 0 4px 12px rgba(17, 17, 17, 0.08);
+--motion-fast: 320ms;
+--motion-base: 320ms;
+--motion-medium: 320ms;
+--motion-slow: 320ms;
+--ease-standard: ease-out;
+}
+#e-home-services .container {
+max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+#e-home-services .btn {
+display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: 0 var(--space-6);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  font-weight: 700;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    background var(--motion-base) var(--ease-standard),
+    border-color var(--motion-base) var(--ease-standard),
+    color var(--motion-base) var(--ease-standard),
+    box-shadow var(--motion-base) var(--ease-standard);
+}
+
+#e-home-services .btn::before {
+content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms ease-out;
+}
+
+#e-home-services .btn:hover::before {
+transform: scaleX(1);
+}
+
+#e-home-services .btn:hover {
+color: inherit;
+}
+
+#e-home-services .btn:active::before {
+transition-duration: 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+#e-home-services .btn::before {
+transition: none;
+}
+}
+
+#e-home-services .btn-secondary {
+background: transparent;
+  color: var(--color-action);
+  border-color: var(--color-action);
+  border-radius: var(--radius-pill);
+}
+
+#e-home-services .btn-secondary::before {
+background: var(--color-primary);
+}
+
+#e-home-services .btn-secondary:hover {
+color: #fff;
+  border-color: var(--color-primary);
+}
+
+#e-home-services .btn[disabled] {
+opacity: 0.4; cursor: not-allowed;
+}
+
+#e-home-services .btn[disabled]:hover::before {
+transform: scaleX(0);
+}
+
+#e-home-services .mobile-drawer .btn {
+margin-top: var(--space-8); align-self: flex-start; width: auto; display: none;
+}
+
+@keyframes e-home-services-hero-scan {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(148px); opacity: 1; }
+}
+
+@keyframes e-home-services-hero-radar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes e-home-services-dot-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes e-home-services-scroll-bob {
+  0%, 100% { cy: 10; opacity: 1; }
+  50% { cy: 28; opacity: 0.3; }
+}
+
+@keyframes e-home-services-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+#e-home-services .about-cta .btn-secondary {
+background: #FFFFFF;
+  color: var(--color-text);
+  border-color: #FFFFFF;
+}
+
+#e-home-services .about-cta .btn-secondary:hover {
+color: #fff;
+  border-color: var(--color-primary);
+}
+
+#e-home-services {
+background: #FFFFFF;
+  padding-block: var(--section-pad);
+}
+
+#e-home-services .rsvc-inner {
+max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+#e-home-services .rsvc-layout {
+display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+#e-home-services .rsvc-intro {
+display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+#e-home-services .rsvc-intro > * {
+position: relative; z-index: 1;
+}
+
+#e-home-services .rsvc-eyebrow {
+letter-spacing: 0.14em;
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+#e-home-services .rsvc-intro h2 {
+font-size: var(--text-h2);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+#e-home-services .rsvc-intro p {
+font-size: var(--text-lg);
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: var(--head-gap);
+}
+
+#e-home-services .rsvc-cta {
+flex: 0 0 auto;
+}
+
+#e-home-services .rsvc-carousel {
+width: 100%; min-width: 0; max-width: 480px; margin-left: auto;
+}
+
+#e-home-services .rsvc-viewport {
+overflow: hidden;
+}
+
+#e-home-services .rsvc-track {
+display: flex;
+  transition: transform 650ms var(--ease-standard);
+}
+
+#e-home-services .rsvc-slide {
+flex: 0 0 100%;
+  min-width: 0;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2);
+  border: 1px solid #E4E6EA;
+  box-shadow: var(--shadow-sm);
+}
+
+#e-home-services .rsvc-media {
+position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-surface-muted);
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-border) 0,
+    var(--color-border) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+#e-home-services .rsvc-media span {
+font-family: "Courier New", monospace;
+  font-size: var(--text-xs);
+  color: var(--color-text);
+  opacity: 0.55;
+  background: var(--color-surface);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+#e-home-services .rsvc-media img {
+width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#e-home-services .rsvc-body {
+padding: var(--space-6);
+}
+
+#e-home-services .rsvc-slide h3 {
+font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+}
+
+#e-home-services .rsvc-slide p {
+font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+#e-home-services .rsvc-controls {
+display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+#e-home-services .rsvc-count {
+font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  flex: 0 0 auto;
+}
+
+#e-home-services .rsvc-progress {
+flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+#e-home-services .rsvc-progress-bar {
+display: block;
+  height: 100%;
+  width: 25%;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transition: width var(--motion-slow) var(--ease-standard);
+}
+
+#e-home-services .rsvc-nav {
+display: flex;
+  gap: var(--space-3);
+  flex: 0 0 auto;
+  margin-left: var(--space-2);
+}
+
+#e-home-services .rsvc-btn {
+width: var(--touch-target);
+  height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  transition: border-color var(--motion-base) var(--ease-standard),
+              color var(--motion-base) var(--ease-standard),
+              opacity var(--motion-base) var(--ease-standard);
+}
+
+#e-home-services .rsvc-btn:hover {
+border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+#e-home-services .rsvc-btn svg {
+width: 20px; height: 20px;
+}
+
+#e-home-services .rsvc-btn[disabled] {
+opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+#e-home-services .solutions-head-row .btn {
+flex-shrink: 0; margin-bottom: 0;
+}
+
+#e-home-services .news-head-row .btn {
+flex-shrink: 0;
+}
+
+#e-home-services .cta-panel .btn {
+width: 100%;
+}
+
+#e-home-services .site-footer > .container {
+position: relative; z-index: 1; padding-inline: var(--space-6);
+}
+
+@media (max-width: 1024px) {
+#e-home-services .rsvc-layout {
+grid-template-columns: minmax(0, 1fr); gap: var(--space-12); align-items: stretch;
+}
+#e-home-services .rsvc-carousel {
+margin-inline: auto;
+}
+#e-home-services .header-actions .btn {
+display: none;
+}
+#e-home-services .mobile-drawer .btn {
+display: inline-flex; padding-inline: var(--space-8);
+}
+#e-home-services .site-footer > .container {
+padding-inline: var(--space-6);
+}
+}
+
+@media (max-width: 767px) {
+#e-home-services .container {
+padding-inline: var(--space-6);
+}
+#e-home-services .hero-actions .btn {
+width: 100%;
+}
+#e-home-services .rsvc-intro h2 {
+overflow-wrap: break-word;
+}
+#e-home-services .solutions-head-row .btn {
+margin-left: 0; margin-bottom: 0;
+}
+#e-home-services .news-head-row .btn {
+margin-left: 0;
+}
+#e-home-services .rsvc-layout {
+gap: var(--space-8);
+}
+#e-home-services .rsvc-intro p {
+margin-bottom: var(--space-6, 24px);
+}
+#e-home-services .rsvc-controls {
+margin-top: var(--space-6);
+}
+#e-home-services .cta-panel .btn {
+width: 100%;
+}
+#e-home-services .cta-band-btns .btn {
+width: 100%;
+}
+#e-home-services .header-actions .btn {
+display: none;
+}
+#e-home-services .mobile-drawer .btn {
+display: inline-flex; padding-inline: var(--space-8);
+}
+}
+
+@media (max-width: 400px) {
+#e-home-services .container,
+#e-home-services .rsvc-inner {
+padding-inline: var(--space-5);
+}
+}
+
+#e-home-services .ab-mission-cta .btn-secondary:first-child {
+background: #fff;
+  color: var(--color-action);
+  border-color: #fff;
+}
+
+#e-home-services .ab-mission-cta .btn-secondary:first-child:hover {
+color: #fff; border-color: var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+#e-home-services .ab-mission-cta .btn-secondary {
+width: auto;
+    justify-content: center;
+    text-align: center;
+}
+}
+
+@media (max-width: 767px) {
+#e-home-services .ab-mission-cta .btn-secondary {
+width: 100%;
+}
+}
+
+@media (max-width: 767px) {
+#e-home-services .sv-cta-row .btn {
+width: 100%; max-width: 320px; justify-content: center;
+}
+}
+
+@media (max-width: 640px) {
+#e-home-services .cr-submit-row .btn {
+width: 100%; justify-content: center;
+}
+}
+
+#e-home-services .nf-copy .btn {
+margin-top: var(--space-4);
+}
+
+#e-home-services .an-next .container {
+position: relative; z-index: 1;
+}
+
+#e-home-services .an-thanks-inner .btn {
+margin-top: var(--space-4);
+}
+
+#e-home-services .an-recog .section-head-split .btn {
+flex-shrink: 0;
+}
+
+@media (max-width: 560px) {
+#e-home-services .fm-actions .btn {
+width: 100%;
+}
+}
+
+#e-home-services img { display:block; max-width:100%; }
+#e-home-services .container { width:min(100% - 48px, 1280px); margin-inline:auto; }
+
+
+#e-home-services .reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 500ms var(--ease-standard), transform 500ms var(--ease-standard);
+}
+#e-home-services .reveal-up.is-shown {
+  opacity: 1;
+  transform: none;
+}
+</style>
+
+<script>
+(function() {
+  var E_HOME_SECTION_ID = 'e-home-services';
+  var E_HOME_SECTION_SELECTOR = '#' + E_HOME_SECTION_ID;
+  function initEHomeServices() {
+    var root = document.querySelector(E_HOME_SECTION_SELECTOR + '[data-section-id="{{ section.id }}"]');
+    if (!root || root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    var carousel = root.querySelector('[data-service-carousel]');
+    var track = root.querySelector('.rsvc-track');
+    var cards = Array.prototype.slice.call(root.querySelectorAll('.rsvc-slide'));
+    var prev = root.querySelector('.rsvc-prev'), next = root.querySelector('.rsvc-next');
+    var currentLabel = root.querySelector('[data-service-current]');
+    var totalLabel = root.querySelector('[data-service-total]');
+    var progress = root.querySelector('[data-service-progress]');
+    var index = 0;
+    if (!carousel || !track || !cards.length) return;
+    if (totalLabel) totalLabel.textContent = String(cards.length).padStart(2,'0');
+    function update() {
+      var max = Math.max(0, cards.length - 1);
+      index = Math.max(0, Math.min(index, max));
+      var step = cards[index].offsetLeft - cards[0].offsetLeft;
+      track.style.transform = 'translate3d(' + (-step) + 'px,0,0)';
+      if (currentLabel) currentLabel.textContent = String(index+1).padStart(2,'0');
+      if (progress) progress.style.width = ((index+1)/cards.length*100)+'%';
+      if (prev) prev.disabled = index===0;
+      if (next) next.disabled = index===max;
+    }
+    function onPrev(){index--;update();}
+    function onNext(){index++;update();}
+    if(prev) prev.addEventListener('click',onPrev);
+    if(next) next.addEventListener('click',onNext);
+    var resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(carousel);
+    root.__eHomeCleanup = function(){resizeObserver.disconnect();};
+    update();
+
+
+    var revealTargets = root.querySelectorAll('.about-top, .about-stat-card, .news-head-row, .news-featured-card, .news-side-card, .solutions-head-row, .sol-tile, .rsvc-intro, .rsvc-carousel, .trust-ticker-header, .trust-ticker-logo');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('is-shown'); revealObserver.unobserve(entry.target); }
+        });
+      }, {threshold:0.12});
+      revealTargets.forEach(function(el){el.classList.add('reveal-up');revealObserver.observe(el);});
+      var oldCleanup = root.__eHomeCleanup;
+      root.__eHomeCleanup = function(){revealObserver.disconnect();if(oldCleanup)oldCleanup();};
+    } else {
+      revealTargets.forEach(function(el){el.classList.add('is-shown');});
+    }
+
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEHomeServices, { once: true });
+  } else {
+    initEHomeServices();
+  }
+  document.addEventListener('shopify:section:load', function(event) {
+    if (event.target && event.target.querySelector && event.target.querySelector(E_HOME_SECTION_SELECTOR)) {
+      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
+      if (el) el.dataset.initialized = 'false';
+      initEHomeServices();
+    }
+  });
+  document.addEventListener('shopify:section:unload', function(event) {
+    if (event.target && event.target.querySelector) {
+      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
+      if (el) {
+        el.dataset.initialized = 'false';
+        if (el.__eHomeCleanup) el.__eHomeCleanup();
+      }
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Home services",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": "lg",
+      "options": [
+        {
+          "value": "0",
+          "label": "None"
+        },
+        {
+          "value": "xs",
+          "label": "Extra small"
+        },
+        {
+          "value": "sm",
+          "label": "Small"
+        },
+        {
+          "value": "md",
+          "label": "Medium"
+        },
+        {
+          "value": "lg",
+          "label": "Large"
+        },
+        {
+          "value": "xl",
+          "label": "Extra large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": "lg",
+      "options": [
+        {
+          "value": "0",
+          "label": "None"
+        },
+        {
+          "value": "xs",
+          "label": "Extra small"
+        },
+        {
+          "value": "sm",
+          "label": "Small"
+        },
+        {
+          "value": "md",
+          "label": "Medium"
+        },
+        {
+          "value": "lg",
+          "label": "Large"
+        },
+        {
+          "value": "xl",
+          "label": "Extra large"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Services"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Full-Lifecycle Engineering Services"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "End-to-end design, deployment, and security for mission-critical infrastructure."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Explore Our Services"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Fallback asset filename",
+          "default": "roctec-home-fcb7ac57.webp"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "System Design & Consultancy"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Architecting resilient network and security systems, evaluating infrastructure configuration to optimize performance across every deployment."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home services",
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "fallback_asset": "roctec-home-fcb7ac57.webp",
+            "image_alt": "System Design & Consultancy",
+            "title": "System Design & Consultancy",
+            "description": "Architecting resilient network and security systems, evaluating infrastructure configuration to optimize performance across every deployment."
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "fallback_asset": "roctec-home-cf186ffc.webp",
+            "image_alt": "Implementation & Deployment",
+            "title": "Implementation & Deployment",
+            "description": "Turnkey installation and network deployment customized to each client's needs, delivered on schedule by our engineering team."
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "fallback_asset": "roctec-home-80f7f7da.webp",
+            "image_alt": "24/7 Operations Support",
+            "title": "24/7 Operations Support",
+            "description": "Local technical team available around the clock, providing rapid-response monitoring that keeps mission-critical infrastructure online and performing."
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "fallback_asset": "roctec-home-2690d4cd.webp",
+            "image_alt": "Managed Infrastructure Security",
+            "title": "Managed Infrastructure Security",
+            "description": "Continuous firewall protection and connection health assessments that safeguard data networks end to end, mitigating risk daily."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

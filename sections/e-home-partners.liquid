@@ -1,0 +1,524 @@
+{%- comment -%}
+  Roctec homepage — Partners section
+  Source: Claude standalone homepage export.
+  CSS and JS are isolated to #e-home-partners.
+{%- endcomment -%}
+<section id="e-home-partners" class="trust-ticker skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-section-id="{{ section.id }}">
+
+  <div class="trust-ticker-inner">
+    <div class="trust-ticker-header"><p class="trust-ticker-eyebrow">{{ section.settings.heading | escape }}</p></div>
+    <div class="trust-ticker-carousel">
+      <div class="trust-ticker-track">
+        {% for block in section.blocks %}
+          <div aria-label="{{ block.settings.name | escape }}" class="trust-ticker-logo" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 420 | image_tag: loading: 'lazy', alt: block.settings.name, widths: '120, 180, 240, 360, 420' }}
+            {% else %}
+              <img src="{{ block.settings.fallback_asset | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy">
+            {% endif %}
+          </div>
+        {% endfor %}
+        {% for block in section.blocks %}
+          <div aria-label="{{ block.settings.name | escape }}" class="trust-ticker-logo" aria-hidden="true">
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 420 | image_tag: loading: 'lazy', alt: '', widths: '120, 180, 240, 360, 420' }}
+            {% else %}
+              <img src="{{ block.settings.fallback_asset | asset_url }}" alt="" loading="lazy">
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+#e-home-partners {
+--color-primary: #249E6B;
+--color-primary-hover: #2E7D4E;
+--color-action: #2E7D4E;
+--color-action-hover: #25663F;
+--color-success: #2E7D4E;
+--color-warning: #F4A261;
+--color-error: #E63946;
+--color-info: #457B9D;
+--color-text: #111111;
+--color-text-strong: #1B1B1B;
+--color-text-secondary: #4A4A4A;
+--color-text-muted: #6E6E6E;
+--color-text-placeholder: #8C8C8C;
+--color-surface-subtle: #F1F1F1;
+--color-surface-subtle-hover: #E7E7E7;
+--color-focus-ring: rgba(46, 125, 78, 0.12);
+--color-border-strong: #C9C9C9;
+--color-surface: #FFFFFF;
+--color-surface-muted: #F7F7F7;
+--color-border: #E4E4E4;
+--color-surface-brand: #124F35;
+--color-surface-brand-light: #16603F;
+--color-surface-brand-mid: var(--color-surface-brand);
+--color-surface-brand-dark: #0C3826;
+--color-surface-inverse: #0D120F;
+--color-surface-inverse-raised: #131A16;
+--color-border-inverse: rgba(255, 255, 255, 0.1);
+--color-border-accent: #249E6B;
+--color-text-inverse: #FFFFFF;
+--color-text-inverse-muted: rgba(255, 255, 255, 0.62);
+--font-en: "Roboto", Arial, sans-serif;
+--font-base: "Roboto", Arial, sans-serif;
+--font-weight-regular: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+--text-display: clamp(4rem, 2.5rem + 5.6vw, 7.25rem);
+--text-h1: 3.25rem;
+--text-h2: 2.5rem;
+--text-h3: 1.75rem;
+--text-h4: 1.5rem;
+--text-h5: 1.25rem;
+--text-h6: 1.0625rem;
+--text-lg: 1.25rem;
+--text-base: 1.125rem;
+--text-sm: 1rem;
+--text-xs: 0.875rem;
+--text-eyebrow-sm: 0.75rem;
+--space-1: 4px;
+--space-2: 8px;
+--space-3: 12px;
+--space-4: 16px;
+--space-5: 20px;
+--space-6: 24px;
+--space-7: 28px;
+--space-8: 32px;
+--space-10: 40px;
+--space-12: 48px;
+--space-16: 64px;
+--space-24: 96px;
+--head-gap: 40px;
+--head-gap-lg: 64px;
+--section-pad: 96px;
+--section-pad-mobile: 64px;
+--hero-clear-display: calc(var(--header-height) + var(--space-24) + var(--space-6));
+--hero-clear-page: calc(var(--header-height) + var(--space-24) + var(--space-8));
+--hero-clear-tight: calc(var(--header-height) + var(--space-16));
+--container: 1280px;
+--radius-sm: 4px;
+--radius-md: 8px;
+--radius-lg: 16px;
+--radius-xl: 24px;
+--radius-pill: 999px;
+--touch-target: 44px;
+--header-height: 104px;
+--shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
+--shadow-md: 0 4px 12px rgba(17, 17, 17, 0.08);
+--motion-fast: 320ms;
+--motion-base: 320ms;
+--motion-medium: 320ms;
+--motion-slow: 320ms;
+--ease-standard: ease-out;
+}
+@keyframes e-home-partners-hero-scan {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(148px); opacity: 1; }
+}
+
+@keyframes e-home-partners-hero-radar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes e-home-partners-dot-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes e-home-partners-scroll-bob {
+  0%, 100% { cy: 10; opacity: 1; }
+  50% { cy: 28; opacity: 0.3; }
+}
+
+#e-home-partners {
+border-bottom: none;
+  padding-block: 58px;
+  background: #F7F7F7;
+  overflow: hidden;
+}
+
+#e-home-partners .trust-ticker-inner {
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 0;
+  gap: var(--space-7);
+}
+
+#e-home-partners .trust-ticker-header {
+width: 100%;
+  max-width: 1280px;
+  padding-inline: var(--space-12);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#e-home-partners .trust-ticker-eyebrow {
+letter-spacing: 0.18em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  margin: 0;
+}
+
+#e-home-partners .trust-ticker-carousel {
+width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+#e-home-partners .trust-ticker-track {
+display: flex;
+  align-items: center;
+  gap: 0;
+  width: max-content;
+  animation: e-home-partners-ticker-scroll 60s linear infinite;
+}
+
+#e-home-partners .trust-ticker-track:hover {
+animation-play-state: paused;
+}
+
+#e-home-partners .trust-ticker-logo {
+flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  padding: 0 var(--space-8);
+  opacity: 1;
+}
+
+#e-home-partners .trust-ticker-logo img {
+height: 80px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  opacity: 1;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+
+#e-home-partners .trust-ticker-logo:hover img {
+transform: scale(1.06);
+}
+
+@keyframes e-home-partners-ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 767px) {
+#e-home-partners {
+padding-block: 32px;
+}
+#e-home-partners .trust-ticker-logo {
+padding-inline: var(--space-5); height: 72px;
+}
+#e-home-partners .trust-ticker-inner {
+padding-block: 0; gap: var(--space-6);
+}
+#e-home-partners .trust-ticker-header {
+padding-inline: var(--space-6);
+}
+}
+
+#e-home-partners img { display:block; max-width:100%; }
+#e-home-partners .container { width:min(100% - 48px, 1280px); margin-inline:auto; }
+
+
+#e-home-partners .reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 500ms var(--ease-standard), transform 500ms var(--ease-standard);
+}
+#e-home-partners .reveal-up.is-shown {
+  opacity: 1;
+  transform: none;
+}
+</style>
+<script>
+(function() {
+  var eHomeSelector = '#e-home-partners[data-section-id="{{ section.id }}"]';
+  function initEHomePartners() {
+    var root = document.querySelector(eHomeSelector);
+    if (!root || root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    var revealTargets = root.querySelectorAll('.about-top, .about-stat-card, .news-head-row, .news-featured-card, .news-side-card, .solutions-head-row, .sol-tile, .rsvc-intro, .rsvc-carousel, .trust-ticker-header, .trust-ticker-logo');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('is-shown'); revealObserver.unobserve(entry.target); }
+        });
+      }, {threshold:0.12});
+      revealTargets.forEach(function(el){el.classList.add('reveal-up');revealObserver.observe(el);});
+      var oldCleanup = root.__eHomeCleanup;
+      root.__eHomeCleanup = function(){revealObserver.disconnect();if(oldCleanup)oldCleanup();};
+    } else {
+      revealTargets.forEach(function(el){el.classList.add('is-shown');});
+    }
+
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEHomePartners, {once:true});
+  else initEHomePartners();
+  document.addEventListener('shopify:section:load', function(e) {
+    if (e.target && e.target.querySelector && e.target.querySelector('#e-home-partners')) {
+      var node=e.target.querySelector('#e-home-partners'); node.dataset.initialized='false'; initEHomePartners();
+    }
+  });
+  document.addEventListener('shopify:section:unload', function(e) {
+    if(e.target && e.target.querySelector) {var node=e.target.querySelector('#e-home-partners');if(node && node.__eHomeCleanup)node.__eHomeCleanup();}
+  });
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "Home partners",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": "lg",
+      "options": [
+        {
+          "value": "0",
+          "label": "None"
+        },
+        {
+          "value": "xs",
+          "label": "Extra small"
+        },
+        {
+          "value": "sm",
+          "label": "Small"
+        },
+        {
+          "value": "md",
+          "label": "Medium"
+        },
+        {
+          "value": "lg",
+          "label": "Large"
+        },
+        {
+          "value": "xl",
+          "label": "Extra large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": "lg",
+      "options": [
+        {
+          "value": "0",
+          "label": "None"
+        },
+        {
+          "value": "xs",
+          "label": "Extra small"
+        },
+        {
+          "value": "sm",
+          "label": "Small"
+        },
+        {
+          "value": "md",
+          "label": "Medium"
+        },
+        {
+          "value": "lg",
+          "label": "Large"
+        },
+        {
+          "value": "xl",
+          "label": "Extra large"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Partners"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "partner",
+      "name": "Partner logo",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Partner name",
+          "default": "Fortinet"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Fallback asset filename",
+          "default": "roctec-home-eba9b804.png"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home partners",
+      "blocks": [
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Fortinet",
+            "fallback_asset": "roctec-home-eba9b804.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Aruba",
+            "fallback_asset": "roctec-home-4edba84f.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "H3C",
+            "fallback_asset": "roctec-home-a5f0cc1d.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Keewin",
+            "fallback_asset": "roctec-home-c784b0a3.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Dahua Technology",
+            "fallback_asset": "roctec-home-58158df9.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "RSTC",
+            "fallback_asset": "roctec-home-25256b8f.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "CASC",
+            "fallback_asset": "roctec-home-474556d2.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Palo Alto Networks",
+            "fallback_asset": "roctec-home-54dc73b8.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Arista",
+            "fallback_asset": "roctec-home-7590069b.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Infoblox",
+            "fallback_asset": "roctec-home-8951a89f.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "SonicWall",
+            "fallback_asset": "roctec-home-c6a1ec18.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "A10",
+            "fallback_asset": "roctec-home-2bfdb571.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Sangfor",
+            "fallback_asset": "roctec-home-84523c5a.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Ivanti",
+            "fallback_asset": "roctec-home-3a3f639d.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Hillstone Networks",
+            "fallback_asset": "roctec-home-7267bce7.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Radware",
+            "fallback_asset": "roctec-home-dd2d092a.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "APC by Schneider Electric",
+            "fallback_asset": "roctec-home-63a383cc.png"
+          }
+        },
+        {
+          "type": "partner",
+          "settings": {
+            "name": "Check Point",
+            "fallback_asset": "roctec-home-c8526cb1.png"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
