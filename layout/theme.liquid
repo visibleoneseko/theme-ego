@@ -18,7 +18,7 @@
 
     {{ 'skcssl.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'skjsl.js' | asset_url }}" defer></script>
-  </head>
+  {% include 'editorify' %} </head>
 <body id="{{ page_title | handleize }}" class="{{ template | replace: '.', '-' }}{% if template == "product" %} {{ product.handle | replace: '.', '-' }}{% endif %}{% if template == "collection" %} {{ collection.handle | replace: '.', '-'}}{% endif %}">
     {% sections 'header-group' %}
     <main
