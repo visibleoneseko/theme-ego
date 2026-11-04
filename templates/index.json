@@ -15,7 +15,6 @@
         "hero_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Beautiful-Girl-Wallpaper.jpg",
             "image_alt": "",
             "fallback_asset": "roctec-home-ce03e823.webp",
             "heading": "Precision System|Integration",
