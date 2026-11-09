@@ -11,12 +11,13 @@
   <!-- fontfamily from design -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Header hook for plugins -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
     {{ 'skcssl.css' | asset_url | stylesheet_tag }}
+    {{ 'global.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'skjsl.js' | asset_url }}" defer></script>
   </head>
 <body id="{{ page_title | handleize }}" class="{{ template | replace: '.', '-' }}{% if template == "product" %} {{ product.handle | replace: '.', '-' }}{% endif %}{% if template == "collection" %} {{ collection.handle | replace: '.', '-'}}{% endif %}">
