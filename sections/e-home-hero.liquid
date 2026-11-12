@@ -1,215 +1,16 @@
 {%- comment -%}
-  Roctec homepage — Hero section
-  Source: Claude standalone homepage export.
-  CSS and JS are isolated to #e-home-hero.
+  e-home-hero — Homepage hero carousel (Roctec)
+  Crossfade slides + headline swap + timed progress dots.
+  Custom vanilla JS (not Owl): the headline lives outside the slides and the
+  dots show a timed fill, which Owl does not provide natively.
 {%- endcomment -%}
-<section id="e-home-hero" class="hero skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-section-id="{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-interval="{{ section.settings.interval | times: 1000 }}">
-
-  <div aria-hidden="true" class="hero-slides">
-    {% for block in section.blocks %}
-      {% assign hero_image = block.settings.image %}
-      <div class="hero-slide{% if forloop.first %} is-active{% endif %}" data-header="{{ block.settings.heading | escape }}" data-slide="{{ forloop.index0 }}" data-subheader="{{ block.settings.subheading | escape }}" id="e-home-hero-slide-{{ section.id }}-{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-        {% if hero_image != blank %}
-          <img src="{{ hero_image | image_url: width: 2200 }}" alt="{{ block.settings.image_alt | default: hero_image.alt | escape }}" width="{{ hero_image.width }}" height="{{ hero_image.height }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-        {% else %}
-          <img src="{{ block.settings.fallback_asset | asset_url }}" alt="{{ block.settings.image_alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-        {% endif %}
-      </div>
-    {% endfor %}
-  </div>
-  <div class="container hero-body">
-    <div class="hero-copy">
-      <h1>{{ section.settings.heading | escape | newline_to_br }}</h1>
-      <p class="hero-subheader" data-hero-subheader>{{ section.settings.subheading | escape }}</p>
-      {% if section.settings.button_label != blank %}
-        <div class="hero-actions"><a class="btn btn-secondary" href="{{ section.settings.button_link | default: routes.root_url }}">{{ section.settings.button_label | escape }}</a></div>
-      {% endif %}
-      <div class="hero-controls">
-        <div aria-label="Banner navigation" class="hero-progress" role="tablist">
-          {% for block in section.blocks %}
-            <button aria-controls="e-home-hero-slide-{{ section.id }}-{{ forloop.index0 }}" aria-label="Banner {{ forloop.index }} of {{ section.blocks.size }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" class="hero-dot{% if forloop.first %} is-active{% endif %}" data-slide-index="{{ forloop.index0 }}" role="tab" type="button"><span class="hero-dot-fill"></span></button>
-          {% endfor %}
-        </div>
-        <button class="hero-arrow hero-prev" type="button" aria-label="Previous banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
-        <button class="hero-arrow hero-next" type="button" aria-label="Next banner"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
-      </div>
-    </div>
-  </div>
-
-</section>
-
+{%- liquid
+  assign interval = section.settings.interval | default: 10
+  assign slide_count = section.blocks.size
+-%}
 <style>
 #e-home-hero {
---color-primary: #249E6B;
---color-primary-hover: #2E7D4E;
---color-action: #2E7D4E;
---color-action-hover: #25663F;
---color-success: #2E7D4E;
---color-warning: #F4A261;
---color-error: #E63946;
---color-info: #457B9D;
---color-text: #111111;
---color-text-strong: #1B1B1B;
---color-text-secondary: #4A4A4A;
---color-text-muted: #6E6E6E;
---color-text-placeholder: #8C8C8C;
---color-surface-subtle: #F1F1F1;
---color-surface-subtle-hover: #E7E7E7;
---color-focus-ring: rgba(46, 125, 78, 0.12);
---color-border-strong: #C9C9C9;
---color-surface: #FFFFFF;
---color-surface-muted: #F7F7F7;
---color-border: #E4E4E4;
---color-surface-brand: #124F35;
---color-surface-brand-light: #16603F;
---color-surface-brand-mid: var(--color-surface-brand);
---color-surface-brand-dark: #0C3826;
---color-surface-inverse: #0D120F;
---color-surface-inverse-raised: #131A16;
---color-border-inverse: rgba(255, 255, 255, 0.1);
---color-border-accent: #249E6B;
---color-text-inverse: #FFFFFF;
---color-text-inverse-muted: rgba(255, 255, 255, 0.62);
---font-en: "Roboto", Arial, sans-serif;
---font-base: "Roboto", Arial, sans-serif;
---font-weight-regular: 400;
---font-weight-medium: 500;
---font-weight-semibold: 600;
---font-weight-bold: 700;
---text-display: clamp(4rem, 2.5rem + 5.6vw, 7.25rem);
---text-h1: 3.25rem;
---text-h2: 2.5rem;
---text-h3: 1.75rem;
---text-h4: 1.5rem;
---text-h5: 1.25rem;
---text-h6: 1.0625rem;
---text-lg: 1.25rem;
---text-base: 1.125rem;
---text-sm: 1rem;
---text-xs: 0.875rem;
---text-eyebrow-sm: 0.75rem;
---space-1: 4px;
---space-2: 8px;
---space-3: 12px;
---space-4: 16px;
---space-5: 20px;
---space-6: 24px;
---space-7: 28px;
---space-8: 32px;
---space-10: 40px;
---space-12: 48px;
---space-16: 64px;
---space-24: 96px;
---head-gap: 40px;
---head-gap-lg: 64px;
---section-pad: 96px;
---section-pad-mobile: 64px;
---hero-clear-display: calc(var(--header-height) + var(--space-24) + var(--space-6));
---hero-clear-page: calc(var(--header-height) + var(--space-24) + var(--space-8));
---hero-clear-tight: calc(var(--header-height) + var(--space-16));
---container: 1280px;
---radius-sm: 4px;
---radius-md: 8px;
---radius-lg: 16px;
---radius-xl: 24px;
---radius-pill: 999px;
---touch-target: 44px;
---header-height: 104px;
---shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
---shadow-md: 0 4px 12px rgba(17, 17, 17, 0.08);
---motion-fast: 320ms;
---motion-base: 320ms;
---motion-medium: 320ms;
---motion-slow: 320ms;
---ease-standard: ease-out;
-}
-#e-home-hero .container {
-max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-#e-home-hero .btn {
-display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  padding: 0 var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
-  font-weight: 700;
-  border: 1px solid transparent;
-  white-space: nowrap;
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  transition:
-    background var(--motion-base) var(--ease-standard),
-    border-color var(--motion-base) var(--ease-standard),
-    color var(--motion-base) var(--ease-standard),
-    box-shadow var(--motion-base) var(--ease-standard);
-}
-
-#e-home-hero .btn::before {
-content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 300ms ease-out;
-}
-
-#e-home-hero .btn:hover::before {
-transform: scaleX(1);
-}
-
-#e-home-hero .btn:hover {
-color: inherit;
-}
-
-#e-home-hero .btn:active::before {
-transition-duration: 80ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-#e-home-hero .btn::before {
-transition: none;
-}
-}
-
-#e-home-hero .btn-secondary {
-background: transparent;
-  color: var(--color-action);
-  border-color: var(--color-action);
-  border-radius: var(--radius-pill);
-}
-
-#e-home-hero .btn-secondary::before {
-background: var(--color-primary);
-}
-
-#e-home-hero .btn-secondary:hover {
-color: #fff;
-  border-color: var(--color-primary);
-}
-
-#e-home-hero .btn[disabled] {
-opacity: 0.4; cursor: not-allowed;
-}
-
-#e-home-hero .btn[disabled]:hover::before {
-transform: scaleX(0);
-}
-
-#e-home-hero .mobile-drawer .btn {
-margin-top: var(--space-8); align-self: flex-start; width: auto; display: none;
-}
-
-#e-home-hero {
-position: relative;
   background: var(--color-surface-inverse);
   color: var(--color-text-inverse);
   overflow: hidden;
@@ -217,58 +18,40 @@ position: relative;
   flex-direction: column;
   min-height: 100vh;
 }
-
 #e-home-hero .hero-slides {
-position: absolute; inset: 0; z-index: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
-
 #e-home-hero .hero-slide {
-position: absolute;
+  position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 1200ms var(--ease-standard);
 }
-
 #e-home-hero .hero-slide.is-active {
-opacity: 1;
+  opacity: 1;
 }
-
-#e-home-hero .hero-slide svg {
-width: 100%; height: 100%;
-}
-
 #e-home-hero .hero-slide img {
-width: 100%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   filter: brightness(0.9) contrast(1.02);
 }
-
 #e-home-hero .hero-slide::after {
-content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg,
-      rgba(10, 10, 10, 0.12) 0%,
-      rgba(10, 10, 10, 0.22) 55%,
-      rgba(10, 10, 10, 0.34) 100%),
-    rgba(10, 10, 10, 0.05);
+  linear-gradient(180deg,
+  rgba(10, 10, 10, 0.12) 0%,
+  rgba(10, 10, 10, 0.22) 55%,
+  rgba(10, 10, 10, 0.34) 100%),
+  rgba(10, 10, 10, 0.05);
 }
-
-@keyframes e-home-hero-hero-scan {
-  0%, 100% { transform: translateY(0); opacity: 0.35; }
-  50% { transform: translateY(148px); opacity: 1; }
-}
-
-@keyframes e-home-hero-hero-radar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 #e-home-hero .hero-body {
-position: relative;
+  position: relative;
   z-index: 1;
   flex: 1;
   display: flex;
@@ -277,16 +60,14 @@ position: relative;
   padding-top: var(--hero-clear-display);
   padding-inline: var(--space-6);
   width: 100%;
-  max-width: var(--container);
+  max-width: var(--e-container);
   margin-inline: auto;
 }
-
 #e-home-hero .hero-copy {
-max-width: 760px;
+  max-width: 760px;
 }
-
 #e-home-hero .hero-copy h1 {
-font-size: var(--text-display);
+  font-size: var(--text-display);
   font-weight: 500;
   line-height: 1;
   margin-bottom: var(--space-6);
@@ -294,43 +75,16 @@ font-size: var(--text-display);
   min-height: 2.2em;
   transition: opacity 400ms var(--ease-standard);
 }
-
 #e-home-hero .hero-copy h1.is-fading {
-opacity: 0;
+  opacity: 0;
 }
-
-#e-home-hero .hero-copy h1 em {
-font-style: normal;
-  color: #fff;
-}
-
-#e-home-hero .hero-subheader {
-font-size: var(--text-lg);
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 46ch;
-  margin-bottom: var(--space-8);
-  min-height: 3.2em;
-  transition: opacity 400ms var(--ease-standard);
-}
-
-#e-home-hero .hero-subheader.is-fading {
-opacity: 0;
-}
-
-#e-home-hero .hero-actions {
-display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-bottom: var(--space-12);
-}
-
 #e-home-hero .hero-controls {
-display: flex; align-items: center; gap: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
 }
-
 #e-home-hero .hero-arrow {
-width: 44px;
+  width: 44px;
   height: 44px;
   flex-shrink: 0;
   display: flex;
@@ -342,21 +96,20 @@ width: 44px;
   cursor: pointer;
   transition: color var(--motion-fast) var(--ease-standard);
 }
-
 #e-home-hero .hero-arrow svg {
-width: 22px; height: 22px;
+  width: 22px;
+  height: 22px;
 }
-
 #e-home-hero .hero-arrow:hover {
-color: #fff;
+  color: #fff;
 }
-
 #e-home-hero .hero-progress {
-display: flex; align-items: center; gap: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-
 #e-home-hero .hero-dot {
-position: relative;
+  position: relative;
   width: 18px;
   height: 44px;
   background: transparent;
@@ -365,15 +118,14 @@ position: relative;
   cursor: pointer;
   transition: width var(--motion-base) var(--ease-standard);
 }
-
 #e-home-hero .hero-dot.is-active {
-width: 56px;
+  width: 56px;
 }
-
 #e-home-hero .hero-dot::after {
-content: "";
+  content: '';
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   width: 10px;
   height: 10px;
   transform: translate(-50%, -50%);
@@ -382,13 +134,11 @@ content: "";
   background: rgba(214, 219, 224, 0.9);
   transition: all var(--motion-base) var(--ease-standard);
 }
-
 #e-home-hero .hero-dot:hover::after {
-background: #fff;
+  background: #fff;
 }
-
 #e-home-hero .hero-dot.is-active::after {
-left: 0;
+  left: 0;
   width: 100%;
   height: 7px;
   transform: translateY(-50%);
@@ -396,10 +146,10 @@ left: 0;
   border-radius: 3px;
   background: rgba(214, 219, 224, 0.9);
 }
-
-#e-home-hero .hero-e-home-hero-dot-fill {
-position: absolute;
-  left: 0; top: 50%;
+#e-home-hero .hero-dot-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
   transform: translateY(-50%);
   height: 7px;
   width: 0%;
@@ -408,486 +158,371 @@ position: absolute;
   z-index: 1;
   opacity: 0;
 }
-
-#e-home-hero .hero-dot.is-active .hero-e-home-hero-dot-fill {
-opacity: 1;
-  animation: e-home-hero-dot-fill 10s linear forwards;
+#e-home-hero .hero-dot.is-active .hero-dot-fill {
+  opacity: 1;
+  animation: e-home-hero-dot-fill var(--hero-interval, 10s) linear forwards;
 }
-
-#e-home-hero .hero-dot.is-complete .hero-e-home-hero-dot-fill {
-width: 100%;
+#e-home-hero .hero-controls.is-paused .hero-dot.is-active .hero-dot-fill {
+  animation-play-state: paused;
 }
-
+@media (max-width: 1024px) {
+  #e-home-hero {
+    min-height: 100vh;
+  }
+  #e-home-hero .hero-body {
+    padding-left: var(--space-6);
+  }
+  #e-home-hero .hero-copy {
+    max-width: min(640px, calc(100vw - 380px));
+  }
+  #e-home-hero .hero-copy h1 {
+    font-size: clamp(3.5rem, 2.2rem + 5.4vw, 5.75rem);
+  }
+}
+@media (max-width: 767px) {
+  #e-home-hero .hero-body {
+    padding-inline: var(--space-6);
+    padding-bottom: var(--space-16);
+  }
+  #e-home-hero {
+    min-height: 100vh;
+  }
+  #e-home-hero .hero-copy h1 {
+    font-size: clamp(3rem, 2rem + 5.2vw, 4.5rem);
+  }
+}
+@media (max-width: 400px) {
+  #e-home-hero .hero-body {
+    padding-inline: var(--space-5);
+  }
+}
+@media (max-width: 767px) {
+  #e-home-hero .hero-copy {
+    max-width: 100%;
+  }
+}
+#e-home-hero .hero-slide .placeholder-svg {
+  width: 100%;
+  height: 100%;
+  background: #1f2a24;
+  fill: rgba(255, 255, 255, 0.25);
+}
+#e-home-hero .hero-controls[hidden] { display: none; }
 @keyframes e-home-hero-dot-fill {
   from { width: 0%; }
   to { width: 100%; }
 }
-
-#e-home-hero .hero-controls.is-paused .hero-dot.is-active .hero-e-home-hero-dot-fill {
-animation-play-state: paused;
-}
-
-#e-home-hero .hero-play-toggle {
-width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border-inverse);
-  background: transparent;
-  color: var(--color-text-inverse-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: border-color var(--motion-fast) var(--ease-standard),
-              color var(--motion-fast) var(--ease-standard);
-}
-
-#e-home-hero .hero-play-toggle:hover {
-color: var(--color-text-inverse);
-  border-color: var(--color-primary);
-}
-
-#e-home-hero .hero-play-toggle svg {
-width: 16px; height: 16px;
-}
-
-@keyframes e-home-hero-scroll-bob {
-  0%, 100% { cy: 10; opacity: 1; }
-  50% { cy: 28; opacity: 0.3; }
-}
-
-@keyframes e-home-hero-ticker-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-#e-home-hero .about-cta .btn-secondary {
-background: #FFFFFF;
-  color: var(--color-text);
-  border-color: #FFFFFF;
-}
-
-#e-home-hero .about-cta .btn-secondary:hover {
-color: #fff;
-  border-color: var(--color-primary);
-}
-
-#e-home-hero .solutions-head-row .btn {
-flex-shrink: 0; margin-bottom: 0;
-}
-
-#e-home-hero .news-head-row .btn {
-flex-shrink: 0;
-}
-
-#e-home-hero .cta-panel .btn {
-width: 100%;
-}
-
-#e-home-hero .site-footer > .container {
-position: relative; z-index: 1; padding-inline: var(--space-6);
-}
-
-@media (max-width: 1024px) {
-#e-home-hero {
-min-height: 100vh;
-}
-#e-home-hero .hero-body {
-padding-left: var(--space-6);
-}
-#e-home-hero .hero-copy {
-max-width: min(640px, calc(100vw - 380px));
-}
-#e-home-hero .hero-copy h1 {
-font-size: clamp(3.5rem, 2.2rem + 5.4vw, 5.75rem);
-}
-#e-home-hero .header-actions .btn {
-display: none;
-}
-#e-home-hero .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-#e-home-hero .site-footer > .container {
-padding-inline: var(--space-6);
-}
-}
-
-@media (max-width: 767px) {
-#e-home-hero .container {
-padding-inline: var(--space-6);
-}
-#e-home-hero .hero-body {
-padding-inline: var(--space-6); padding-bottom: var(--space-16);
-}
-#e-home-hero {
-min-height: 100vh;
-}
-#e-home-hero .hero-copy h1 {
-font-size: clamp(3rem, 2rem + 5.2vw, 4.5rem);
-}
-#e-home-hero .hero-actions .btn {
-width: 100%;
-}
-#e-home-hero .solutions-head-row .btn {
-margin-left: 0; margin-bottom: 0;
-}
-#e-home-hero .news-head-row .btn {
-margin-left: 0;
-}
-#e-home-hero .cta-panel .btn {
-width: 100%;
-}
-#e-home-hero .cta-band-btns .btn {
-width: 100%;
-}
-#e-home-hero .header-actions .btn {
-display: none;
-}
-#e-home-hero .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-}
-
-@media (max-width: 400px) {
-#e-home-hero .container {
-padding-inline: var(--space-5);
-}
-#e-home-hero .hero-body {
-padding-inline: var(--space-5);
-}
-}
-
-@media (max-width: 767px) {
-#e-home-hero .hero-copy {
-max-width: 100%;
-}
-}
-
-#e-home-hero .ab-mission-cta .btn-secondary:first-child {
-background: #fff;
-  color: var(--color-action);
-  border-color: #fff;
-}
-
-#e-home-hero .ab-mission-cta .btn-secondary:first-child:hover {
-color: #fff; border-color: var(--color-primary);
-}
-
-@media (max-width: 1024px) {
-#e-home-hero .ab-mission-cta .btn-secondary {
-width: auto;
-    justify-content: center;
-    text-align: center;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-hero .ab-mission-cta .btn-secondary {
-width: 100%;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-hero .sv-cta-row .btn {
-width: 100%; max-width: 320px; justify-content: center;
-}
-}
-
-@media (max-width: 640px) {
-#e-home-hero .cr-submit-row .btn {
-width: 100%; justify-content: center;
-}
-}
-
-#e-home-hero .nf-copy .btn {
-margin-top: var(--space-4);
-}
-
-#e-home-hero .an-next .container {
-position: relative; z-index: 1;
-}
-
-#e-home-hero .an-thanks-inner .btn {
-margin-top: var(--space-4);
-}
-
-#e-home-hero .an-recog .section-head-split .btn {
-flex-shrink: 0;
-}
-
-@media (max-width: 560px) {
-#e-home-hero .fm-actions .btn {
-width: 100%;
-}
-}
-
-#e-home-hero img { display:block; max-width:100%; }
-#e-home-hero .container { width:min(100% - 48px, 1280px); margin-inline:auto; }
-
-
-#e-home-hero .reveal-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 500ms var(--ease-standard), transform 500ms var(--ease-standard);
-}
-#e-home-hero .reveal-up.is-shown {
-  opacity: 1;
-  transform: none;
-}
 </style>
 
+<section
+  id="e-home-hero"
+  class="e-home-hero hero skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="{{ section.settings.aria_label | escape }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-interval="{{ interval | times: 1000 }}"
+  style="--hero-interval: {{ interval }}s;"
+>
+  <div class="hero-slides" aria-hidden="true">
+    {%- for block in section.blocks -%}
+      {%- assign header_data = block.settings.heading | strip | escape | newline_to_br | strip_newlines | split: '<br />' | join: '|' -%}
+      <div
+        class="hero-slide{% if forloop.first %} is-active{% endif %}"
+        id="hero-slide-{{ section.id }}-{{ forloop.index0 }}"
+        data-slide="{{ forloop.index0 }}"
+        data-header="{{ header_data | escape }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.image != blank -%}
+          {%- if forloop.first -%}
+            {{ block.settings.image | image_url: width: 3000 | image_tag: widths: '750, 1100, 1500, 1920, 2400, 3000', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: block.settings.image.alt }}
+          {%- else -%}
+            {{ block.settings.image | image_url: width: 3000 | image_tag: widths: '750, 1100, 1500, 1920, 2400, 3000', sizes: '100vw', loading: 'lazy', alt: block.settings.image.alt }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="container hero-body">
+    <div class="hero-copy">
+      {%- assign first_slide = section.blocks.first -%}
+      <h1 id="hero-header-{{ section.id }}">
+        {%- if first_slide -%}{{ first_slide.settings.heading | strip | escape | newline_to_br | replace: '|', '<br>' }}{%- endif -%}
+      </h1>
+      <div class="hero-controls"{% if slide_count < 2 %} hidden{% endif %}>
+        <div class="hero-progress" role="tablist" aria-label="Banner navigation">
+          {%- for block in section.blocks -%}
+            <button
+              class="hero-dot{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="hero-slide-{{ section.id }}-{{ forloop.index0 }}"
+              aria-label="Banner {{ forloop.index }} of {{ slide_count }}"
+              data-slide-index="{{ forloop.index0 }}"
+            ><span class="hero-dot-fill"></span></button>
+          {%- endfor -%}
+        </div>
+        <button class="hero-arrow" data-hero-prev type="button" aria-label="Previous banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+        </button>
+        <button class="hero-arrow" data-hero-next type="button" aria-label="Next banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script>
-(function() {
-  var E_HOME_SECTION_ID = 'e-home-hero';
-  var E_HOME_SECTION_SELECTOR = '#' + E_HOME_SECTION_ID;
-  function initEHomeHero() {
-    var root = document.querySelector(E_HOME_SECTION_SELECTOR + '[data-section-id="{{ section.id }}"]');
-    if (!root || root.dataset.initialized === 'true') return;
-    root.dataset.initialized = 'true';
+(function () {
+  'use strict';
 
-    var slides = Array.prototype.slice.call(root.querySelectorAll('.hero-slide'));
-    var dots = Array.prototype.slice.call(root.querySelectorAll('.hero-dot'));
-    var heading = root.querySelector('h1');
-    var subheading = root.querySelector('[data-hero-subheader]');
-    var prev = root.querySelector('.hero-prev');
-    var next = root.querySelector('.hero-next');
-    var current = 0, timer = null, interval = Math.max(3000, Number(root.dataset.interval || 10000));
-    if (!slides.length) return;
-    function show(index) {
-      current = (index + slides.length) % slides.length;
-      slides.forEach(function(slide, i) {
-        slide.classList.toggle('is-active', i === current);
-        slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
-      });
-      dots.forEach(function(dot, i) {
-        dot.classList.toggle('is-active', i === current);
-        dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
-      });
-      var active = slides[current];
-      if (heading && active.dataset.header) heading.innerHTML = active.dataset.header.split('|').map(function(x){return x.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}).join('<br>');
-      if (subheading) subheading.textContent = active.dataset.subheader || '';
-    }
-    function stop(){ if(timer){window.clearInterval(timer);timer=null;} }
-    function start(){ stop(); if(root.dataset.autoplay !== 'false' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) timer=window.setInterval(function(){show(current+1);}, interval); }
-    dots.forEach(function(dot){dot.addEventListener('click',function(){show(Number(dot.dataset.slideIndex));start();});});
-    if(prev) prev.addEventListener('click',function(){show(current-1);start();});
-    if(next) next.addEventListener('click',function(){show(current+1);start();});
-    root.addEventListener('mouseenter',stop); root.addEventListener('mouseleave',start);
-    root.addEventListener('focusin',stop); root.addEventListener('focusout',start);
-    root.__eHomeCleanup = stop;
-    show(0); start();
+  if (!window.eHomeHero) {
+    window.eHomeHero = (function () {
+      var instances = {};
+      var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      function create(root) {
+        var slides = [].slice.call(root.querySelectorAll('.hero-slide'));
+        var dots = [].slice.call(root.querySelectorAll('.hero-dot'));
+        var header = root.querySelector('.hero-copy h1');
+        var controls = root.querySelector('.hero-controls');
+        var prevBtn = root.querySelector('[data-hero-prev]');
+        var nextBtn = root.querySelector('[data-hero-next]');
+        var INTERVAL = parseInt(root.getAttribute('data-interval'), 10) || 10000;
+        var playing = !reducedMotion && root.getAttribute('data-autoplay') === 'true';
+        var current = 0;
+        var timer = null;
+        var headerSwapTimeout = null;
+        var listeners = [];
 
-    var revealTargets = root.querySelectorAll('.about-top, .about-stat-card, .news-head-row, .news-featured-card, .news-side-card, .solutions-head-row, .sol-tile, .rsvc-intro, .rsvc-carousel, .trust-ticker-header, .trust-ticker-logo');
-    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) { entry.target.classList.add('is-shown'); revealObserver.unobserve(entry.target); }
+        if (!slides.length) return { destroy: function () {}, goTo: function () {}, pause: function () {}, resume: function () {} };
+
+        function on(el, type, fn) {
+          if (!el) return;
+          el.addEventListener(type, fn);
+          listeners.push([el, type, fn]);
+        }
+
+        function setHeader(text) {
+          if (!header || !text) return;
+          var html = text.split('|').join('<br>');
+          if (header.innerHTML === html) return;
+          header.classList.add('is-fading');
+          clearTimeout(headerSwapTimeout);
+          headerSwapTimeout = setTimeout(function () {
+            header.innerHTML = html; /* data-header is HTML-escaped in Liquid */
+            header.classList.remove('is-fading');
+          }, reducedMotion ? 0 : 250);
+        }
+
+        function restartFill(dot) {
+          var fill = dot && dot.querySelector('.hero-dot-fill');
+          if (fill) { fill.style.animation = 'none'; void fill.offsetWidth; fill.style.animation = ''; }
+        }
+
+        function goTo(i) {
+          if (i === current && slides[i].classList.contains('is-active')) return;
+          current = i;
+          slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
+          dots.forEach(function (d, idx) {
+            d.setAttribute('aria-selected', idx === i ? 'true' : 'false');
+            if (idx === i) {
+              d.classList.remove('is-active');
+              restartFill(d);
+              d.classList.add('is-active');
+            } else {
+              d.classList.remove('is-active');
+            }
+          });
+          setHeader(slides[i].getAttribute('data-header'));
+        }
+
+        function stop() {
+          if (timer) { clearInterval(timer); timer = null; }
+          if (controls) controls.classList.add('is-paused');
+        }
+
+        function start() {
+          if (reducedMotion || !playing || slides.length < 2) return;
+          stop();
+          if (controls) controls.classList.remove('is-paused');
+          timer = setInterval(function () { goTo((current + 1) % slides.length); }, INTERVAL);
+        }
+
+        function step(delta) {
+          goTo((current + delta + slides.length) % slides.length);
+          if (playing) start();
+        }
+
+        dots.forEach(function (d, i) {
+          on(d, 'click', function () { goTo(i); if (playing) start(); });
         });
-      }, {threshold:0.12});
-      revealTargets.forEach(function(el){el.classList.add('reveal-up');revealObserver.observe(el);});
-      var oldCleanup = root.__eHomeCleanup;
-      root.__eHomeCleanup = function(){revealObserver.disconnect();if(oldCleanup)oldCleanup();};
-    } else {
-      revealTargets.forEach(function(el){el.classList.add('is-shown');});
-    }
+        on(prevBtn, 'click', function () { step(-1); });
+        on(nextBtn, 'click', function () { step(1); });
+        on(root, 'mouseenter', stop);
+        on(root, 'mouseleave', function () { if (playing) start(); });
+        on(root, 'focusin', stop);
+        on(root, 'focusout', function () {
+          if (playing && !root.contains(document.activeElement)) start();
+        });
 
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEHomeHero, { once: true });
-  } else {
-    initEHomeHero();
-  }
-  document.addEventListener('shopify:section:load', function(event) {
-    if (event.target && event.target.querySelector && event.target.querySelector(E_HOME_SECTION_SELECTOR)) {
-      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
-      if (el) el.dataset.initialized = 'false';
-      initEHomeHero();
-    }
-  });
-  document.addEventListener('shopify:section:unload', function(event) {
-    if (event.target && event.target.querySelector) {
-      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
-      if (el) {
-        el.dataset.initialized = 'false';
-        if (el.__eHomeCleanup) el.__eHomeCleanup();
+        /* Force-restart the first dot's fill animation on load */
+        restartFill(dots[0]);
+        if (playing) start();
+        else if (controls) controls.classList.add('is-paused');
+
+        return {
+          goTo: goTo,
+          pause: stop,
+          resume: function () { if (playing) start(); },
+          destroy: function () {
+            stop();
+            clearTimeout(headerSwapTimeout);
+            listeners.forEach(function (l) { l[0].removeEventListener(l[1], l[2]); });
+            listeners = [];
+            root.removeAttribute('data-e-init');
+          }
+        };
       }
-    }
-  });
+
+      function rootFor(sectionId) {
+        var wrap = document.getElementById('shopify-section-' + sectionId);
+        return wrap ? wrap.querySelector('.e-home-hero') : null;
+      }
+
+      function mount(sectionId) {
+        var root = rootFor(sectionId);
+        if (!root || root.hasAttribute('data-e-init')) return;
+        root.setAttribute('data-e-init', '');
+        instances[sectionId] = create(root);
+      }
+
+      function unmount(sectionId) {
+        if (instances[sectionId]) { instances[sectionId].destroy(); delete instances[sectionId]; }
+      }
+
+      /* Theme Editor support */
+      document.addEventListener('shopify:section:load', function (e) { mount(e.detail.sectionId); });
+      document.addEventListener('shopify:section:unload', function (e) { unmount(e.detail.sectionId); });
+      document.addEventListener('shopify:block:select', function (e) {
+        var inst = instances[e.detail.sectionId];
+        if (!inst) return;
+        var slide = e.target.closest ? e.target.closest('.hero-slide') : null;
+        if (!slide) return;
+        inst.pause();
+        inst.goTo(parseInt(slide.getAttribute('data-slide'), 10) || 0);
+      });
+      document.addEventListener('shopify:block:deselect', function (e) {
+        var inst = instances[e.detail.sectionId];
+        if (inst) inst.resume();
+      });
+
+      return { mount: mount, unmount: unmount };
+    })();
+  }
+
+  window.eHomeHero.mount('{{ section.id }}');
 })();
 </script>
 
 {% schema %}
 {
-  "name": "Home hero",
+  "name": "Home – Hero",
   "settings": [
     {
       "type": "select",
       "id": "padding_top",
-      "label": "Padding top",
-      "default": "lg",
+      "label": "Padding Top",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
       "type": "select",
       "id": "padding_bottom",
-      "label": "Padding bottom",
-      "default": "lg",
+      "label": "Padding Bottom",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
-      "type": "textarea",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Precision System\nIntegration"
+      "type": "paragraph",
+      "content": "The mockup design is full-bleed: set both paddings to 0."
     },
     {
       "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "40 years of engineering trust in HK."
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button label",
-      "default": "Explore our capabilities"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button link"
+      "id": "aria_label",
+      "label": "Carousel label (screen readers)",
+      "default": "Roctec capability highlights"
     },
     {
       "type": "checkbox",
       "id": "autoplay",
-      "label": "Autoplay slides",
+      "label": "Auto-rotate slides",
       "default": true
     },
     {
       "type": "range",
       "id": "interval",
-      "label": "Autoplay interval (seconds)",
-      "min": 3,
+      "label": "Time per slide",
+      "min": 4,
       "max": 15,
       "step": 1,
+      "unit": "s",
       "default": 10
     }
   ],
   "blocks": [
     {
       "type": "slide",
-      "name": "Hero slide",
+      "name": "Slide",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Slide image"
+          "label": "Background image",
+          "info": "Recommended 2880 × 1800 px or larger."
         },
         {
-          "type": "text",
-          "id": "image_alt",
-          "label": "Image alt text"
-        },
-        {
-          "type": "text",
-          "id": "fallback_asset",
-          "label": "Fallback asset filename",
-          "default": "roctec-home-ce03e823.webp"
-        },
-        {
-          "type": "text",
+          "type": "textarea",
           "id": "heading",
-          "label": "Slide heading",
-          "default": "Precision System|Integration"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Slide subheading",
-          "default": "40 years of engineering trust in HK."
+          "label": "Heading",
+          "info": "Press Enter for a line break.",
+          "default": "Precision System\nIntegration"
         }
       ]
     }
   ],
+  "max_blocks": 6,
   "presets": [
     {
-      "name": "e-home-hero",
+      "name": "Home – Hero",
+      "settings": {
+        "padding_top": "0",
+        "padding_bottom": "0"
+      },
       "blocks": [
-        {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "roctec-home-ce03e823.webp",
-            "heading": "Precision System|Integration",
-            "subheading": "40 years of engineering trust in HK."
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "roctec-home-20b212f2.webp",
-            "heading": "Engineered for|the Rails",
-            "subheading": "Optimizing rail and transport networks."
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "fallback_asset": "roctec-home-f2be6c11.webp",
-            "heading": "Built for|Smart Cities",
-            "subheading": "Intelligent IoT and Smart City systems."
-          }
-        }
+        { "type": "slide", "settings": { "heading": "Precision System\nIntegration" } },
+        { "type": "slide", "settings": { "heading": "Engineered for\nthe Rails" } },
+        { "type": "slide", "settings": { "heading": "Built for\nSmart Cities" } }
       ]
     }
   ]

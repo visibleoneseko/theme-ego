@@ -1,97 +1,80 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "home_hero": {
+    "hero": {
       "type": "e-home-hero",
+      "settings": {
+        "padding_top": "0",
+        "padding_bottom": "0",
+        "aria_label": "Roctec capability highlights",
+        "autoplay": true,
+        "interval": 10
+      },
       "blocks": {
-        "hero_1": {
+        "slide_1": {
           "type": "slide",
           "settings": {
-            "image_alt": "",
-            "fallback_asset": "roctec-home-ce03e823.webp",
-            "heading": "Precision System|Integration",
-            "subheading": "40 years of engineering trust in HK."
+            "heading": "Precision System\nIntegration"
           }
         },
-        "hero_2": {
+        "slide_2": {
           "type": "slide",
           "settings": {
-            "image_alt": "",
-            "fallback_asset": "roctec-home-20b212f2.webp",
-            "heading": "Engineered for|the Rails",
-            "subheading": "Optimizing rail and transport networks."
+            "heading": "Engineered for\nthe Rails"
           }
         },
-        "hero_3": {
+        "slide_3": {
           "type": "slide",
           "settings": {
-            "image_alt": "",
-            "fallback_asset": "roctec-home-f2be6c11.webp",
-            "heading": "Built for|Smart Cities",
-            "subheading": "Intelligent IoT and Smart City systems."
+            "heading": "Built for\nSmart Cities"
           }
         }
       },
       "block_order": [
-        "hero_1",
-        "hero_2",
-        "hero_3"
-      ],
-      "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
-        "heading": "Precision System\nIntegration",
-        "subheading": "40 years of engineering trust in HK.",
-        "button_label": "Explore our capabilities",
-        "button_link": "",
-        "autoplay": true,
-        "interval": 10
-      }
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ]
     },
-    "home_about": {
+    "about": {
       "type": "e-home-about",
+      "settings": {
+        "padding_top": "xl",
+        "padding_bottom": "xl",
+        "heading": "Four Decades of Engineering Excellence",
+        "text": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
+        "button_label": "Our Full Story",
+        "button_link": "/pages/about-us"
+      },
       "blocks": {
         "stat_1": {
-          "type": "stat",
+          "type": "stat_counter",
           "settings": {
-            "prefix": "",
-            "value": "38",
+            "number": 38,
             "suffix": "+",
             "label": "Years of Project Heritage"
           }
         },
         "stat_2": {
-          "type": "stat",
+          "type": "stat_counter",
           "settings": {
-            "prefix": "",
-            "value": "120",
+            "number": 120,
             "suffix": "+",
             "label": "Infrastructure Projects"
           }
         },
         "stat_3": {
-          "type": "stat",
+          "type": "stat_pair",
           "settings": {
-            "prefix": "",
-            "value": "24",
-            "suffix": "/7",
+            "number_1": 24,
+            "separator": "/",
+            "number_2": 7,
             "label": "Operations Support"
           }
         },
         "stat_4": {
-          "type": "stat",
+          "type": "stat_text",
           "settings": {
-            "prefix": "",
-            "value": "AAA",
-            "suffix": "",
+            "text": "ISO",
             "label": "Quality Aligned"
           }
         }
@@ -101,165 +84,107 @@
         "stat_2",
         "stat_3",
         "stat_4"
-      ],
-      "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
-        "heading": "Four Decades of Engineering Excellence",
-        "description": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
-        "button_label": "Our Full Story",
-        "button_link": ""
-      }
+      ]
     },
-    "home_news": {
+    "news": {
       "type": "e-home-news",
-      "blocks": {
-        "article_1": {
-          "type": "article",
-          "settings": {
-            "fallback_asset": "roctec-home-5b98868f.webp",
-            "image_alt": "2026 Fortinet Accelerate",
-            "date": "June 3, 2026",
-            "title": "2026 Fortinet Accelerate",
-            "link": ""
-          }
-        },
-        "article_2": {
-          "type": "article",
-          "settings": {
-            "fallback_asset": "roctec-home-2bbc3557.webp",
-            "image_alt": "2026 Roctec Annual Dinner",
-            "date": "May 21, 2026",
-            "title": "2026 Roctec's Annual Dinner",
-            "link": ""
-          }
-        },
-        "article_3": {
-          "type": "article",
-          "settings": {
-            "fallback_asset": "roctec-home-0cb33a73.webp",
-            "image_alt": "Tung Wah 15th Ann Gala Dinner",
-            "date": "May 21, 2026",
-            "title": "Tung Wah 15th Ann Gala Dinner",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "article_1",
-        "article_2",
-        "article_3"
-      ],
       "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
+        "padding_top": "xl",
+        "padding_bottom": "xl",
         "eyebrow": "NEWS & AUTHORITY",
         "heading": "Recent Milestones, Ongoing Recognition",
-        "subheading": "Industry recognition and new partnerships, updated as Roctec's work continues to grow.",
+        "subtitle": "Industry recognition and new partnerships, updated as Roctec's work continues to grow.",
         "button_label": "View All News",
-        "button_link": "",
-        "featured_fallback": "roctec-home-c8df52d4.webp",
-        "featured_alt": "Roctec at MTR AI Station Hotline award ceremony",
-        "featured_date": "May 21, 2026",
-        "featured_title": "Roctec Contributed to the Award-Winning AI Station Hotline Project and MTR．Care App Development",
-        "featured_link": ""
+        "button_link": "/blogs/news",
+        "blog": "news",
+        "side_count": 3
       }
     },
-    "home_solutions": {
+    "solutions": {
       "type": "e-home-solutions",
-      "blocks": {
-        "solution_1": {
-          "type": "solution",
-          "settings": {
-            "fallback_asset": "roctec-home-0a8edc37.webp",
-            "image_alt": "Network security infrastructure",
-            "eyebrow": "NETWORK SECURITY",
-            "title": "Network Security Infrastructure & Connectivity Gateways",
-            "deployed_in": "Lingnan University, Hong Kong",
-            "scale": "Campus-wide wireless & firewall infrastructure",
-            "cta_label": "Learn more",
-            "link": ""
-          }
-        },
-        "solution_2": {
-          "type": "solution",
-          "settings": {
-            "fallback_asset": "roctec-home-785fa87e.webp",
-            "image_alt": "Passenger information display",
-            "eyebrow": "PASSENGER SYSTEMS",
-            "title": "Passenger Information Display System (PIDS)",
-            "deployed_in": "Hong Kong & Singapore",
-            "scale": "1,000+ units across MTR & LRT networks",
-            "cta_label": "Learn more",
-            "link": ""
-          }
-        },
-        "solution_3": {
-          "type": "solution",
-          "settings": {
-            "fallback_asset": "roctec-home-732d4f6b.webp",
-            "image_alt": "AI-aided driving simulation",
-            "eyebrow": "RAIL SIMULATION",
-            "title": "AI-Aided Driving Simulation System",
-            "deployed_in": "Hong Kong",
-            "scale": "All 10 HK train types simulated",
-            "cta_label": "Learn more",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "solution_1",
-        "solution_2",
-        "solution_3"
-      ],
       "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
+        "padding_top": "xl",
+        "padding_bottom": "xl",
         "eyebrow": "ROCTEC SOLUTIONS",
         "heading": "Systems Engineered for Scale",
         "subheading": "Mission-critical platforms for HK networks.",
         "button_label": "View All Solutions",
-        "button_link": ""
-      }
+        "button_link": "/pages/solutions",
+        "tile_cta_label": "Learn more"
+      },
+      "blocks": {
+        "tile_1": {
+          "type": "tile",
+          "settings": {
+            "eyebrow": "NETWORK SECURITY",
+            "title": "Network Security Infrastructure & Connectivity Gateways",
+            "details": "<p><strong>Deployed in:</strong> Lingnan University, Hong Kong</p><p><strong>Scale:</strong> Campus-wide wireless &amp; firewall infrastructure</p>",
+            "link": "/pages/solutions"
+          }
+        },
+        "tile_2": {
+          "type": "tile",
+          "settings": {
+            "eyebrow": "PASSENGER SYSTEMS",
+            "title": "Passenger Information Display System (PIDS)",
+            "details": "<p><strong>Deployed in:</strong> Hong Kong &amp; Singapore</p><p><strong>Scale:</strong> 1,000+ units across MTR &amp; LRT networks</p>",
+            "link": "/pages/solutions"
+          }
+        },
+        "tile_3": {
+          "type": "tile",
+          "settings": {
+            "eyebrow": "RAIL SIMULATION",
+            "title": "AI-Aided Driving Simulation System",
+            "details": "<p><strong>Deployed in:</strong> Hong Kong</p><p><strong>Scale:</strong> All 10 HK train types simulated</p>",
+            "link": "/pages/solutions"
+          }
+        }
+      },
+      "block_order": [
+        "tile_1",
+        "tile_2",
+        "tile_3"
+      ]
     },
-    "home_services": {
+    "services": {
       "type": "e-home-services",
+      "settings": {
+        "padding_top": "xl",
+        "padding_bottom": "xl",
+        "eyebrow": "Services",
+        "heading": "Full-Lifecycle Engineering Services",
+        "text": "End-to-end design, deployment, and security for mission-critical infrastructure.",
+        "button_label": "Explore Our Services",
+        "button_link": "/pages/services"
+      },
       "blocks": {
         "service_1": {
           "type": "service",
           "settings": {
-            "fallback_asset": "roctec-home-fcb7ac57.webp",
-            "image_alt": "System Design & Consultancy",
             "title": "System Design & Consultancy",
-            "description": "Architecting resilient network and security systems, evaluating infrastructure configuration to optimize performance across every deployment."
+            "text": "Architecting resilient network and security systems, evaluating infrastructure configuration to optimize performance across every deployment."
           }
         },
         "service_2": {
           "type": "service",
           "settings": {
-            "fallback_asset": "roctec-home-cf186ffc.webp",
-            "image_alt": "Implementation & Deployment",
             "title": "Implementation & Deployment",
-            "description": "Turnkey installation and network deployment customized to each client's needs, delivered on schedule by our engineering team."
+            "text": "Turnkey installation and network deployment customized to each client's needs, delivered on schedule by our engineering team."
           }
         },
         "service_3": {
           "type": "service",
           "settings": {
-            "fallback_asset": "roctec-home-80f7f7da.webp",
-            "image_alt": "24/7 Operations Support",
             "title": "24/7 Operations Support",
-            "description": "Local technical team available around the clock, providing rapid-response monitoring that keeps mission-critical infrastructure online and performing."
+            "text": "Local technical team available around the clock, providing rapid-response monitoring that keeps mission-critical infrastructure online and performing."
           }
         },
         "service_4": {
           "type": "service",
           "settings": {
-            "fallback_asset": "roctec-home-2690d4cd.webp",
-            "image_alt": "Managed Infrastructure Security",
             "title": "Managed Infrastructure Security",
-            "description": "Continuous firewall protection and connection health assessments that safeguard data networks end to end, mitigating risk daily."
+            "text": "Continuous firewall protection and connection health assessments that safeguard data networks end to end, mitigating risk daily."
           }
         }
       },
@@ -268,180 +193,169 @@
         "service_2",
         "service_3",
         "service_4"
-      ],
-      "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
-        "eyebrow": "Services",
-        "heading": "Full-Lifecycle Engineering Services",
-        "subheading": "End-to-end design, deployment, and security for mission-critical infrastructure.",
-        "button_label": "Explore Our Services",
-        "button_link": ""
-      }
+      ]
     },
-    "home_partners": {
+    "partners": {
       "type": "e-home-partners",
+      "settings": {
+        "padding_top": "md",
+        "padding_bottom": "md",
+        "eyebrow": "Our Partners",
+        "aria_label": "Business partners",
+        "speed": 60
+      },
       "blocks": {
-        "partner_1": {
-          "type": "partner",
+        "logo_1": {
+          "type": "logo",
           "settings": {
-            "name": "Fortinet",
-            "fallback_asset": "roctec-home-eba9b804.png"
+            "name": "Fortinet"
           }
         },
-        "partner_2": {
-          "type": "partner",
+        "logo_2": {
+          "type": "logo",
           "settings": {
-            "name": "Aruba",
-            "fallback_asset": "roctec-home-4edba84f.png"
+            "name": "Aruba"
           }
         },
-        "partner_3": {
-          "type": "partner",
+        "logo_3": {
+          "type": "logo",
           "settings": {
-            "name": "H3C",
-            "fallback_asset": "roctec-home-a5f0cc1d.png"
+            "name": "H3C"
           }
         },
-        "partner_4": {
-          "type": "partner",
+        "logo_4": {
+          "type": "logo",
           "settings": {
-            "name": "Keewin",
-            "fallback_asset": "roctec-home-c784b0a3.png"
+            "name": "Keewin"
           }
         },
-        "partner_5": {
-          "type": "partner",
+        "logo_5": {
+          "type": "logo",
           "settings": {
-            "name": "Dahua Technology",
-            "fallback_asset": "roctec-home-58158df9.png"
+            "name": "Dahua Technology"
           }
         },
-        "partner_6": {
-          "type": "partner",
+        "logo_6": {
+          "type": "logo",
           "settings": {
-            "name": "RSTC",
-            "fallback_asset": "roctec-home-25256b8f.png"
+            "name": "RSTC"
           }
         },
-        "partner_7": {
-          "type": "partner",
+        "logo_7": {
+          "type": "logo",
           "settings": {
-            "name": "CASC",
-            "fallback_asset": "roctec-home-474556d2.png"
+            "name": "CASC"
           }
         },
-        "partner_8": {
-          "type": "partner",
+        "logo_8": {
+          "type": "logo",
           "settings": {
-            "name": "Palo Alto Networks",
-            "fallback_asset": "roctec-home-54dc73b8.png"
+            "name": "Palo Alto Networks"
           }
         },
-        "partner_9": {
-          "type": "partner",
+        "logo_9": {
+          "type": "logo",
           "settings": {
-            "name": "Arista",
-            "fallback_asset": "roctec-home-7590069b.png"
+            "name": "Arista"
           }
         },
-        "partner_10": {
-          "type": "partner",
+        "logo_10": {
+          "type": "logo",
           "settings": {
-            "name": "Infoblox",
-            "fallback_asset": "roctec-home-8951a89f.png"
+            "name": "Infoblox"
           }
         },
-        "partner_11": {
-          "type": "partner",
+        "logo_11": {
+          "type": "logo",
           "settings": {
-            "name": "SonicWall",
-            "fallback_asset": "roctec-home-c6a1ec18.png"
+            "name": "SonicWall"
           }
         },
-        "partner_12": {
-          "type": "partner",
+        "logo_12": {
+          "type": "logo",
           "settings": {
-            "name": "A10",
-            "fallback_asset": "roctec-home-2bfdb571.png"
+            "name": "A10"
           }
         },
-        "partner_13": {
-          "type": "partner",
+        "logo_13": {
+          "type": "logo",
           "settings": {
-            "name": "Sangfor",
-            "fallback_asset": "roctec-home-84523c5a.png"
+            "name": "Sangfor"
           }
         },
-        "partner_14": {
-          "type": "partner",
+        "logo_14": {
+          "type": "logo",
           "settings": {
-            "name": "Ivanti",
-            "fallback_asset": "roctec-home-3a3f639d.png"
+            "name": "Ivanti"
           }
         },
-        "partner_15": {
-          "type": "partner",
+        "logo_15": {
+          "type": "logo",
           "settings": {
-            "name": "Hillstone Networks",
-            "fallback_asset": "roctec-home-7267bce7.png"
+            "name": "Hillstone Networks"
           }
         },
-        "partner_16": {
-          "type": "partner",
+        "logo_16": {
+          "type": "logo",
           "settings": {
-            "name": "Radware",
-            "fallback_asset": "roctec-home-dd2d092a.png"
+            "name": "Radware"
           }
         },
-        "partner_17": {
-          "type": "partner",
+        "logo_17": {
+          "type": "logo",
           "settings": {
-            "name": "APC by Schneider Electric",
-            "fallback_asset": "roctec-home-63a383cc.png"
+            "name": "APC by Schneider Electric"
           }
         },
-        "partner_18": {
-          "type": "partner",
+        "logo_18": {
+          "type": "logo",
           "settings": {
-            "name": "Check Point",
-            "fallback_asset": "roctec-home-c8526cb1.png"
+            "name": "Check Point"
           }
         }
       },
       "block_order": [
-        "partner_1",
-        "partner_2",
-        "partner_3",
-        "partner_4",
-        "partner_5",
-        "partner_6",
-        "partner_7",
-        "partner_8",
-        "partner_9",
-        "partner_10",
-        "partner_11",
-        "partner_12",
-        "partner_13",
-        "partner_14",
-        "partner_15",
-        "partner_16",
-        "partner_17",
-        "partner_18"
-      ],
+        "logo_1",
+        "logo_2",
+        "logo_3",
+        "logo_4",
+        "logo_5",
+        "logo_6",
+        "logo_7",
+        "logo_8",
+        "logo_9",
+        "logo_10",
+        "logo_11",
+        "logo_12",
+        "logo_13",
+        "logo_14",
+        "logo_15",
+        "logo_16",
+        "logo_17",
+        "logo_18"
+      ]
+    },
+    "anniversary_card": {
+      "type": "e-home-anniversary-card",
       "settings": {
-        "padding_top": "lg",
-        "padding_bottom": "lg",
-        "heading": "Our Partners"
+        "padding_top": "0",
+        "padding_bottom": "0",
+        "enable": true,
+        "headline": "40 Years of Engineering Excellence",
+        "cta_label": "Learn More",
+        "cta_link": "/pages/40th-anniversary",
+        "aria_label": "40th anniversary highlight",
+        "remember_close": false
       }
     }
   },
   "order": [
-    "home_hero",
-    "home_about",
-    "home_news",
-    "home_solutions",
-    "home_services",
-    "home_partners"
+    "hero",
+    "about",
+    "news",
+    "solutions",
+    "services",
+    "partners",
+    "anniversary_card"
   ]
 }

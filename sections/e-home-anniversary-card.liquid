@@ -1,0 +1,330 @@
+{%- comment -%}
+  e-home-anniversary-card — Sticky 40th-anniversary card (Roctec homepage)
+  Fixed bottom-right card with close button. The section wrapper stays in
+  page flow, so keep both paddings at 0 (set in templates/index.json).
+{%- endcomment -%}
+<style>
+#e-home-anniversary-card .hf-anchor {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 200;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 18px 44px -18px rgba(6, 18, 12, 0.4),
+  0 6px 16px -10px rgba(6, 18, 12, 0.25);
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform var(--motion-medium) var(--ease-standard),
+  opacity var(--motion-medium) var(--ease-standard);
+}
+#e-home-anniversary-card .hf-anchor.is-closed {
+  transform: translateY(24px);
+  opacity: 0;
+  pointer-events: none;
+}
+#e-home-anniversary-card .hf-anchor:not(.is-closed):hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 56px -18px rgba(6, 18, 12, 0.5),
+  0 10px 22px -10px rgba(6, 18, 12, 0.32);
+}
+#e-home-anniversary-card .hf-anchor-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  transition: background var(--motion-base) var(--ease-standard);
+}
+#e-home-anniversary-card .hf-anchor-close:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+#e-home-anniversary-card .hf-anchor-close svg {
+  width: 16px;
+  height: 16px;
+}
+#e-home-anniversary-card .hf-anchor-media {
+  padding: var(--space-2);
+}
+#e-home-anniversary-card .hf-anchor-img {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: #0d1f17;
+}
+#e-home-anniversary-card .hf-anchor-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-slow) var(--ease-standard);
+}
+#e-home-anniversary-card .hf-anchor:hover .hf-anchor-img img {
+  transform: scale(1.04);
+}
+#e-home-anniversary-card .hf-anchor-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-5);
+  background: var(--color-surface);
+}
+#e-home-anniversary-card .hf-anchor-headline {
+  font-size: var(--text-h5);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text);
+}
+#e-home-anniversary-card .hf-anchor-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-size: var(--text-base);
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: gap var(--motion-base) var(--ease-standard),
+  color var(--motion-base) var(--ease-standard);
+}
+#e-home-anniversary-card .hf-anchor-cta svg {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+#e-home-anniversary-card .hf-anchor-cta:hover {
+  color: var(--color-action-hover);
+  gap: var(--space-3);
+}
+#e-home-anniversary-card .hf-anchor-cta:hover svg {
+  transform: translateX(5px);
+}
+@media (max-width: 767px) {
+  #e-home-anniversary-card .hf-anchor {
+    right: 16px;
+    bottom: 16px;
+    width: 280px;
+  }
+}
+#e-home-anniversary-card .hf-anchor-img .placeholder-svg {
+  width: 100%;
+  height: 100%;
+  fill: rgba(255, 255, 255, 0.25);
+}
+</style>
+
+{%- if section.settings.enable -%}
+<section
+  id="e-home-anniversary-card"
+  class="e-home-anniversary-card skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+  data-remember="{{ section.settings.remember_close }}"
+>
+  <aside class="hf-anchor" aria-label="{{ section.settings.aria_label | escape }}">
+    <button class="hf-anchor-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+    </button>
+    <div class="hf-anchor-media">
+      <div class="hf-anchor-img">
+        {%- if section.settings.image != blank -%}
+          {%- assign img_alt = section.settings.image.alt | default: section.settings.headline -%}
+          {{ section.settings.image | image_url: width: 640 | image_tag: widths: '320, 480, 640', sizes: '320px', loading: 'lazy', alt: img_alt }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="hf-anchor-body">
+      {%- if section.settings.headline != blank -%}
+        <h2 class="hf-anchor-headline">{{ section.settings.headline | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a class="hf-anchor-cta" href="{{ section.settings.cta_link | default: '#' }}">
+          {{ section.settings.cta_label | escape }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </aside>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  if (!window.eHomeAnniversaryCard) {
+    window.eHomeAnniversaryCard = (function () {
+      var instances = {};
+      var STORAGE_KEY = 'e-home-anniversary-card-closed';
+
+      function storageGet() {
+        try { return window.sessionStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+      }
+      function storageSet() {
+        try { window.sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) { /* storage blocked */ }
+      }
+
+      function create(root) {
+        var card = root.querySelector('.hf-anchor');
+        var close = root.querySelector('.hf-anchor-close');
+        var remember = root.getAttribute('data-remember') === 'true';
+        var designMode = window.Shopify && window.Shopify.designMode;
+        var hideTimer = null;
+        if (!card || !close) return { destroy: function () {}, show: function () {} };
+
+        /* never auto-hide inside the Theme Editor */
+        if (remember && !designMode && storageGet() === '1') card.style.display = 'none';
+
+        function onClose() {
+          card.classList.add('is-closed');
+          if (remember && !designMode) storageSet();
+          hideTimer = window.setTimeout(function () {
+            if (card.classList.contains('is-closed')) card.style.display = 'none';
+          }, 320);
+        }
+        close.addEventListener('click', onClose);
+
+        return {
+          show: function () {
+            clearTimeout(hideTimer);
+            card.style.display = '';
+            card.classList.remove('is-closed');
+          },
+          destroy: function () {
+            clearTimeout(hideTimer);
+            close.removeEventListener('click', onClose);
+            root.removeAttribute('data-e-init');
+          }
+        };
+      }
+
+      function mount(sectionId) {
+        var wrap = document.getElementById('shopify-section-' + sectionId);
+        var root = wrap ? wrap.querySelector('.e-home-anniversary-card') : null;
+        if (!root || root.hasAttribute('data-e-init')) return;
+        root.setAttribute('data-e-init', '');
+        instances[sectionId] = create(root);
+      }
+
+      function unmount(sectionId) {
+        if (instances[sectionId]) { instances[sectionId].destroy(); delete instances[sectionId]; }
+      }
+
+      document.addEventListener('shopify:section:load', function (e) { mount(e.detail.sectionId); });
+      document.addEventListener('shopify:section:unload', function (e) { unmount(e.detail.sectionId); });
+      /* selecting the section in the editor brings a closed card back */
+      document.addEventListener('shopify:section:select', function (e) {
+        var inst = instances[e.detail.sectionId];
+        if (inst) inst.show();
+      });
+
+      return { mount: mount, unmount: unmount };
+    })();
+  }
+
+  window.eHomeAnniversaryCard.mount('{{ section.id }}');
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Home – Anniversary card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "options": [
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "options": [
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
+    },
+    {
+      "type": "paragraph",
+      "content": "This card is fixed to the bottom-right corner. Keep both paddings at 0 so the section adds no empty space to the page."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Show card",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "16:9 crop. Recommended 640 × 360 px."
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "40 Years of Engineering Excellence"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Link text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Card label (screen readers)",
+      "default": "40th anniversary highlight"
+    },
+    {
+      "type": "checkbox",
+      "id": "remember_close",
+      "label": "Keep closed for the rest of the visit",
+      "info": "Off = matches the mockup (card returns on every page load).",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home – Anniversary card",
+      "settings": {
+        "padding_top": "0",
+        "padding_bottom": "0"
+      }
+    }
+  ]
+}
+{% endschema %}

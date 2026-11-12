@@ -1,623 +1,276 @@
 {%- comment -%}
-  Roctec homepage — About section
-  Source: Claude standalone homepage export.
-  CSS and JS are isolated to #e-home-about.
+  e-home-about — "Four Decades" intro + animated stats (Roctec homepage)
+  Stats are blocks: counter (38+), pair (24/7) or text (ISO).
 {%- endcomment -%}
-<section id="e-home-about" class="about skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-section-id="{{ section.id }}">
-
-  <div class="container about-stacked">
-    <div class="about-top">
-      <div class="about-header"><h2>{{ section.settings.heading | escape }}</h2></div>
-      <div class="about-body">
-        <p>{{ section.settings.description }}</p>
-        {% if section.settings.button_label != blank %}
-          <div class="about-cta"><a class="btn btn-secondary" href="{{ section.settings.button_link | default: routes.root_url }}">{{ section.settings.button_label | escape }}</a></div>
-        {% endif %}
-      </div>
-    </div>
-    <div class="about-stats-grid">
-      {% for block in section.blocks %}
-        <div class="about-stat-card" {{ block.shopify_attributes }}>
-          <h3>{% if block.settings.prefix != blank %}{{ block.settings.prefix | escape }}{% endif %}<span data-count="{{ block.settings.value | escape }}" data-suffix="{{ block.settings.suffix | escape }}">{{ block.settings.value | escape }}</span></h3>
-          <p>{{ block.settings.label | escape }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-
-</section>
-
 <style>
 #e-home-about {
---color-primary: #249E6B;
---color-primary-hover: #2E7D4E;
---color-action: #2E7D4E;
---color-action-hover: #25663F;
---color-success: #2E7D4E;
---color-warning: #F4A261;
---color-error: #E63946;
---color-info: #457B9D;
---color-text: #111111;
---color-text-strong: #1B1B1B;
---color-text-secondary: #4A4A4A;
---color-text-muted: #6E6E6E;
---color-text-placeholder: #8C8C8C;
---color-surface-subtle: #F1F1F1;
---color-surface-subtle-hover: #E7E7E7;
---color-focus-ring: rgba(46, 125, 78, 0.12);
---color-border-strong: #C9C9C9;
---color-surface: #FFFFFF;
---color-surface-muted: #F7F7F7;
---color-border: #E4E4E4;
---color-surface-brand: #124F35;
---color-surface-brand-light: #16603F;
---color-surface-brand-mid: var(--color-surface-brand);
---color-surface-brand-dark: #0C3826;
---color-surface-inverse: #0D120F;
---color-surface-inverse-raised: #131A16;
---color-border-inverse: rgba(255, 255, 255, 0.1);
---color-border-accent: #249E6B;
---color-text-inverse: #FFFFFF;
---color-text-inverse-muted: rgba(255, 255, 255, 0.62);
---font-en: "Roboto", Arial, sans-serif;
---font-base: "Roboto", Arial, sans-serif;
---font-weight-regular: 400;
---font-weight-medium: 500;
---font-weight-semibold: 600;
---font-weight-bold: 700;
---text-display: clamp(4rem, 2.5rem + 5.6vw, 7.25rem);
---text-h1: 3.25rem;
---text-h2: 2.5rem;
---text-h3: 1.75rem;
---text-h4: 1.5rem;
---text-h5: 1.25rem;
---text-h6: 1.0625rem;
---text-lg: 1.25rem;
---text-base: 1.125rem;
---text-sm: 1rem;
---text-xs: 0.875rem;
---text-eyebrow-sm: 0.75rem;
---space-1: 4px;
---space-2: 8px;
---space-3: 12px;
---space-4: 16px;
---space-5: 20px;
---space-6: 24px;
---space-7: 28px;
---space-8: 32px;
---space-10: 40px;
---space-12: 48px;
---space-16: 64px;
---space-24: 96px;
---head-gap: 40px;
---head-gap-lg: 64px;
---section-pad: 96px;
---section-pad-mobile: 64px;
---hero-clear-display: calc(var(--header-height) + var(--space-24) + var(--space-6));
---hero-clear-page: calc(var(--header-height) + var(--space-24) + var(--space-8));
---hero-clear-tight: calc(var(--header-height) + var(--space-16));
---container: 1280px;
---radius-sm: 4px;
---radius-md: 8px;
---radius-lg: 16px;
---radius-xl: 24px;
---radius-pill: 999px;
---touch-target: 44px;
---header-height: 104px;
---shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
---shadow-md: 0 4px 12px rgba(17, 17, 17, 0.08);
---motion-fast: 320ms;
---motion-base: 320ms;
---motion-medium: 320ms;
---motion-slow: 320ms;
---ease-standard: ease-out;
-}
-#e-home-about .container {
-max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-#e-home-about .btn {
-display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  padding: 0 var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
-  font-weight: 700;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  transition:
-    background var(--motion-base) var(--ease-standard),
-    border-color var(--motion-base) var(--ease-standard),
-    color var(--motion-base) var(--ease-standard),
-    box-shadow var(--motion-base) var(--ease-standard);
-}
-
-#e-home-about .btn::before {
-content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 300ms ease-out;
-}
-
-#e-home-about .btn:hover::before {
-transform: scaleX(1);
-}
-
-#e-home-about .btn:hover {
-color: inherit;
-}
-
-#e-home-about .btn:active::before {
-transition-duration: 80ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-#e-home-about .btn::before {
-transition: none;
-}
-}
-
-#e-home-about .btn-secondary {
-background: transparent;
-  color: var(--color-action);
-  border-color: var(--color-action);
-  border-radius: var(--radius-pill);
-}
-
-#e-home-about .btn-secondary::before {
-background: var(--color-primary);
-}
-
-#e-home-about .btn-secondary:hover {
-color: #fff;
-  border-color: var(--color-primary);
-}
-
-#e-home-about .btn[disabled] {
-opacity: 0.4; cursor: not-allowed;
-}
-
-#e-home-about .btn[disabled]:hover::before {
-transform: scaleX(0);
-}
-
-#e-home-about .mobile-drawer .btn {
-margin-top: var(--space-8); align-self: flex-start; width: auto; display: none;
-}
-
-@keyframes e-home-about-hero-scan {
-  0%, 100% { transform: translateY(0); opacity: 0.35; }
-  50% { transform: translateY(148px); opacity: 1; }
-}
-
-@keyframes e-home-about-hero-radar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes e-home-about-dot-fill {
-  from { width: 0%; }
-  to { width: 100%; }
-}
-
-@keyframes e-home-about-scroll-bob {
-  0%, 100% { cy: 10; opacity: 1; }
-  50% { cy: 28; opacity: 0.3; }
-}
-
-@keyframes e-home-about-ticker-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-#e-home-about {
-padding-block: var(--section-pad);
   background: var(--color-surface-brand);
   color: var(--color-text-inverse);
 }
-
 #e-home-about .about-stacked {
-display: flex;
+  display: flex;
   flex-direction: column;
   gap: var(--space-16);
 }
-
 #e-home-about .about-top {
-display: grid;
+  display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: var(--space-16);
   align-items: start;
 }
-
-#e-home-about .about-whisker {
-letter-spacing: 0.14em;
-  display: block;
-  font-size: var(--text-base);
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: var(--space-2);
-}
-
 #e-home-about .about-header h2 {
-font-size: var(--text-h2);
+  font-size: var(--text-h2);
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
-
 #e-home-about .about-body {
-display: flex;
+  display: flex;
   flex-direction: column;
   gap: var(--space-8);
 }
-
 #e-home-about .about-body p {
-color: var(--color-text-inverse-muted);
+  color: var(--color-text-inverse-muted);
   font-size: var(--text-base);
   line-height: 1.6;
 }
-
 #e-home-about .about-stats-grid {
-display: grid;
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-8);
   padding-top: var(--space-12);
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
-
 #e-home-about .about-stat-card {
-padding: 0;
+  padding: 0;
 }
-
 #e-home-about .about-stat-card h3 {
-font-size: var(--text-h2);
+  font-size: var(--text-h2);
   font-weight: 700;
   line-height: 1;
   color: var(--color-text-inverse);
   margin-bottom: var(--space-3);
   font-variant-numeric: tabular-nums;
 }
-
 #e-home-about .about-stat-card p {
-font-size: var(--text-sm);
+  font-size: var(--text-sm);
   color: var(--color-text-inverse-muted);
 }
-
-#e-home-about .about-careers .about-whisker {
-margin-bottom: 0;
-}
-
-#e-home-about .about-careers .about-cta {
-margin-top: var(--space-2);
-}
-
 #e-home-about .about-cta .btn-secondary {
-background: #FFFFFF;
+  background: #FFFFFF;
   color: var(--color-text);
   border-color: #FFFFFF;
 }
-
 #e-home-about .about-cta .btn-secondary:hover {
-color: #fff;
+  color: #fff;
   border-color: var(--color-primary);
 }
-
-#e-home-about .solutions-head-row .btn {
-flex-shrink: 0; margin-bottom: 0;
-}
-
-#e-home-about .section-head .about-whisker {
-margin-bottom: 4px;
-}
-
-#e-home-about .news-head-row .btn {
-flex-shrink: 0;
-}
-
-#e-home-about .cta-panel .btn {
-width: 100%;
-}
-
-#e-home-about .site-footer > .container {
-position: relative; z-index: 1; padding-inline: var(--space-6);
-}
-
 @media (max-width: 1024px) {
-#e-home-about .about-stacked {
-padding-inline: var(--space-6);
+  #e-home-about .about-stacked {
+    padding-inline: var(--space-6);
+  }
+  #e-home-about .about-top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+  #e-home-about .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-#e-home-about .about-top {
-grid-template-columns: minmax(0, 1fr); gap: var(--space-8);
-}
-#e-home-about .about-stats-grid {
-grid-template-columns: repeat(2, 1fr);
-}
-#e-home-about .header-actions .btn {
-display: none;
-}
-#e-home-about .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-#e-home-about .site-footer > .container {
-padding-inline: var(--space-6);
-}
-}
-
 @media (max-width: 767px) {
-#e-home-about .container {
-padding-inline: var(--space-6);
+  #e-home-about .about-stacked {
+    padding-inline: var(--space-6);
+    gap: var(--space-10, 40px);
+  }
+  #e-home-about .about-top {
+    gap: var(--space-6);
+  }
+  #e-home-about .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-7, 28px) var(--space-5, 20px);
+  }
+  #e-home-about .about-header h2 {
+    line-height: 1.15;
+  }
 }
-#e-home-about .hero-actions .btn {
-width: 100%;
-}
-#e-home-about .about-stacked {
-padding-inline: var(--space-6); gap: var(--space-10, 40px);
-}
-#e-home-about .about-top {
-gap: var(--space-6);
-}
-#e-home-about .about-stats-grid {
-grid-template-columns: repeat(2, 1fr); gap: var(--space-7, 28px) var(--space-5, 20px);
-}
-#e-home-about .about-header h2 {
-line-height: 1.15;
-}
-#e-home-about .solutions-head-row .btn {
-margin-left: 0; margin-bottom: 0;
-}
-#e-home-about .news-head-row .btn {
-margin-left: 0;
-}
-#e-home-about .cta-panel .btn {
-width: 100%;
-}
-#e-home-about .cta-band-btns .btn {
-width: 100%;
-}
-#e-home-about .header-actions .btn {
-display: none;
-}
-#e-home-about .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-}
-
 @media (max-width: 400px) {
-#e-home-about .container,
-#e-home-about .about-stacked {
-padding-inline: var(--space-5);
-}
-}
-
-#e-home-about .ab-mission-cta .btn-secondary:first-child {
-background: #fff;
-  color: var(--color-action);
-  border-color: #fff;
-}
-
-#e-home-about .ab-mission-cta .btn-secondary:first-child:hover {
-color: #fff; border-color: var(--color-primary);
-}
-
-@media (max-width: 1024px) {
-#e-home-about .ab-mission-cta .btn-secondary {
-width: auto;
-    justify-content: center;
-    text-align: center;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-about .ab-mission-cta .btn-secondary {
-width: 100%;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-about .sv-cta-row .btn {
-width: 100%; max-width: 320px; justify-content: center;
-}
-}
-
-@media (max-width: 640px) {
-#e-home-about .cr-submit-row .btn {
-width: 100%; justify-content: center;
-}
-}
-
-#e-home-about .nf-copy .btn {
-margin-top: var(--space-4);
-}
-
-#e-home-about .an-next .container {
-position: relative; z-index: 1;
-}
-
-#e-home-about .an-thanks-inner .btn {
-margin-top: var(--space-4);
-}
-
-#e-home-about .an-recog .section-head-split .btn {
-flex-shrink: 0;
-}
-
-@media (max-width: 560px) {
-#e-home-about .fm-actions .btn {
-width: 100%;
-}
-}
-
-#e-home-about img { display:block; max-width:100%; }
-#e-home-about .container { width:min(100% - 48px, 1280px); margin-inline:auto; }
-
-
-#e-home-about .reveal-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 500ms var(--ease-standard), transform 500ms var(--ease-standard);
-}
-#e-home-about .reveal-up.is-shown {
-  opacity: 1;
-  transform: none;
+  #e-home-about .about-stacked {
+    padding-inline: var(--space-5);
+  }
 }
 </style>
 
+<section
+  id="e-home-about"
+  class="e-home-about about skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+>
+  <div class="container about-stacked" data-sk-reveal>
+    <div class="about-top">
+      <div class="about-header">
+        {%- if section.settings.heading != blank -%}
+          <h2>{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+      <div class="about-body">
+        {{ section.settings.text }}
+        {%- if section.settings.button_label != blank -%}
+          <div class="about-cta">
+            <a class="btn btn-secondary" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="about-stats-grid">
+        {%- for block in section.blocks -%}
+          <div class="about-stat-card" {{ block.shopify_attributes }}>
+            {%- case block.type -%}
+              {%- when 'stat_counter' -%}
+                {%- assign num = block.settings.number | default: 0 -%}
+                <h3 data-count="{{ num }}" data-suffix="{{ block.settings.suffix | escape }}">{{ num }}{{ block.settings.suffix | escape }}</h3>
+              {%- when 'stat_pair' -%}
+                {%- assign num_1 = block.settings.number_1 | default: 0 -%}
+                {%- assign num_2 = block.settings.number_2 | default: 0 -%}
+                <h3><span data-count="{{ num_1 }}">{{ num_1 }}</span>{{ block.settings.separator | escape }}<span data-count="{{ num_2 }}">{{ num_2 }}</span></h3>
+              {%- when 'stat_text' -%}
+                <h3 data-count-text="{{ block.settings.text | escape }}">{{ block.settings.text | upcase | escape }}</h3>
+            {%- endcase -%}
+            {%- if block.settings.label != blank -%}
+              <p>{{ block.settings.label | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
 <script>
-(function() {
-  var E_HOME_SECTION_ID = 'e-home-about';
-  var E_HOME_SECTION_SELECTOR = '#' + E_HOME_SECTION_ID;
-  function initEHomeAbout() {
-    var root = document.querySelector(E_HOME_SECTION_SELECTOR + '[data-section-id="{{ section.id }}"]');
-    if (!root || root.dataset.initialized === 'true') return;
-    root.dataset.initialized = 'true';
+(function () {
+  'use strict';
 
-    var counters = root.querySelectorAll('[data-count]');
-    if (!counters.length) return;
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    function runCounter(el) {
-      var target = Number(el.dataset.count);
-      if (!Number.isFinite(target)) return;
-      if (reduced) { el.textContent = String(target) + (el.dataset.suffix || ''); return; }
-      var start = 0, duration = 1300, started = null;
-      function frame(ts) {
-        if (!started) started = ts;
-        var p = Math.min((ts-started)/duration,1);
-        var eased = 1-Math.pow(1-p,3);
-        el.textContent = String(Math.round(start+(target-start)*eased))+(el.dataset.suffix||'');
-        if (p<1) window.requestAnimationFrame(frame);
-      }
-      window.requestAnimationFrame(frame);
-    }
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if(entry.isIntersecting) {
-          counters.forEach(runCounter);
-          observer.disconnect();
+  if (!window.eHomeAbout) {
+    window.eHomeAbout = (function () {
+      var instances = {};
+      var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var COUNT_DURATION = 1800;
+      var easeOutCubic = function (p) { return 1 - Math.pow(1 - p, 3); };
+
+      function render(el, eased) {
+        if (el.hasAttribute('data-count-text')) {
+          el.textContent = (el.getAttribute('data-count-text') || '').toUpperCase();
+          return;
         }
-      });
-    }, {threshold:0.25});
-    observer.observe(root);
-    root.__eHomeCleanup = function(){observer.disconnect();};
-
-
-    var revealTargets = root.querySelectorAll('.about-top, .about-stat-card, .news-head-row, .news-featured-card, .news-side-card, .solutions-head-row, .sol-tile, .rsvc-intro, .rsvc-carousel, .trust-ticker-header, .trust-ticker-logo');
-    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) { entry.target.classList.add('is-shown'); revealObserver.unobserve(entry.target); }
-        });
-      }, {threshold:0.12});
-      revealTargets.forEach(function(el){el.classList.add('reveal-up');revealObserver.observe(el);});
-      var oldCleanup = root.__eHomeCleanup;
-      root.__eHomeCleanup = function(){revealObserver.disconnect();if(oldCleanup)oldCleanup();};
-    } else {
-      revealTargets.forEach(function(el){el.classList.add('is-shown');});
-    }
-
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEHomeAbout, { once: true });
-  } else {
-    initEHomeAbout();
-  }
-  document.addEventListener('shopify:section:load', function(event) {
-    if (event.target && event.target.querySelector && event.target.querySelector(E_HOME_SECTION_SELECTOR)) {
-      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
-      if (el) el.dataset.initialized = 'false';
-      initEHomeAbout();
-    }
-  });
-  document.addEventListener('shopify:section:unload', function(event) {
-    if (event.target && event.target.querySelector) {
-      var el = event.target.querySelector(E_HOME_SECTION_SELECTOR);
-      if (el) {
-        el.dataset.initialized = 'false';
-        if (el.__eHomeCleanup) el.__eHomeCleanup();
+        var num = parseFloat(el.getAttribute('data-count')) || 0;
+        var suffix = el.getAttribute('data-suffix') || '';
+        var dp = parseInt(el.getAttribute('data-decimals'), 10) || 0;
+        el.textContent = (num * eased).toFixed(dp) + suffix;
       }
-    }
-  });
+
+      function create(root) {
+        var grid = root.querySelector('.about-stats-grid');
+        var counters = grid ? [].slice.call(grid.querySelectorAll('[data-count], [data-count-text]')) : [];
+        var raf = null;
+        var obs = null;
+        var designMode = window.Shopify && window.Shopify.designMode;
+
+        function settle() { counters.forEach(function (el) { render(el, 1); }); }
+
+        /* All counters in the grid run on one shared timeline */
+        function run() {
+          if (reducedMotion) { settle(); return; }
+          var start = null;
+          var step = function (ts) {
+            if (start === null) start = ts;
+            var p = Math.min((ts - start) / COUNT_DURATION, 1);
+            var eased = easeOutCubic(p);
+            counters.forEach(function (el) { render(el, eased); });
+            if (p < 1) raf = requestAnimationFrame(step);
+            else settle();
+          };
+          raf = requestAnimationFrame(step);
+        }
+
+        if (counters.length) {
+          if (reducedMotion || designMode || !('IntersectionObserver' in window)) {
+            settle();
+          } else {
+            counters.forEach(function (el) { render(el, 0); }); /* start state */
+            obs = new IntersectionObserver(function (entries) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                run();
+                obs.disconnect();
+                obs = null;
+              });
+            }, { threshold: 0.4 });
+            obs.observe(grid);
+          }
+        }
+
+        return {
+          destroy: function () {
+            if (obs) { obs.disconnect(); obs = null; }
+            if (raf) cancelAnimationFrame(raf);
+            root.removeAttribute('data-e-init');
+          }
+        };
+      }
+
+      function mount(sectionId) {
+        var wrap = document.getElementById('shopify-section-' + sectionId);
+        var root = wrap ? wrap.querySelector('.e-home-about') : null;
+        if (!root || root.hasAttribute('data-e-init')) return;
+        root.setAttribute('data-e-init', '');
+        instances[sectionId] = create(root);
+      }
+
+      function unmount(sectionId) {
+        if (instances[sectionId]) { instances[sectionId].destroy(); delete instances[sectionId]; }
+      }
+
+      document.addEventListener('shopify:section:load', function (e) { mount(e.detail.sectionId); });
+      document.addEventListener('shopify:section:unload', function (e) { unmount(e.detail.sectionId); });
+
+      return { mount: mount, unmount: unmount };
+    })();
+  }
+
+  window.eHomeAbout.mount('{{ section.id }}');
 })();
 </script>
 
 {% schema %}
 {
-  "name": "Home about",
+  "name": "Home – About & Stats",
   "settings": [
     {
       "type": "select",
       "id": "padding_top",
-      "label": "Padding top",
-      "default": "lg",
+      "label": "Padding Top",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
       "type": "select",
       "id": "padding_bottom",
-      "label": "Padding bottom",
-      "default": "lg",
+      "label": "Padding Bottom",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
       "type": "text",
@@ -627,8 +280,8 @@ width: 100%;
     },
     {
       "type": "richtext",
-      "id": "description",
-      "label": "Description",
+      "id": "text",
+      "label": "Text",
       "default": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>"
     },
     {
@@ -645,71 +298,42 @@ width: 100%;
   ],
   "blocks": [
     {
-      "type": "stat",
-      "name": "Statistic",
+      "type": "stat_counter",
+      "name": "Stat – counter",
       "settings": [
-        {
-          "type": "text",
-          "id": "prefix",
-          "label": "Prefix"
-        },
-        {
-          "type": "text",
-          "id": "value",
-          "label": "Value",
-          "default": "38"
-        },
-        {
-          "type": "text",
-          "id": "suffix",
-          "label": "Suffix",
-          "default": "+"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "default": "Years of Project Heritage"
-        }
+        { "type": "number", "id": "number", "label": "Number", "default": 38 },
+        { "type": "text", "id": "suffix", "label": "Suffix", "default": "+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Years of Project Heritage" }
+      ]
+    },
+    {
+      "type": "stat_pair",
+      "name": "Stat – pair (e.g. 24/7)",
+      "settings": [
+        { "type": "number", "id": "number_1", "label": "First number", "default": 24 },
+        { "type": "text", "id": "separator", "label": "Separator", "default": "/" },
+        { "type": "number", "id": "number_2", "label": "Second number", "default": 7 },
+        { "type": "text", "id": "label", "label": "Label", "default": "Operations Support" }
+      ]
+    },
+    {
+      "type": "stat_text",
+      "name": "Stat – text",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "ISO" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Quality Aligned" }
       ]
     }
   ],
+  "max_blocks": 8,
   "presets": [
     {
-      "name": "Home about",
+      "name": "Home – About & Stats",
       "blocks": [
-        {
-          "type": "stat",
-          "settings": {
-            "value": "38",
-            "suffix": "+",
-            "label": "Years of Project Heritage"
-          }
-        },
-        {
-          "type": "stat",
-          "settings": {
-            "value": "120",
-            "suffix": "+",
-            "label": "Infrastructure Projects"
-          }
-        },
-        {
-          "type": "stat",
-          "settings": {
-            "value": "24",
-            "suffix": "/7",
-            "label": "Operations Support"
-          }
-        },
-        {
-          "type": "stat",
-          "settings": {
-            "value": "AAA",
-            "suffix": "",
-            "label": "Quality Aligned"
-          }
-        }
+        { "type": "stat_counter", "settings": { "number": 38, "suffix": "+", "label": "Years of Project Heritage" } },
+        { "type": "stat_counter", "settings": { "number": 120, "suffix": "+", "label": "Infrastructure Projects" } },
+        { "type": "stat_pair", "settings": { "number_1": 24, "separator": "/", "number_2": 7, "label": "Operations Support" } },
+        { "type": "stat_text", "settings": { "text": "ISO", "label": "Quality Aligned" } }
       ]
     }
   ]

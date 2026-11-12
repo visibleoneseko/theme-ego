@@ -1,272 +1,14 @@
 {%- comment -%}
-  Roctec homepage — Solutions section
-  Source: Claude standalone homepage export.
-  CSS and JS are isolated to #e-home-solutions.
+  e-home-solutions — "Systems Engineered for Scale" (Roctec homepage)
+  Desktop: 3-column grid. ≤1024px: native scroll-snap carousel with
+  prev/next buttons (mockup behaviour, kept as vanilla JS — no Owl).
 {%- endcomment -%}
-<section id="e-home-solutions" class="solutions skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-section-id="{{ section.id }}">
-
-  <div class="container">
-    <div class="solutions-head-row">
-      <div class="section-head">
-        <span class="solutions-whisker">{{ section.settings.eyebrow | escape }}</span>
-        <h2>{{ section.settings.heading | escape }}</h2>
-        <p>{{ section.settings.subheading | escape }}</p>
-      </div>
-      {% if section.settings.button_label != blank %}<a class="btn btn-secondary" href="{{ section.settings.button_link | default: routes.root_url }}">{{ section.settings.button_label | escape }}</a>{% endif %}
-    </div>
-    <div class="sol-cluster-wrap">
-      <div class="sol-cluster">
-        {% for block in section.blocks %}
-          <a class="sol-tile" href="{{ block.settings.link | default: routes.root_url }}" {{ block.shopify_attributes }}>
-            <div class="sol-tile-media"><div class="sol-tile-img">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.image_alt, widths: '360, 540, 720, 900' }}
-              {% else %}
-                <img src="{{ block.settings.fallback_asset | asset_url }}" alt="{{ block.settings.image_alt | escape }}" loading="lazy">
-              {% endif %}
-            </div></div>
-            <div class="sol-tile-body">
-              <span class="sol-tile-eyebrow">{{ block.settings.eyebrow | escape }}</span>
-              <h3>{{ block.settings.title | escape }}</h3>
-              <p><strong>Deployed in:</strong> {{ block.settings.deployed_in | escape }}<br><strong>Scale:</strong> {{ block.settings.scale | escape }}</p>
-              <span class="sol-tile-cta">{{ block.settings.cta_label | escape }} <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
-            </div>
-          </a>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
-</section>
-
 <style>
 #e-home-solutions {
---color-primary: #249E6B;
---color-primary-hover: #2E7D4E;
---color-action: #2E7D4E;
---color-action-hover: #25663F;
---color-success: #2E7D4E;
---color-warning: #F4A261;
---color-error: #E63946;
---color-info: #457B9D;
---color-text: #111111;
---color-text-strong: #1B1B1B;
---color-text-secondary: #4A4A4A;
---color-text-muted: #6E6E6E;
---color-text-placeholder: #8C8C8C;
---color-surface-subtle: #F1F1F1;
---color-surface-subtle-hover: #E7E7E7;
---color-focus-ring: rgba(46, 125, 78, 0.12);
---color-border-strong: #C9C9C9;
---color-surface: #FFFFFF;
---color-surface-muted: #F7F7F7;
---color-border: #E4E4E4;
---color-surface-brand: #124F35;
---color-surface-brand-light: #16603F;
---color-surface-brand-mid: var(--color-surface-brand);
---color-surface-brand-dark: #0C3826;
---color-surface-inverse: #0D120F;
---color-surface-inverse-raised: #131A16;
---color-border-inverse: rgba(255, 255, 255, 0.1);
---color-border-accent: #249E6B;
---color-text-inverse: #FFFFFF;
---color-text-inverse-muted: rgba(255, 255, 255, 0.62);
---font-en: "Roboto", Arial, sans-serif;
---font-base: "Roboto", Arial, sans-serif;
---font-weight-regular: 400;
---font-weight-medium: 500;
---font-weight-semibold: 600;
---font-weight-bold: 700;
---text-display: clamp(4rem, 2.5rem + 5.6vw, 7.25rem);
---text-h1: 3.25rem;
---text-h2: 2.5rem;
---text-h3: 1.75rem;
---text-h4: 1.5rem;
---text-h5: 1.25rem;
---text-h6: 1.0625rem;
---text-lg: 1.25rem;
---text-base: 1.125rem;
---text-sm: 1rem;
---text-xs: 0.875rem;
---text-eyebrow-sm: 0.75rem;
---space-1: 4px;
---space-2: 8px;
---space-3: 12px;
---space-4: 16px;
---space-5: 20px;
---space-6: 24px;
---space-7: 28px;
---space-8: 32px;
---space-10: 40px;
---space-12: 48px;
---space-16: 64px;
---space-24: 96px;
---head-gap: 40px;
---head-gap-lg: 64px;
---section-pad: 96px;
---section-pad-mobile: 64px;
---hero-clear-display: calc(var(--header-height) + var(--space-24) + var(--space-6));
---hero-clear-page: calc(var(--header-height) + var(--space-24) + var(--space-8));
---hero-clear-tight: calc(var(--header-height) + var(--space-16));
---container: 1280px;
---radius-sm: 4px;
---radius-md: 8px;
---radius-lg: 16px;
---radius-xl: 24px;
---radius-pill: 999px;
---touch-target: 44px;
---header-height: 104px;
---shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.06);
---shadow-md: 0 4px 12px rgba(17, 17, 17, 0.08);
---motion-fast: 320ms;
---motion-base: 320ms;
---motion-medium: 320ms;
---motion-slow: 320ms;
---ease-standard: ease-out;
-}
-#e-home-solutions .container {
-max-width: var(--container);
-  margin-inline: auto;
-  padding-inline: var(--space-6);
-}
-
-#e-home-solutions .section-head {
-display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--head-gap);
-}
-
-#e-home-solutions .section-head h2 {
-font-size: var(--text-h2);
-}
-
-#e-home-solutions .section-head p {
-font-size: var(--text-lg); font-weight: 400; color: #3A3F3C;
-}
-
-#e-home-solutions .btn {
-display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--touch-target);
-  padding: 0 var(--space-6);
-  border-radius: var(--radius-sm);
-  font-size: var(--text-base);
-  font-weight: 700;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  transition:
-    background var(--motion-base) var(--ease-standard),
-    border-color var(--motion-base) var(--ease-standard),
-    color var(--motion-base) var(--ease-standard),
-    box-shadow var(--motion-base) var(--ease-standard);
-}
-
-#e-home-solutions .btn::before {
-content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 300ms ease-out;
-}
-
-#e-home-solutions .btn:hover::before {
-transform: scaleX(1);
-}
-
-#e-home-solutions .btn:hover {
-color: inherit;
-}
-
-#e-home-solutions .btn:active::before {
-transition-duration: 80ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-#e-home-solutions .btn::before {
-transition: none;
-}
-}
-
-#e-home-solutions .btn-secondary {
-background: transparent;
-  color: var(--color-action);
-  border-color: var(--color-action);
-  border-radius: var(--radius-pill);
-}
-
-#e-home-solutions .btn-secondary::before {
-background: var(--color-primary);
-}
-
-#e-home-solutions .btn-secondary:hover {
-color: #fff;
-  border-color: var(--color-primary);
-}
-
-#e-home-solutions .btn[disabled] {
-opacity: 0.4; cursor: not-allowed;
-}
-
-#e-home-solutions .btn[disabled]:hover::before {
-transform: scaleX(0);
-}
-
-#e-home-solutions .mobile-drawer .btn {
-margin-top: var(--space-8); align-self: flex-start; width: auto; display: none;
-}
-
-@keyframes e-home-solutions-hero-scan {
-  0%, 100% { transform: translateY(0); opacity: 0.35; }
-  50% { transform: translateY(148px); opacity: 1; }
-}
-
-@keyframes e-home-solutions-hero-radar {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes e-home-solutions-dot-fill {
-  from { width: 0%; }
-  to { width: 100%; }
-}
-
-@keyframes e-home-solutions-scroll-bob {
-  0%, 100% { cy: 10; opacity: 1; }
-  50% { cy: 28; opacity: 0.3; }
-}
-
-@keyframes e-home-solutions-ticker-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-#e-home-solutions .about-cta .btn-secondary {
-background: #FFFFFF;
-  color: var(--color-text);
-  border-color: #FFFFFF;
-}
-
-#e-home-solutions .about-cta .btn-secondary:hover {
-color: #fff;
-  border-color: var(--color-primary);
-}
-
-#e-home-solutions {
-padding-block: var(--section-pad);
   background: #F7F7F7;
 }
-
 #e-home-solutions .solutions-whisker {
-letter-spacing: 0.14em;
+  letter-spacing: 0.14em;
   display: block;
   font-size: var(--text-base);
   font-weight: 600;
@@ -274,51 +16,39 @@ letter-spacing: 0.14em;
   color: var(--color-primary);
   margin-bottom: var(--space-2);
 }
-
 #e-home-solutions .solutions-head-row {
-display: flex;
+  display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-8);
 }
-
 #e-home-solutions .solutions-head-row {
-margin-bottom: var(--head-gap);
+  margin-bottom: var(--head-gap);
 }
-
 #e-home-solutions .solutions-head-row .section-head {
-margin-bottom: 0;
+  margin-bottom: 0;
 }
-
 #e-home-solutions .section-head h2 {
-color: var(--color-text);
+  color: var(--color-text);
 }
-
 #e-home-solutions .section-head p {
-color: #3A3F3C;
+  color: #3A3F3C;
 }
-
 #e-home-solutions .solutions-head-row .btn {
-flex-shrink: 0; margin-bottom: 0;
+  flex-shrink: 0;
+  margin-bottom: 0;
 }
-
 #e-home-solutions .sol-cluster-wrap {
-position: relative;
+  position: relative;
 }
-
 #e-home-solutions .sol-cluster {
-display: grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-4);
   align-items: stretch;
 }
-
-#e-home-solutions .sol-tile[hidden] {
-display: none !important;
-}
-
 #e-home-solutions .sol-tile {
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
@@ -327,53 +57,45 @@ position: relative;
   color: var(--color-text);
   overflow: hidden;
   transition: transform var(--motion-base) var(--ease-standard),
-              box-shadow var(--motion-base) var(--ease-standard);
+  box-shadow var(--motion-base) var(--ease-standard);
 }
-
 #e-home-solutions .sol-tile:hover {
-transform: translateY(-4px);
+  transform: translateY(-4px);
   color: var(--color-text);
 }
-
 #e-home-solutions .sol-tile-media {
-padding: var(--space-2);
+  padding: var(--space-2);
 }
-
 #e-home-solutions .sol-tile-body {
-display: flex;
+  display: flex;
   flex-direction: column;
   flex: 1;
   padding: var(--space-3) var(--space-6) var(--space-6);
 }
-
 #e-home-solutions .sol-tile-img {
-height: 260px;
+  height: 260px;
   border-radius: var(--radius-md);
   overflow: hidden;
 }
-
 #e-home-solutions .sol-tile-img img {
-width: 100%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--motion-slow) var(--ease-standard);
 }
-
 #e-home-solutions .sol-tile:hover .sol-tile-img img {
-transform: scale(1.04);
+  transform: scale(1.04);
 }
-
 #e-home-solutions .sol-tile-eyebrow {
-letter-spacing: 0.14em;
+  letter-spacing: 0.14em;
   font-size: var(--text-base);
   font-weight: 600;
   text-transform: uppercase;
   color: #6B7280;
   margin-bottom: var(--space-2);
 }
-
 #e-home-solutions .sol-tile h3 {
-font-size: var(--text-h5);
+  font-size: var(--text-h5);
   font-weight: 600;
   line-height: 1.3;
   color: var(--color-text);
@@ -382,16 +104,14 @@ font-size: var(--text-h5);
   padding-bottom: var(--space-3);
   border-bottom: 1px solid rgba(13, 18, 15, 0.10);
 }
-
 #e-home-solutions .sol-tile p {
-font-size: var(--text-base);
+  font-size: var(--text-base);
   line-height: 1.55;
   color: #3A3F3C;
   margin-top: var(--space-2);
 }
-
 #e-home-solutions .sol-tile-cta {
-display: inline-flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   margin-top: auto;
@@ -400,37 +120,30 @@ display: inline-flex;
   font-weight: 600;
   color: var(--color-primary);
 }
-
 #e-home-solutions .sol-tile-cta svg {
-width: 18px;
+  width: 18px;
   height: 18px;
   transition: transform var(--motion-base) var(--ease-standard);
 }
-
 #e-home-solutions .sol-tile:hover .sol-tile-cta {
-gap: var(--space-3);
+  gap: var(--space-3);
 }
-
 #e-home-solutions .sol-tile:hover .sol-tile-cta svg {
-transform: translateX(5px);
+  transform: translateX(5px);
 }
-
 #e-home-solutions .sol-tile:focus-visible {
-outline-color: var(--color-border);
+  outline-color: var(--color-border);
 }
-
 @media (max-width: 900px) {
-#e-home-solutions .sol-cluster {
-grid-template-columns: minmax(0, 1fr);
+  #e-home-solutions .sol-cluster {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
-}
-
 #e-home-solutions .sol-cluster-nav {
-display: none;
+  display: none;
 }
-
 #e-home-solutions .sol-cluster-btn {
-width: var(--touch-target);
+  width: var(--touch-target);
   height: var(--touch-target);
   display: flex;
   align-items: center;
@@ -440,29 +153,26 @@ width: var(--touch-target);
   border: 1px solid var(--color-border);
   color: var(--color-text);
   transition: border-color var(--motion-base) var(--ease-standard),
-              color var(--motion-base) var(--ease-standard),
-              opacity var(--motion-base) var(--ease-standard);
+  color var(--motion-base) var(--ease-standard),
+  opacity var(--motion-base) var(--ease-standard);
 }
-
 #e-home-solutions .sol-cluster-btn:hover {
-border-color: var(--color-primary);
+  border-color: var(--color-primary);
   color: var(--color-primary);
 }
-
 #e-home-solutions .sol-cluster-btn svg {
-width: 20px; height: 20px;
+  width: 20px;
+  height: 20px;
 }
-
 #e-home-solutions .sol-cluster-btn[disabled] {
-opacity: 0.3;
+  opacity: 0.3;
   cursor: not-allowed;
   border-color: var(--color-border);
   color: var(--color-text);
 }
-
 @media (max-width: 1024px) {
-#e-home-solutions .sol-cluster {
-grid-template-columns: none;
+  #e-home-solutions .sol-cluster {
+    grid-template-columns: none;
     display: flex;
     gap: var(--space-4);
     overflow-x: auto;
@@ -472,395 +182,235 @@ grid-template-columns: none;
     -ms-overflow-style: none;
     padding-top: var(--space-3);
     padding-bottom: var(--space-2);
-}
-#e-home-solutions .sol-cluster::-webkit-scrollbar {
-display: none;
-}
-#e-home-solutions .sol-cluster .sol-tile {
-flex: 0 0 78%;
+  }
+  #e-home-solutions .sol-cluster::-webkit-scrollbar {
+    display: none;
+  }
+  #e-home-solutions .sol-cluster .sol-tile {
+    flex: 0 0 78%;
     scroll-snap-align: start;
-}
-#e-home-solutions .sol-tile-body {
-flex-direction: column;
-}
-#e-home-solutions .sol-cluster-nav {
-display: flex;
+  }
+  #e-home-solutions .sol-tile-body {
+    flex-direction: column;
+  }
+  #e-home-solutions .sol-cluster-nav {
+    display: flex;
     gap: var(--space-3);
     margin-top: var(--space-8);
     justify-content: center;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-solutions .sol-cluster .sol-tile {
-flex: 0 0 86%;
-}
-}
-
-#e-home-solutions .solutions2-header .solutions-whisker {
-color: var(--color-primary);
-  margin-bottom: var(--space-3);
-  display: block;
-}
-
-#e-home-solutions .section-head .solutions-whisker,
-#e-home-solutions .section-head .about-whisker,
-#e-home-solutions .section-head .eyebrow {
-margin-bottom: 4px;
-}
-
-#e-home-solutions .sol-tile-eyebrow {
-font-size: var(--text-eyebrow-sm);
-}
-
-#e-home-solutions .news-head-row .section-head {
-margin-bottom: 0;
-}
-
-#e-home-solutions .news-head-row .btn {
-flex-shrink: 0;
-}
-
-#e-home-solutions .cta-panel .btn {
-width: 100%;
-}
-
-#e-home-solutions .site-footer > .container {
-position: relative; z-index: 1; padding-inline: var(--space-6);
-}
-
-@media (max-width: 1024px) {
-#e-home-solutions .header-actions .btn {
-display: none;
-}
-#e-home-solutions .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-#e-home-solutions .site-footer > .container {
-padding-inline: var(--space-6);
-}
-}
-
-@media (max-width: 767px) {
-#e-home-solutions .container {
-padding-inline: var(--space-6);
-}
-#e-home-solutions .hero-actions .btn {
-width: 100%;
-}
-#e-home-solutions .solutions-head-row {
-flex-wrap: wrap; gap: var(--space-5);
-}
-#e-home-solutions .solutions-head-row .section-head {
-margin-bottom: 0;
-}
-#e-home-solutions .solutions-head-row .btn {
-margin-left: 0; margin-bottom: 0;
-}
-#e-home-solutions .news-head-row .btn {
-margin-left: 0;
-}
-#e-home-solutions .sol-cluster-wrap {
-margin-top: var(--space-8);
-}
-#e-home-solutions .cta-panel .btn {
-width: 100%;
-}
-#e-home-solutions .cta-band-btns .btn {
-width: 100%;
-}
-#e-home-solutions .header-actions .btn {
-display: none;
-}
-#e-home-solutions .mobile-drawer .btn {
-display: inline-flex; padding-inline: var(--space-8);
-}
-}
-
-@media (max-width: 400px) {
-#e-home-solutions .container {
-padding-inline: var(--space-5);
-}
-}
-
-#e-home-solutions .ab-mission-cta .btn-secondary:first-child {
-background: #fff;
-  color: var(--color-action);
-  border-color: #fff;
-}
-
-#e-home-solutions .ab-mission-cta .btn-secondary:first-child:hover {
-color: #fff; border-color: var(--color-primary);
-}
-
-@media (max-width: 1024px) {
-#e-home-solutions .ab-mission-cta .btn-secondary {
-width: auto;
-    justify-content: center;
-    text-align: center;
-}
-}
-
-@media (max-width: 767px) {
-#e-home-solutions .ab-mission-cta .btn-secondary {
-width: 100%;
-}
-}
-
-#e-home-solutions .ab-journey .section-head {
-max-width: none;
-  text-align: center;
-}
-
-#e-home-solutions .ab-journey .section-head p {
-margin-inline: auto;
-}
-
-@media (max-width: 767px) {
-#e-home-solutions .sv-cta-row .btn {
-width: 100%; max-width: 320px; justify-content: center;
-}
-}
-
-@media (max-width: 1024px) {
-#e-home-solutions .solx .solx-grid .sol-tile {
-flex: none; scroll-snap-align: none;
-}
-}
-
-@media (max-width: 640px) {
-#e-home-solutions .cr-submit-row .btn {
-width: 100%; justify-content: center;
-}
-}
-
-#e-home-solutions .sd-related .solutions-head-row {
-margin-bottom: var(--head-gap);
-}
-
-#e-home-solutions .nf-copy .btn {
-margin-top: var(--space-4);
-}
-
-#e-home-solutions .an-next .container {
-position: relative; z-index: 1;
-}
-
-#e-home-solutions .an-next .section-head {
-margin-bottom: var(--head-gap-lg); align-items: flex-start; text-align: left;
-}
-
-#e-home-solutions .an-next .section-head .news-whisker {
-align-self: center; text-align: center;
-}
-
-#e-home-solutions .an-next .section-head h2 {
-text-transform: capitalize; align-self: center; text-align: center; white-space: nowrap;
-}
-
-#e-home-solutions .an-thanks-inner .btn {
-margin-top: var(--space-4);
-}
-
-@media (max-width: 1024px) {
-#e-home-solutions .an-next .section-head h2 {
-white-space: normal;
-}
-}
-
-#e-home-solutions .an-eras .section-head {
-max-width: none;
-}
-
-#e-home-solutions .an-eras .section-head h2 {
-text-transform: capitalize;
-}
-
-#e-home-solutions .an-eras .section-head p {
-max-width: none;
-}
-
-#e-home-solutions .an-eras .section-head a {
-color: var(--color-action); text-decoration: underline; text-underline-offset: 3px;
-}
-
-#e-home-solutions .an-verified .section-head {
-max-width: none; text-align: center; align-items: center;
-}
-
-#e-home-solutions .an-verified .section-head h2 {
-text-transform: capitalize;
-}
-
-#e-home-solutions .an-shift .section-head {
-max-width: none;
-}
-
-#e-home-solutions .an-moments .section-head {
-max-width: none;
-}
-
-#e-home-solutions .an-recog .section-head-split .btn {
-flex-shrink: 0;
-}
-
-#e-home-solutions .an-people .section-head {
-max-width: none;
-}
-
-#e-home-solutions .ab-awards .section-head {
-max-width: none;
-  align-items: center;
-  text-align: center;
-  margin-bottom: var(--head-gap);
-}
-
-@media (max-width: 767px) {
-#e-home-solutions .ab-awards .section-head {
-margin-bottom: var(--space-4);
-}
-}
-
-#e-home-solutions .sol-tile.reveal-up.is-shown:hover {
-transform: translateY(-4px);
-}
-
-@media (max-width: 560px) {
-#e-home-solutions .fm-actions .btn {
-width: 100%;
-}
-}
-
-#e-home-solutions .an-story .section-head {
-max-width: none; align-items: center; text-align: center; margin-bottom: var(--head-gap-lg);
-}
-
-#e-home-solutions .an-story .section-head h2 {
-text-transform: capitalize;
-}
-
-#e-home-solutions .an-story .section-head p {
-max-width: 720px; text-wrap: balance;
-}
-
-#e-home-solutions img { display:block; max-width:100%; }
-#e-home-solutions .container { width:min(100% - 48px, 1280px); margin-inline:auto; }
-
-
-#e-home-solutions .reveal-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 500ms var(--ease-standard), transform 500ms var(--ease-standard);
-}
-#e-home-solutions .reveal-up.is-shown {
-  opacity: 1;
-  transform: none;
-}
-</style>
-<script>
-(function() {
-  var eHomeSelector = '#e-home-solutions[data-section-id="{{ section.id }}"]';
-  function initEHomeSolutions() {
-    var root = document.querySelector(eHomeSelector);
-    if (!root || root.dataset.initialized === 'true') return;
-    root.dataset.initialized = 'true';
-
-    var revealTargets = root.querySelectorAll('.about-top, .about-stat-card, .news-head-row, .news-featured-card, .news-side-card, .solutions-head-row, .sol-tile, .rsvc-intro, .rsvc-carousel, .trust-ticker-header, .trust-ticker-logo');
-    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      var revealObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) { entry.target.classList.add('is-shown'); revealObserver.unobserve(entry.target); }
-        });
-      }, {threshold:0.12});
-      revealTargets.forEach(function(el){el.classList.add('reveal-up');revealObserver.observe(el);});
-      var oldCleanup = root.__eHomeCleanup;
-      root.__eHomeCleanup = function(){revealObserver.disconnect();if(oldCleanup)oldCleanup();};
-    } else {
-      revealTargets.forEach(function(el){el.classList.add('is-shown');});
-    }
-
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initEHomeSolutions, {once:true});
-  else initEHomeSolutions();
-  document.addEventListener('shopify:section:load', function(e) {
-    if (e.target && e.target.querySelector && e.target.querySelector('#e-home-solutions')) {
-      var node=e.target.querySelector('#e-home-solutions'); node.dataset.initialized='false'; initEHomeSolutions();
-    }
-  });
-  document.addEventListener('shopify:section:unload', function(e) {
-    if(e.target && e.target.querySelector) {var node=e.target.querySelector('#e-home-solutions');if(node && node.__eHomeCleanup)node.__eHomeCleanup();}
-  });
+}
+@media (max-width: 767px) {
+  #e-home-solutions .sol-cluster .sol-tile {
+    flex: 0 0 86%;
+  }
+}
+#e-home-solutions .section-head .solutions-whisker {
+  margin-bottom: 4px;
+}
+#e-home-solutions .sol-tile-eyebrow {
+  font-size: var(--text-eyebrow-sm);
+}
+@media (max-width: 767px) {
+  #e-home-solutions .solutions-head-row {
+    flex-wrap: wrap;
+    gap: var(--space-5);
+  }
+  #e-home-solutions .solutions-head-row .section-head {
+    margin-bottom: 0;
+  }
+  #e-home-solutions .solutions-head-row .btn {
+    margin-left: 0;
+    margin-bottom: 0;
+  }
+  #e-home-solutions .sol-cluster-wrap {
+    margin-top: var(--space-8);
+  }
+}
+#e-home-solutions .sol-tile-img .placeholder-svg {
+  width: 100%;
+  height: 100%;
+  background: #e9ecea;
+  fill: rgba(17, 17, 17, 0.25);
+}
+#e-home-solutions .sol-tile p + p { margin-top: 0; }
+</style>
+
+<section
+  id="e-home-solutions"
+  class="e-home-solutions solutions skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+>
+  <div class="container" data-sk-reveal>
+    <div class="solutions-head-row">
+      <div class="section-head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="solutions-whisker">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2>{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p>{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.button_label != blank -%}
+        <a class="btn btn-secondary" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="sol-cluster-wrap">
+      <div class="sol-cluster">
+        {%- for block in section.blocks -%}
+          <a class="sol-tile" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+            <div class="sol-tile-media">
+              <div class="sol-tile-img">
+                {%- if block.settings.image != blank -%}
+                  {%- assign img_alt = block.settings.image.alt | default: block.settings.title -%}
+                  {{ block.settings.image | image_url: width: 1000 | image_tag: widths: '400, 600, 800, 1000', sizes: '(max-width: 767px) 86vw, (max-width: 1024px) 78vw, 410px', loading: 'lazy', alt: img_alt }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="sol-tile-body">
+              {%- if block.settings.eyebrow != blank -%}
+                <span class="sol-tile-eyebrow">{{ block.settings.eyebrow | escape }}</span>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3>{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+              {{ block.settings.details }}
+              {%- if section.settings.tile_cta_label != blank -%}
+                <span class="sol-tile-cta">{{ section.settings.tile_cta_label | escape }}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+                </span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+      <div class="sol-cluster-nav" aria-hidden="false">
+        <button class="sol-cluster-btn prev" type="button" aria-label="Previous solution">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"></path></svg>
+        </button>
+        <button class="sol-cluster-btn next" type="button" aria-label="Next solution">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  if (!window.eHomeSolutions) {
+    window.eHomeSolutions = (function () {
+      var instances = {};
+
+      function create(root) {
+        var track = root.querySelector('.sol-cluster');
+        var prev = root.querySelector('.sol-cluster-btn.prev');
+        var next = root.querySelector('.sol-cluster-btn.next');
+        var listeners = [];
+        if (!track || !prev || !next) return { destroy: function () {}, show: function () {} };
+
+        function on(el, type, fn, opts) {
+          el.addEventListener(type, fn, opts);
+          listeners.push([el, type, fn, opts]);
+        }
+
+        function cardWidth() {
+          var card = track.querySelector('.sol-tile');
+          if (!card) return 0;
+          var gap = parseFloat(getComputedStyle(track).gap) || 0;
+          return card.offsetWidth + gap;
+        }
+
+        function update() {
+          prev.disabled = track.scrollLeft <= 1;
+          next.disabled = track.scrollLeft + track.offsetWidth >= track.scrollWidth - 1;
+        }
+
+        on(prev, 'click', function () { track.scrollBy({ left: -cardWidth(), behavior: 'smooth' }); });
+        on(next, 'click', function () { track.scrollBy({ left: cardWidth(), behavior: 'smooth' }); });
+        on(track, 'scroll', update, { passive: true });
+        on(window, 'resize', update);
+        update();
+
+        return {
+          show: function (tile) {
+            if (track.scrollWidth <= track.offsetWidth) return; /* desktop grid */
+            track.scrollTo({ left: tile.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+          },
+          destroy: function () {
+            listeners.forEach(function (l) { l[0].removeEventListener(l[1], l[2], l[3]); });
+            listeners = [];
+            root.removeAttribute('data-e-init');
+          }
+        };
+      }
+
+      function mount(sectionId) {
+        var wrap = document.getElementById('shopify-section-' + sectionId);
+        var root = wrap ? wrap.querySelector('.e-home-solutions') : null;
+        if (!root || root.hasAttribute('data-e-init')) return;
+        root.setAttribute('data-e-init', '');
+        instances[sectionId] = create(root);
+      }
+
+      function unmount(sectionId) {
+        if (instances[sectionId]) { instances[sectionId].destroy(); delete instances[sectionId]; }
+      }
+
+      document.addEventListener('shopify:section:load', function (e) { mount(e.detail.sectionId); });
+      document.addEventListener('shopify:section:unload', function (e) { unmount(e.detail.sectionId); });
+      document.addEventListener('shopify:block:select', function (e) {
+        var inst = instances[e.detail.sectionId];
+        var tile = e.target.closest ? e.target.closest('.sol-tile') : null;
+        if (inst && tile) inst.show(tile);
+      });
+
+      return { mount: mount, unmount: unmount };
+    })();
+  }
+
+  window.eHomeSolutions.mount('{{ section.id }}');
 })();
 </script>
 
-
 {% schema %}
 {
-  "name": "Home solutions",
+  "name": "Home – Solutions",
   "settings": [
     {
       "type": "select",
       "id": "padding_top",
-      "label": "Padding top",
-      "default": "lg",
+      "label": "Padding Top",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
       "type": "select",
       "id": "padding_bottom",
-      "label": "Padding bottom",
-      "default": "lg",
+      "label": "Padding Bottom",
       "options": [
-        {
-          "value": "0",
-          "label": "None"
-        },
-        {
-          "value": "xs",
-          "label": "Extra small"
-        },
-        {
-          "value": "sm",
-          "label": "Small"
-        },
-        {
-          "value": "md",
-          "label": "Medium"
-        },
-        {
-          "value": "lg",
-          "label": "Large"
-        },
-        {
-          "value": "xl",
-          "label": "Extra large"
-        }
-      ]
+        { "value": "0", "label": "0" },
+        { "value": "xs", "label": "xs" },
+        { "value": "sm", "label": "sm" },
+        { "value": "md", "label": "md" },
+        { "value": "lg", "label": "lg" },
+        { "value": "xl", "label": "xl" }
+      ],
+      "default": "lg"
     },
     {
       "type": "text",
@@ -890,12 +440,18 @@ max-width: 720px; text-wrap: balance;
       "type": "url",
       "id": "button_link",
       "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "tile_cta_label",
+      "label": "Tile link text",
+      "default": "Learn more"
     }
   ],
   "blocks": [
     {
-      "type": "solution",
-      "name": "Solution card",
+      "type": "tile",
+      "name": "Solution tile",
       "settings": [
         {
           "type": "image_picker",
@@ -904,44 +460,22 @@ max-width: 720px; text-wrap: balance;
         },
         {
           "type": "text",
-          "id": "fallback_asset",
-          "label": "Fallback asset filename",
-          "default": "roctec-home-0a8edc37.webp"
-        },
-        {
-          "type": "text",
-          "id": "image_alt",
-          "label": "Image alt text"
-        },
-        {
-          "type": "text",
           "id": "eyebrow",
-          "label": "Category",
+          "label": "Eyebrow",
           "default": "NETWORK SECURITY"
         },
         {
-          "type": "textarea",
+          "type": "text",
           "id": "title",
           "label": "Title",
           "default": "Network Security Infrastructure & Connectivity Gateways"
         },
         {
-          "type": "text",
-          "id": "deployed_in",
-          "label": "Deployed in",
-          "default": "Lingnan University, Hong Kong"
-        },
-        {
-          "type": "text",
-          "id": "scale",
-          "label": "Scale",
-          "default": "Campus-wide wireless & firewall infrastructure"
-        },
-        {
-          "type": "text",
-          "id": "cta_label",
-          "label": "Link label",
-          "default": "Learn more"
+          "type": "richtext",
+          "id": "details",
+          "label": "Details",
+          "info": "Use bold for the labels, e.g. Deployed in: / Scale:",
+          "default": "<p><strong>Deployed in:</strong> Lingnan University, Hong Kong</p><p><strong>Scale:</strong> Campus-wide wireless &amp; firewall infrastructure</p>"
         },
         {
           "type": "url",
@@ -951,41 +485,33 @@ max-width: 720px; text-wrap: balance;
       ]
     }
   ],
+  "max_blocks": 9,
   "presets": [
     {
-      "name": "Home solutions",
+      "name": "Home – Solutions",
       "blocks": [
         {
-          "type": "solution",
+          "type": "tile",
           "settings": {
-            "fallback_asset": "roctec-home-0a8edc37.webp",
-            "image_alt": "Network security infrastructure",
             "eyebrow": "NETWORK SECURITY",
             "title": "Network Security Infrastructure & Connectivity Gateways",
-            "deployed_in": "Lingnan University, Hong Kong",
-            "scale": "Campus-wide wireless & firewall infrastructure"
+            "details": "<p><strong>Deployed in:</strong> Lingnan University, Hong Kong</p><p><strong>Scale:</strong> Campus-wide wireless &amp; firewall infrastructure</p>"
           }
         },
         {
-          "type": "solution",
+          "type": "tile",
           "settings": {
-            "fallback_asset": "roctec-home-785fa87e.webp",
-            "image_alt": "Passenger information display",
             "eyebrow": "PASSENGER SYSTEMS",
             "title": "Passenger Information Display System (PIDS)",
-            "deployed_in": "Hong Kong & Singapore",
-            "scale": "1,000+ units across MTR & LRT networks"
+            "details": "<p><strong>Deployed in:</strong> Hong Kong &amp; Singapore</p><p><strong>Scale:</strong> 1,000+ units across MTR &amp; LRT networks</p>"
           }
         },
         {
-          "type": "solution",
+          "type": "tile",
           "settings": {
-            "fallback_asset": "roctec-home-732d4f6b.webp",
-            "image_alt": "AI-aided driving simulation",
             "eyebrow": "RAIL SIMULATION",
             "title": "AI-Aided Driving Simulation System",
-            "deployed_in": "Hong Kong",
-            "scale": "All 10 HK train types simulated"
+            "details": "<p><strong>Deployed in:</strong> Hong Kong</p><p><strong>Scale:</strong> All 10 HK train types simulated</p>"
           }
         }
       ]
