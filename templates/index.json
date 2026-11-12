@@ -1,18 +1,21 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "home_hero": {
       "type": "e-home-hero",
-      "settings": {
-        "heading": "Precision System\nIntegration",
-        "subheading": "40 years of engineering trust in HK.",
-        "button_label": "Explore our capabilities",
-        "autoplay": true,
-        "interval": 10
-      },
       "blocks": {
         "hero_1": {
           "type": "slide",
           "settings": {
+            "image_alt": "",
             "fallback_asset": "roctec-home-ce03e823.webp",
             "heading": "Precision System|Integration",
             "subheading": "40 years of engineering trust in HK."
@@ -21,14 +24,16 @@
         "hero_2": {
           "type": "slide",
           "settings": {
+            "image_alt": "",
             "fallback_asset": "roctec-home-20b212f2.webp",
             "heading": "Engineered for|the Rails",
             "subheading": "Optimizing rail and transport networks."
           }
-        }, 
+        },
         "hero_3": {
           "type": "slide",
           "settings": {
+            "image_alt": "",
             "fallback_asset": "roctec-home-f2be6c11.webp",
             "heading": "Built for|Smart Cities",
             "subheading": "Intelligent IoT and Smart City systems."
@@ -39,19 +44,25 @@
         "hero_1",
         "hero_2",
         "hero_3"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "heading": "Precision System\nIntegration",
+        "subheading": "40 years of engineering trust in HK.",
+        "button_label": "Explore our capabilities",
+        "button_link": "",
+        "autoplay": true,
+        "interval": 10
+      }
     },
     "home_about": {
       "type": "e-home-about",
-      "settings": {
-        "heading": "Four Decades of Engineering Excellence",
-        "description": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
-        "button_label": "Our Full Story"
-      },
       "blocks": {
         "stat_1": {
           "type": "stat",
           "settings": {
+            "prefix": "",
             "value": "38",
             "suffix": "+",
             "label": "Years of Project Heritage"
@@ -60,6 +71,7 @@
         "stat_2": {
           "type": "stat",
           "settings": {
+            "prefix": "",
             "value": "120",
             "suffix": "+",
             "label": "Infrastructure Projects"
@@ -68,6 +80,7 @@
         "stat_3": {
           "type": "stat",
           "settings": {
+            "prefix": "",
             "value": "24",
             "suffix": "/7",
             "label": "Operations Support"
@@ -76,6 +89,7 @@
         "stat_4": {
           "type": "stat",
           "settings": {
+            "prefix": "",
             "value": "AAA",
             "suffix": "",
             "label": "Quality Aligned"
@@ -87,20 +101,18 @@
         "stat_2",
         "stat_3",
         "stat_4"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "heading": "Four Decades of Engineering Excellence",
+        "description": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
+        "button_label": "Our Full Story",
+        "button_link": ""
+      }
     },
     "home_news": {
       "type": "e-home-news",
-      "settings": {
-        "eyebrow": "NEWS & AUTHORITY",
-        "heading": "Recent Milestones, Ongoing Recognition",
-        "subheading": "Industry recognition and new partnerships, updated as Roctec's work continues to grow.",
-        "button_label": "View All News",
-        "featured_fallback": "roctec-home-c8df52d4.webp",
-        "featured_alt": "Roctec at MTR AI Station Hotline award ceremony",
-        "featured_date": "May 21, 2026",
-        "featured_title": "Roctec Contributed to the Award-Winning AI Station Hotline Project and MTR．Care App Development"
-      },
       "blocks": {
         "article_1": {
           "type": "article",
@@ -108,7 +120,8 @@
             "fallback_asset": "roctec-home-5b98868f.webp",
             "image_alt": "2026 Fortinet Accelerate",
             "date": "June 3, 2026",
-            "title": "2026 Fortinet Accelerate"
+            "title": "2026 Fortinet Accelerate",
+            "link": ""
           }
         },
         "article_2": {
@@ -117,7 +130,8 @@
             "fallback_asset": "roctec-home-2bbc3557.webp",
             "image_alt": "2026 Roctec Annual Dinner",
             "date": "May 21, 2026",
-            "title": "2026 Roctec's Annual Dinner"
+            "title": "2026 Roctec's Annual Dinner",
+            "link": ""
           }
         },
         "article_3": {
@@ -126,7 +140,8 @@
             "fallback_asset": "roctec-home-0cb33a73.webp",
             "image_alt": "Tung Wah 15th Ann Gala Dinner",
             "date": "May 21, 2026",
-            "title": "Tung Wah 15th Ann Gala Dinner"
+            "title": "Tung Wah 15th Ann Gala Dinner",
+            "link": ""
           }
         }
       },
@@ -134,16 +149,24 @@
         "article_1",
         "article_2",
         "article_3"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "eyebrow": "NEWS & AUTHORITY",
+        "heading": "Recent Milestones, Ongoing Recognition",
+        "subheading": "Industry recognition and new partnerships, updated as Roctec's work continues to grow.",
+        "button_label": "View All News",
+        "button_link": "",
+        "featured_fallback": "roctec-home-c8df52d4.webp",
+        "featured_alt": "Roctec at MTR AI Station Hotline award ceremony",
+        "featured_date": "May 21, 2026",
+        "featured_title": "Roctec Contributed to the Award-Winning AI Station Hotline Project and MTR．Care App Development",
+        "featured_link": ""
+      }
     },
     "home_solutions": {
       "type": "e-home-solutions",
-      "settings": {
-        "eyebrow": "ROCTEC SOLUTIONS",
-        "heading": "Systems Engineered for Scale",
-        "subheading": "Mission-critical platforms for HK networks.",
-        "button_label": "View All Solutions"
-      },
       "blocks": {
         "solution_1": {
           "type": "solution",
@@ -153,7 +176,9 @@
             "eyebrow": "NETWORK SECURITY",
             "title": "Network Security Infrastructure & Connectivity Gateways",
             "deployed_in": "Lingnan University, Hong Kong",
-            "scale": "Campus-wide wireless & firewall infrastructure"
+            "scale": "Campus-wide wireless & firewall infrastructure",
+            "cta_label": "Learn more",
+            "link": ""
           }
         },
         "solution_2": {
@@ -164,7 +189,9 @@
             "eyebrow": "PASSENGER SYSTEMS",
             "title": "Passenger Information Display System (PIDS)",
             "deployed_in": "Hong Kong & Singapore",
-            "scale": "1,000+ units across MTR & LRT networks"
+            "scale": "1,000+ units across MTR & LRT networks",
+            "cta_label": "Learn more",
+            "link": ""
           }
         },
         "solution_3": {
@@ -175,7 +202,9 @@
             "eyebrow": "RAIL SIMULATION",
             "title": "AI-Aided Driving Simulation System",
             "deployed_in": "Hong Kong",
-            "scale": "All 10 HK train types simulated"
+            "scale": "All 10 HK train types simulated",
+            "cta_label": "Learn more",
+            "link": ""
           }
         }
       },
@@ -183,16 +212,19 @@
         "solution_1",
         "solution_2",
         "solution_3"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "eyebrow": "ROCTEC SOLUTIONS",
+        "heading": "Systems Engineered for Scale",
+        "subheading": "Mission-critical platforms for HK networks.",
+        "button_label": "View All Solutions",
+        "button_link": ""
+      }
     },
     "home_services": {
       "type": "e-home-services",
-      "settings": {
-        "eyebrow": "Services",
-        "heading": "Full-Lifecycle Engineering Services",
-        "subheading": "End-to-end design, deployment, and security for mission-critical infrastructure.",
-        "button_label": "Explore Our Services"
-      },
       "blocks": {
         "service_1": {
           "type": "service",
@@ -236,13 +268,19 @@
         "service_2",
         "service_3",
         "service_4"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "eyebrow": "Services",
+        "heading": "Full-Lifecycle Engineering Services",
+        "subheading": "End-to-end design, deployment, and security for mission-critical infrastructure.",
+        "button_label": "Explore Our Services",
+        "button_link": ""
+      }
     },
     "home_partners": {
       "type": "e-home-partners",
-      "settings": {
-        "heading": "Our Partners"
-      },
       "blocks": {
         "partner_1": {
           "type": "partner",
@@ -390,7 +428,12 @@
         "partner_16",
         "partner_17",
         "partner_18"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "heading": "Our Partners"
+      }
     }
   },
   "order": [
