@@ -1,11 +1,89 @@
 {
   "sections": {
-    "1": {
-      "type": "d-banner",
+    "e_products_hero": {
+      "type": "e-products-hero",
       "settings": {}
+    },
+    "e_products_breadcrumb": {
+      "type": "e-products-breadcrumb",
+      "settings": {}
+    },
+    "e_products_promotions": {
+      "type": "e-products-promotions",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "eyebrow_tag": "精选推广"
+      },
+      "blocks": {
+        "slide_monthly": {
+          "type": "slide",
+          "settings": {
+            "fallback_image": "pick-banner-monthly.webp",
+            "eyebrow": "本月精选",
+            "heading": "这个月，先把厨房里的\n几个基本选择整理好",
+            "description": "从每天都会用到的食油、调味到常备食材，挑几样真正用得上的，从日常开始慢慢调整。",
+            "button_label": "看看本月精选",
+            "link": "#e-products-listing"
+          }
+        },
+        "slide_busy": {
+          "type": "slide",
+          "settings": {
+            "fallback_image": "pick-banner-busy.webp",
+            "eyebrow": "给忙碌家庭的选择",
+            "heading": "想吃得好一点，\n不代表每天都要花更多时间",
+            "description": "从容易储存的食材，到减少备餐步骤的小工具，整理一组更适合忙碌日常的选择。",
+            "button_label": "探索轻松备餐好物",
+            "link": "#e-products-listing"
+          }
+        },
+        "slide_guide": {
+          "type": "slide",
+          "settings": {
+            "fallback_image": "pick-banner-guide.webp",
+            "eyebrow": "阿良选品指南",
+            "heading": "包装上的「健康」，\n不一定等于适合你",
+            "description": "成分、份量、使用方式、价格——买之前先知道自己该看什么，选择自然会简单一点。",
+            "button_label": "看看阿良怎么选",
+            "link": "#e-products-listing"
+          }
+        },
+        "slide_new": {
+          "type": "slide",
+          "settings": {
+            "fallback_image": "pick-banner-new.webp",
+            "eyebrow": "最新上架",
+            "heading": "最近多了一些，\n值得放进日常的新选择",
+            "description": "不是为了把商品越放越多，而是在阿良真正看过之后，再慢慢把适合的留下来。",
+            "button_label": "看看最新上架",
+            "link": "#e-products-listing"
+          }
+        }
+      },
+      "block_order": [
+        "slide_monthly",
+        "slide_busy",
+        "slide_guide",
+        "slide_new"
+      ]
+    },
+    "e_products_listing": {
+      "type": "e-products-listing",
+      "settings": {
+        "page_size": 9,
+        "categories_heading": "产品分类",
+        "sort_label": "排序",
+        "search_placeholder": "找找你需要的好品",
+        "empty_heading": "这个分类暂时还没有好品",
+        "empty_description": "试试其他分类，或调整商品名称关键词。"
+      }
     }
   },
   "order": [
-    "1"
+    "e_products_hero",
+    "e_products_breadcrumb",
+    "e_products_promotions",
+    "e_products_listing"
   ]
-}  
+}

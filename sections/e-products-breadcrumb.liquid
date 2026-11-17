@@ -1,0 +1,98 @@
+<section
+  id="e-products-breadcrumb"
+  class="breadcrumb-div-1ewu skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+  data-screen-label="Breadcrumb"
+>
+  <div class="hero-div-qtr5">
+    <nav aria-label="{{ section.settings.aria_label | escape }}" class="breadcrumb-nav-1l6b hl-breadcrumb st-font-size-14px">
+      <a class="breadcrumb-a-ffk7" href="{{ section.settings.home_link | default: routes.root_url }}">
+        {{ section.settings.home_label | escape }}
+      </a>
+      <svg aria-hidden="true" class="strip-svg-ur0s" fill="none" height="11" viewBox="0 0 6 11" width="6">
+        <path d="M0.170852 10.3291C-0.0569508 10.1013 -0.0569508 9.73198 0.170852 9.50419L4.42505 5.25L0.170852 0.995814C-0.0569508 0.768005 -0.0569508 0.398662 0.170852 0.170852C0.398662 -0.0569508 0.768 -0.0569508 0.995815 0.170852L5.66247 4.83752C5.89027 5.06532 5.89027 5.43468 5.66247 5.66247L0.995815 10.3291C0.768 10.5569 0.398662 10.5569 0.170852 10.3291Z" fill="#a09890" fill-rule="evenodd"/>
+      </svg>
+      <span class="breadcrumb-span-121f">{{ section.settings.current_label | escape }}</span>
+    </nav>
+  </div>
+</section>
+
+<style>
+#e-products-breadcrumb {
+  --hl-ink: #1a1a1a;
+  --hl-muted: #a09890;
+  color: var(--hl-ink);
+}
+#e-products-breadcrumb .hero-div-qtr5 { width: min(1560px, calc(100% - 48px)); margin-inline: auto; }
+#e-products-breadcrumb .breadcrumb-nav-1l6b { display: flex; align-items: center; gap: 10px; }
+#e-products-breadcrumb .breadcrumb-a-ffk7 { color: inherit; text-decoration: none; transition: color .2s ease; }
+#e-products-breadcrumb .breadcrumb-a-ffk7:hover { color: #bd2c00; }
+#e-products-breadcrumb .breadcrumb-span-121f { color: #81756f; }
+
+
+#e-products-breadcrumb {
+  box-sizing: border-box;
+  color: var(--hl-ink);
+  font-family: "Source Han Sans CN VF", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+#e-products-breadcrumb *, #e-products-breadcrumb *::before, #e-products-breadcrumb *::after { box-sizing: border-box; }
+#e-products-breadcrumb img { display: block; max-width: 100%; }
+#e-products-breadcrumb button, #e-products-breadcrumb input, #e-products-breadcrumb select { font: inherit; }
+#e-products-breadcrumb a { color: inherit; text-decoration: none; }
+
+#e-products-breadcrumb.skpt-0 { padding-top: 0 !important; }
+#e-products-breadcrumb.skpt-xs { padding-top: var(--calc-spacing-xs) !important; }
+#e-products-breadcrumb.skpt-sm { padding-top: var(--calc-spacing-sm) !important; }
+#e-products-breadcrumb.skpt-md { padding-top: var(--calc-spacing-md) !important; }
+#e-products-breadcrumb.skpt-lg { padding-top: var(--calc-spacing-lg) !important; }
+#e-products-breadcrumb.skpt-xl { padding-top: var(--calc-spacing-xl) !important; }
+#e-products-breadcrumb.skpb-0 { padding-bottom: 0 !important; }
+#e-products-breadcrumb.skpb-xs { padding-bottom: var(--calc-spacing-xs) !important; }
+#e-products-breadcrumb.skpb-sm { padding-bottom: var(--calc-spacing-sm) !important; }
+#e-products-breadcrumb.skpb-md { padding-bottom: var(--calc-spacing-md) !important; }
+#e-products-breadcrumb.skpb-lg { padding-bottom: var(--calc-spacing-lg) !important; }
+#e-products-breadcrumb.skpb-xl { padding-bottom: var(--calc-spacing-xl) !important; }
+
+</style>
+
+{% schema %}
+{
+  "name": "E Products - Breadcrumb",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": "lg",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": "lg",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "xs", "label": "Extra small" },
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" },
+        { "value": "xl", "label": "Extra large" }
+      ]
+    },
+    { "type": "text", "id": "aria_label", "label": "Navigation label", "default": "面包屑" },
+    { "type": "text", "id": "home_label", "label": "Home label", "default": "首页" },
+    { "type": "url", "id": "home_link", "label": "Home link" },
+    { "type": "text", "id": "current_label", "label": "Current page label", "default": "阿良选品" }
+  ],
+  "presets": [
+    { "name": "E Products - Breadcrumb" }
+  ]
+}
+{% endschema %}
