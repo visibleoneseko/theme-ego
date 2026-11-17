@@ -1,20 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "e_products_hero": {
       "type": "e-products-hero",
-      "settings": {}
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "heading": "阿良",
+        "heading_highlight": "选品",
+        "description": "从厨房里的食材，到每天会使用的生活用品、书籍与学习资源，每一样出现在阿良选品里的好品，都有一个清楚的「为什么」。阿良看过，才推荐。"
+      }
     },
     "e_products_breadcrumb": {
       "type": "e-products-breadcrumb",
-      "settings": {}
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "aria_label": "面包屑",
+        "home_label": "首页",
+        "home_link": "",
+        "current_label": "阿良选品"
+      }
     },
     "e_products_promotions": {
       "type": "e-products-promotions",
-      "settings": {
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "eyebrow_tag": "精选推广"
-      },
       "blocks": {
         "slide_monthly": {
           "type": "slide",
@@ -66,11 +83,23 @@
         "slide_busy",
         "slide_guide",
         "slide_new"
-      ]
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "eyebrow_tag": "精选推广",
+        "autoplay": true,
+        "autoplay_speed": 5
+      }
     },
     "e_products_listing": {
       "type": "e-products-listing",
       "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "daily_collection": "best-selling-products",
+        "kitchen_collection": "all-collect",
+        "book_collection": "newest-products",
         "page_size": 9,
         "categories_heading": "产品分类",
         "sort_label": "排序",
