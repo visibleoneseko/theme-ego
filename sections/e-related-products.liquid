@@ -1,0 +1,112 @@
+
+{% if product %}
+<section id="e-related-products" class="e-related-products skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}" data-e-related-products data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <div class="e-related-products__heading">
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <a href="{{ section.settings.all_products_link | default: routes.all_products_collection_url }}">{{ section.settings.view_all_label | escape }} <span aria-hidden="true">→</span></a>
+    </div>
+    <product-recommendations class="e-related-products__recommendations" data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}&intent=related" data-section-id="{{ section.id }}" data-product-id="{{ product.id }}">
+      {% if recommendations.performed and recommendations.products_count > 0 %}
+        <div class="e-related-products__grid" role="list">
+          {% for recommendation in recommendations.products %}
+            <article class="e-related-products__card" role="listitem">
+              <div class="e-related-products__media">
+                <a href="{{ recommendation.url }}" tabindex="-1" aria-hidden="true">
+                  {% if recommendation.featured_media %}
+                    {{ recommendation.featured_media.preview_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '320, 480, 640, 800', sizes: '(min-width: 990px) 25vw, 50vw', alt: recommendation.featured_media.alt | default: recommendation.title }}
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'e-related-products__placeholder' }}
+                  {% endif %}
+                </a>
+                {% if section.settings.show_pick_badge %}<span class="e-related-products__badge">{{ section.settings.pick_badge_text }}</span>{% endif %}
+                <div class="e-related-products__overlay">
+                  {% if recommendation.available %}
+                    <button type="button" class="e-related-products__cart" data-e-related-cart data-variant-id="{{ recommendation.selected_or_first_available_variant.id }}">{{ section.settings.add_to_cart_label | escape }}</button>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="e-related-products__content">
+                <h3><a href="{{ recommendation.url }}">{{ recommendation.title | escape }}</a></h3>
+                {% if recommendation.description != blank %}<p>{{ recommendation.description | strip_html | truncate: 90 }}</p>{% endif %}
+                <div class="e-related-products__price"><strong>{{ recommendation.price | money }}</strong>{% if recommendation.compare_at_price > recommendation.price %}<del>{{ recommendation.compare_at_price | money }}</del>{% endif %}</div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </product-recommendations>
+  </div>
+</section>
+<style>
+  #e-related-products { background:#fff; color:#1a1a1a; }
+  #e-related-products.skpt-0 { padding-top:0; } #e-related-products.skpt-xs { padding-top:16px; } #e-related-products.skpt-sm { padding-top:28px; } #e-related-products.skpt-md { padding-top:44px; } #e-related-products.skpt-lg { padding-top:64px; } #e-related-products.skpt-xl { padding-top:88px; }
+  #e-related-products.skpb-0 { padding-bottom:0; } #e-related-products.skpb-xs { padding-bottom:16px; } #e-related-products.skpb-sm { padding-bottom:28px; } #e-related-products.skpb-md { padding-bottom:44px; } #e-related-products.skpb-lg { padding-bottom:64px; } #e-related-products.skpb-xl { padding-bottom:88px; }
+  #e-related-products .e-related-products__heading { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:30px; }
+  #e-related-products h2 { margin:0; font-family:var(--font-heading-family,serif); font-size:clamp(30px,3vw,43px); font-weight:800; }
+  #e-related-products .e-related-products__heading a { color:#bd2c00; font-weight:700; text-decoration:none; }
+  #e-related-products .e-related-products__grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; align-items:stretch; }
+  #e-related-products .e-related-products__card { display:flex; flex-direction:column; overflow:hidden; border-radius:20px; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.05); opacity:0; transform:translateY(24px); animation:e-related-products-reveal .7s cubic-bezier(.22,1,.36,1) both; transition:box-shadow .3s; }
+  @keyframes e-related-products-reveal { to { opacity:1; transform:none; } } #e-related-products .e-related-products__card:nth-child(2) { animation-delay:60ms; } #e-related-products .e-related-products__card:nth-child(3) { animation-delay:120ms; } #e-related-products .e-related-products__card:nth-child(4) { animation-delay:180ms; }
+  #e-related-products .e-related-products__card.is-visible { opacity:1; transform:none; }
+  #e-related-products .e-related-products__card:hover { box-shadow:0 8px 28px rgba(0,0,0,.1); }
+  #e-related-products .e-related-products__media { position:relative; aspect-ratio:1; overflow:hidden; border-radius:20px; background:#fdf5f3; }
+  #e-related-products .e-related-products__media img,#e-related-products .e-related-products__placeholder { width:100%; height:100%; display:block; object-fit:cover; transition:transform .5s; }
+  #e-related-products .e-related-products__card:hover .e-related-products__media img { transform:scale(1.05); }
+  #e-related-products .e-related-products__badge { position:absolute; z-index:1; top:12px; left:12px; padding:7px 12px; border-radius:999px; background:#db3c0c; color:#fff; font-size:12px; }
+  #e-related-products .e-related-products__overlay { position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:center; padding:20px; background:rgba(0,0,0,.18); opacity:0; transition:opacity .25s; }
+  #e-related-products .e-related-products__card:hover .e-related-products__overlay,#e-related-products .e-related-products__card:focus-within .e-related-products__overlay { opacity:1; }
+  #e-related-products .e-related-products__cart { min-width:130px; min-height:44px; padding:9px 20px; border:0; border-radius:40px; background:#bd2c00; color:#fff; cursor:pointer; }
+  #e-related-products .e-related-products__content { flex:1; display:flex; flex-direction:column; padding:0 20px 20px; }
+  #e-related-products .e-related-products__content h3 { margin:14px 0 8px; font-family:var(--font-heading-family,serif); font-size:clamp(19px,2vw,26px); line-height:1.35; }
+  #e-related-products .e-related-products__content h3 a { color:inherit; text-decoration:none; }
+  #e-related-products .e-related-products__content p { margin:0 0 8px; color:#606060; line-height:1.6; }
+  #e-related-products .e-related-products__price { display:flex; align-items:baseline; gap:10px; margin-top:auto; padding-top:10px; color:#db3c0c; font-size:22px; }
+  #e-related-products .e-related-products__price del { color:#81756f; font-size:16px; }
+  @media(max-width:989px) { #e-related-products .e-related-products__grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; } }
+  @media(max-width:600px) { #e-related-products .page-width { padding-inline:20px; } #e-related-products .e-related-products__content { padding:0 14px 16px; } #e-related-products .e-related-products__overlay { opacity:1; background:transparent; align-items:flex-end; justify-content:flex-end; padding:10px; } #e-related-products .e-related-products__cart { min-width:0; min-height:38px; padding:8px 12px; font-size:12px; } }
+  @media(prefers-reduced-motion:reduce) { #e-related-products .e-related-products__card { opacity:1; transform:none; animation:none; } #e-related-products .e-related-products__media img { transition:none; } }
+</style>
+<script>
+(() => {
+  const root = document.querySelector('#e-related-products[data-e-related-products]');
+  if (!root || root.dataset.initialized === 'true') return;
+  root.dataset.initialized = 'true';
+  root.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-e-related-cart]');
+    if (!button || !root.contains(button)) return;
+    if (typeof window.skAddToCart === 'function') {
+      window.skAddToCart(button.dataset.variantId, 1, button);
+    }
+  });
+  const sectionId = root.dataset.sectionId;
+  const onUnload = (event) => {
+    if (event.detail.sectionId === sectionId) {
+      document.removeEventListener('shopify:section:unload', onUnload);
+      root.dataset.initialized = 'false';
+    }
+  };
+  document.addEventListener('shopify:section:unload', onUnload);
+})();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "E Related products",
+  "tag": "section",
+  "class": "e-related-products-section",
+  "settings": [
+    { "type": "select", "id": "padding_top", "label": "Padding Top", "default": "lg", "options": [{"value":"0","label":"None"},{"value":"xs","label":"Extra small"},{"value":"sm","label":"Small"},{"value":"md","label":"Medium"},{"value":"lg","label":"Large"},{"value":"xl","label":"Extra large"}] },
+    { "type": "select", "id": "padding_bottom", "label": "Padding Bottom", "default": "lg", "options": [{"value":"0","label":"None"},{"value":"xs","label":"Extra small"},{"value":"sm","label":"Small"},{"value":"md","label":"Medium"},{"value":"lg","label":"Large"},{"value":"xl","label":"Extra large"}] },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "相关好品" },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "查看全部选品" },
+    { "type": "url", "id": "all_products_link", "label": "All products link" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 10, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_pick_badge", "label": "Show recommendation badge", "default": true },
+    { "type": "text", "id": "pick_badge_text", "label": "Recommendation badge", "default": "阿良看过 · 才推荐" },
+    { "type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "加入购物车" }
+  ],
+  "presets": [{ "name": "E Related products" }]
+}
+{% endschema %}

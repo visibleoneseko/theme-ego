@@ -1,10 +1,51 @@
+
 {
   "sections": {
-    "1": {
-      "type": "d-product"
+    "product_detail": {
+      "type": "e-product-detail",
+      "blocks": {
+        "highlight_1": {
+          "type": "highlight",
+          "settings": {
+            "text": "100% 冷压初榨，无添加、无混油"
+          }
+        },
+        "highlight_2": {
+          "type": "highlight",
+          "settings": {
+            "text": "标示清楚的烟点与建议用法，煎炒凉拌各有所属"
+          }
+        },
+        "highlight_3": {
+          "type": "highlight",
+          "settings": {
+            "text": "阿良逐批查看检验报告后才上架"
+          }
+        }
+      },
+      "block_order": [
+        "highlight_1",
+        "highlight_2",
+        "highlight_3"
+      ],
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg"
       }
+    },
+    "related_products": {
+      "type": "e-related-products",
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "xl",
+        "heading": "相关好品",
+        "view_all_label": "查看全部选品",
+        "products_to_show": 4
+      }
+    }
   },
   "order": [
-      "1"
+    "product_detail",
+    "related_products"
   ]
 }
