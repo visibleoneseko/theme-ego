@@ -85,20 +85,10 @@
         "pick_badge_text": "阿良看过 · 才推荐",
         "add_to_cart_label": "加入购物车"
       }
-    },
-    "d_product_related_v1_bnjnpN": {
-      "type": "d-product-related-v1",
-      "name": "SK Related Products",
-      "settings": {
-        "title": "Related Lenses & Accessories",
-        "recommendation_type": "related",
-        "limit": 4
-      }
     }
   },
   "order": [
     "product_detail",
-    "related_products",
-    "d_product_related_v1_bnjnpN"
+    "related_products"
   ]
 }
