@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "product_detail": {
@@ -30,7 +38,38 @@
       ],
       "settings": {
         "padding_top": "lg",
-        "padding_bottom": "lg"
+        "padding_bottom": "lg",
+        "show_pick_badge": true,
+        "pick_badge_text": "阿良看过 · 才推荐",
+        "show_vendor": false,
+        "category_label": "日常食材",
+        "breadcrumb_home_label": "首页",
+        "category_collection": "",
+        "wishlist_label": "收藏产品",
+        "share_label": "分享：",
+        "copy_link_label": "复制产品链接",
+        "copied_message": "链接已复制",
+        "gallery_label": "产品图片",
+        "view_image_label": "查看产品图",
+        "sku_label": "编号",
+        "tags_label": "标签",
+        "variant_label": "规格",
+        "quantity_label": "数量",
+        "decrease_label": "减少数量",
+        "increase_label": "增加数量",
+        "stock_label": "库存",
+        "sold_out_label": "售罄",
+        "add_to_cart_label": "加入购物车",
+        "buy_now_label": "立即购买",
+        "shipping_note": "下单后 2–3 个工作天内出货 · 西马地区满 RM 150.00 免运费",
+        "cart_error_message": "无法加入购物车，请重试。",
+        "details_label": "产品详情",
+        "intro_tab_label": "产品介绍",
+        "info_tab_label": "详细资讯",
+        "recommend_tab_label": "阿良为什么推荐",
+        "intro_fallback": "<p>请在产品 metafields 中填写 ego.Introduction。</p>",
+        "info_fallback": "<p>请在产品 metafields 中填写 ego.information。</p>",
+        "recommend_fallback": "<p>请在产品 metafields 中填写 ego.recommend。</p>"
       }
     },
     "related_products": {
@@ -40,12 +79,26 @@
         "padding_bottom": "xl",
         "heading": "相关好品",
         "view_all_label": "查看全部选品",
-        "products_to_show": 4
+        "all_products_link": "",
+        "products_to_show": 4,
+        "show_pick_badge": true,
+        "pick_badge_text": "阿良看过 · 才推荐",
+        "add_to_cart_label": "加入购物车"
+      }
+    },
+    "d_product_related_v1_bnjnpN": {
+      "type": "d-product-related-v1",
+      "name": "SK Related Products",
+      "settings": {
+        "title": "Related Lenses & Accessories",
+        "recommendation_type": "related",
+        "limit": 4
       }
     }
   },
   "order": [
     "product_detail",
-    "related_products"
+    "related_products",
+    "d_product_related_v1_bnjnpN"
   ]
 }
