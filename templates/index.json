@@ -373,7 +373,7 @@
           "type": "youtube_video",
           "settings": {
             "video_input_type": "url",
-            "youtube_url": "",
+            "youtube_url": "https://www.youtube.com/watch?v=9xwazD5SyVg",
             "embed_code": "",
             "video_title": ""
           }
