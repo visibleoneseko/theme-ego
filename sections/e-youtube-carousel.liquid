@@ -3,6 +3,7 @@
   assign section_id = 'e-youtube-carousel-' | append: section.id
 %}
 
+
 <section
   id="{{ section_id }}"
   class="e-youtube-carousel skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
@@ -161,7 +162,7 @@
       } else if (
         host === 'youtube.com' ||
         host === 'm.youtube.com' ||
-        host === 'youtube-nocookie.com'
+        host === 'youtube.com'
       ) {
         if (url.pathname === '/watch') {
           videoId = url.searchParams.get('v');
@@ -219,7 +220,7 @@
     const iframe = document.createElement('iframe');
 
     iframe.src =
-      'https://www.youtube-nocookie.com/embed/' + videoId;
+      'https://www.youtube.com/embed/' + videoId;
 
     iframe.title = 'YouTube video player';
     iframe.loading = 'lazy';
