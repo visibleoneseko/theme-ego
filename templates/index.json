@@ -398,7 +398,7 @@
         "padding_top": "lg",
         "padding_bottom": "lg",
         "heading": "Our Videos",
-        "description": "",
+        "description": "<p>Description</p>",
         "desktop_items": "3",
         "tablet_items": "2",
         "mobile_items": "1",
