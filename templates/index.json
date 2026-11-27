@@ -393,6 +393,7 @@
         "youtube_video_FTWkir",
         "youtube_video_NthVnw"
       ],
+      "disabled": true,
       "name": "e-youtube-carousel",
       "settings": {
         "padding_top": "lg",
