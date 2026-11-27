@@ -1,14 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "e-home-hero",
-      "settings": {
-        "padding_top": "0",
-        "padding_bottom": "0",
-        "aria_label": "Roctec capability highlights",
-        "autoplay": true,
-        "interval": 10
-      },
       "blocks": {
         "slide_1": {
           "type": "slide",
@@ -33,18 +35,17 @@
         "slide_1",
         "slide_2",
         "slide_3"
-      ]
+      ],
+      "settings": {
+        "padding_top": "0",
+        "padding_bottom": "0",
+        "aria_label": "Roctec capability highlights",
+        "autoplay": true,
+        "interval": 10
+      }
     },
     "about": {
       "type": "e-home-about",
-      "settings": {
-        "padding_top": "xl",
-        "padding_bottom": "xl",
-        "heading": "Four Decades of Engineering Excellence",
-        "text": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
-        "button_label": "Our Full Story",
-        "button_link": "/pages/about-us"
-      },
       "blocks": {
         "stat_1": {
           "type": "stat_counter",
@@ -84,7 +85,15 @@
         "stat_2",
         "stat_3",
         "stat_4"
-      ]
+      ],
+      "settings": {
+        "padding_top": "xl",
+        "padding_bottom": "xl",
+        "heading": "Four Decades of Engineering Excellence",
+        "text": "<p>Founded in 1987, Roctec Technology Limited (鷹達科技有限公司) is a well-established system integrator and solution developer experienced in large-scale data communications, multimedia display and network integration projects across Hong Kong, Thailand, Singapore and other Asian countries.</p>",
+        "button_label": "Our Full Story",
+        "button_link": "/pages/about-us"
+      }
     },
     "news": {
       "type": "e-home-news",
@@ -102,16 +111,6 @@
     },
     "solutions": {
       "type": "e-home-solutions",
-      "settings": {
-        "padding_top": "xl",
-        "padding_bottom": "xl",
-        "eyebrow": "ROCTEC SOLUTIONS",
-        "heading": "Systems Engineered for Scale",
-        "subheading": "Mission-critical platforms for HK networks.",
-        "button_label": "View All Solutions",
-        "button_link": "/pages/solutions",
-        "tile_cta_label": "Learn more"
-      },
       "blocks": {
         "tile_1": {
           "type": "tile",
@@ -145,19 +144,20 @@
         "tile_1",
         "tile_2",
         "tile_3"
-      ]
-    },
-    "services": {
-      "type": "e-home-services",
+      ],
       "settings": {
         "padding_top": "xl",
         "padding_bottom": "xl",
-        "eyebrow": "Services",
-        "heading": "Full-Lifecycle Engineering Services",
-        "text": "End-to-end design, deployment, and security for mission-critical infrastructure.",
-        "button_label": "Explore Our Services",
-        "button_link": "/pages/services"
-      },
+        "eyebrow": "ROCTEC SOLUTIONS",
+        "heading": "Systems Engineered for Scale",
+        "subheading": "Mission-critical platforms for HK networks.",
+        "button_label": "View All Solutions",
+        "button_link": "/pages/solutions",
+        "tile_cta_label": "Learn more"
+      }
+    },
+    "services": {
+      "type": "e-home-services",
       "blocks": {
         "service_1": {
           "type": "service",
@@ -193,17 +193,19 @@
         "service_2",
         "service_3",
         "service_4"
-      ]
+      ],
+      "settings": {
+        "padding_top": "xl",
+        "padding_bottom": "xl",
+        "eyebrow": "Services",
+        "heading": "Full-Lifecycle Engineering Services",
+        "text": "End-to-end design, deployment, and security for mission-critical infrastructure.",
+        "button_label": "Explore Our Services",
+        "button_link": "/pages/services"
+      }
     },
     "partners": {
       "type": "e-home-partners",
-      "settings": {
-        "padding_top": "md",
-        "padding_bottom": "md",
-        "eyebrow": "Our Partners",
-        "aria_label": "Business partners",
-        "speed": 60
-      },
       "blocks": {
         "logo_1": {
           "type": "logo",
@@ -333,7 +335,14 @@
         "logo_16",
         "logo_17",
         "logo_18"
-      ]
+      ],
+      "settings": {
+        "padding_top": "md",
+        "padding_bottom": "md",
+        "eyebrow": "Our Partners",
+        "aria_label": "Business partners",
+        "speed": 60
+      }
     },
     "anniversary_card": {
       "type": "e-home-anniversary-card",
@@ -347,6 +356,59 @@
         "aria_label": "40th anniversary highlight",
         "remember_close": false
       }
+    },
+    "e_youtube_carousel_Be3a4y": {
+      "type": "e-youtube-carousel",
+      "blocks": {
+        "youtube_video_FBmbJ8": {
+          "type": "youtube_video",
+          "settings": {
+            "video_input_type": "embed",
+            "youtube_url": "",
+            "embed_code": "<iframe width=\"1059\" height=\"595\" src=\"https://www.youtube.com/embed/SMJbXKkju44\" title=\"🔴 Seko Live : Road to Mythical Glory with a lot of trouble 😅🔥 | MLBB S42, Ep72\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe>",
+            "video_title": ""
+          }
+        },
+        "youtube_video_FTWkir": {
+          "type": "youtube_video",
+          "settings": {
+            "video_input_type": "url",
+            "youtube_url": "",
+            "embed_code": "",
+            "video_title": ""
+          }
+        },
+        "youtube_video_NthVnw": {
+          "type": "youtube_video",
+          "settings": {
+            "video_input_type": "url",
+            "youtube_url": "https://www.youtube.com/watch?v=SMiljhExAsg",
+            "embed_code": "",
+            "video_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "youtube_video_FBmbJ8",
+        "youtube_video_FTWkir",
+        "youtube_video_NthVnw"
+      ],
+      "name": "e-youtube-carousel",
+      "settings": {
+        "padding_top": "lg",
+        "padding_bottom": "lg",
+        "heading": "Our Videos",
+        "description": "",
+        "desktop_items": "3",
+        "tablet_items": "2",
+        "mobile_items": "1",
+        "slide_gap": 20,
+        "autoplay": false,
+        "autoplay_speed": 3000,
+        "loop": true,
+        "navigation": true,
+        "dots": true
+      }
     }
   },
   "order": [
@@ -356,6 +418,7 @@
     "solutions",
     "services",
     "partners",
-    "anniversary_card"
+    "anniversary_card",
+    "e_youtube_carousel_Be3a4y"
   ]
 }
