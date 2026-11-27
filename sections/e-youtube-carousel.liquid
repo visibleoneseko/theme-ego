@@ -1,0 +1,544 @@
+
+{% liquid
+  assign section_id = 'e-youtube-carousel-' | append: section.id
+%}
+
+<section
+  id="{{ section_id }}"
+  class="e-youtube-carousel skpt-{{ section.settings.padding_top }} skpb-{{ section.settings.padding_bottom }}"
+  data-desktop-items="{{ section.settings.desktop_items }}"
+  data-tablet-items="{{ section.settings.tablet_items }}"
+  data-mobile-items="{{ section.settings.mobile_items }}"
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+  data-loop="{{ section.settings.loop }}"
+  data-nav="{{ section.settings.navigation }}"
+  data-dots="{{ section.settings.dots }}"
+  data-margin="{{ section.settings.slide_gap }}"
+>
+  <div class="container-lg">
+
+    {% if section.settings.heading != blank or section.settings.description != blank %}
+      <div class="youtube-carousel-header text-center skmb-md">
+        {% if section.settings.heading != blank %}
+          <h2>{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+
+        {% if section.settings.description != blank %}
+          <div class="youtube-carousel-description">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="owl-carousel owl-theme youtube-carousel-track">
+
+      {% for block in section.blocks %}
+        <div
+          class="item youtube-carousel-item"
+          {{ block.shopify_attributes }}
+        >
+          <div
+            class="youtube-video-wrapper"
+            data-video-type="{{ block.settings.video_input_type }}"
+            data-video-url="{{ block.settings.youtube_url | escape }}"
+            data-embed-code="{{ block.settings.embed_code | escape }}"
+          >
+            <div class="youtube-video-placeholder">
+              <span class="youtube-video-error">
+                Video unavailable
+              </span>
+            </div>
+          </div>
+
+          {% if block.settings.video_title != blank %}
+            <h3 class="youtube-video-title">
+              {{ block.settings.video_title | escape }}
+            </h3>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+    </div>
+
+    {% if section.blocks.size == 0 %}
+      <div class="youtube-carousel-empty">
+        Add YouTube videos using the Theme Editor.
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+  #{{ section_id }} {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #{{ section_id }} .youtube-carousel-header h2 {
+    margin-bottom: 15px;
+  }
+
+  #{{ section_id }} .youtube-carousel-description {
+    margin-top: 10px;
+  }
+
+  #{{ section_id }} .youtube-video-wrapper {
+    width: 100%;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #f2f2f2;
+  }
+
+  #{{ section_id }} .youtube-video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  #{{ section_id }} .youtube-video-title {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+
+  #{{ section_id }} .youtube-carousel-empty {
+    text-align: center;
+    padding: 30px;
+    background: #f8f8f8;
+  }
+
+  #{{ section_id }} .youtube-video-error {
+    display: none;
+  }
+</style>
+
+<script>
+(function () {
+  const sectionId = {{ section_id | json }};
+  const root = document.getElementById(sectionId);
+
+  if (!root) return;
+
+  const registryKey = '__skYouTubeCarouselHandlers';
+
+  window[registryKey] = window[registryKey] || {};
+
+  // Remove previous listeners if this section is reloaded.
+  const previous = window[registryKey][sectionId];
+
+  if (previous) {
+    document.removeEventListener(
+      'shopify:section:load',
+      previous.load
+    );
+
+    document.removeEventListener(
+      'shopify:section:unload',
+      previous.unload
+    );
+
+    if (previous.destroy) previous.destroy();
+  }
+
+  let initialized = false;
+
+  function getYouTubeId(value) {
+    if (!value) return null;
+
+    try {
+      const url = new URL(value.trim());
+      const host = url.hostname.replace(/^www\./, '');
+
+      let videoId = null;
+
+      if (host === 'youtu.be') {
+        videoId = url.pathname.split('/').filter(Boolean)[0];
+      } else if (
+        host === 'youtube.com' ||
+        host === 'm.youtube.com' ||
+        host === 'youtube-nocookie.com'
+      ) {
+        if (url.pathname === '/watch') {
+          videoId = url.searchParams.get('v');
+        } else {
+          const match = url.pathname.match(
+            /^\/(?:embed|shorts|live)\/([^/?]+)/
+          );
+
+          if (match) videoId = match[1];
+        }
+      }
+
+      return videoId && /^[a-zA-Z0-9_-]{11}$/.test(videoId)
+        ? videoId
+        : null;
+
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function getEmbedSource(wrapper) {
+    const type = wrapper.dataset.videoType;
+
+    if (type === 'embed') {
+      const embedCode = wrapper.dataset.embedCode;
+
+      if (!embedCode) return null;
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(
+        embedCode,
+        'text/html'
+      );
+
+      const iframe = doc.querySelector('iframe');
+
+      if (!iframe) return null;
+
+      return iframe.getAttribute('src');
+    }
+
+    return wrapper.dataset.videoUrl;
+  }
+
+  function createVideo(wrapper) {
+    const source = getEmbedSource(wrapper);
+    const videoId = getYouTubeId(source);
+
+    if (!videoId) {
+      wrapper.classList.add('youtube-video-invalid');
+      return;
+    }
+
+    const iframe = document.createElement('iframe');
+
+    iframe.src =
+      'https://www.youtube-nocookie.com/embed/' + videoId;
+
+    iframe.title = 'YouTube video player';
+    iframe.loading = 'lazy';
+    iframe.allow =
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+
+    iframe.allowFullscreen = true;
+
+    wrapper.innerHTML = '';
+    wrapper.appendChild(iframe);
+  }
+
+  function destroyCarousel() {
+    if (
+      window.jQuery &&
+      window.jQuery.fn &&
+      window.jQuery.fn.owlCarousel
+    ) {
+      const $carousel = window.jQuery(
+        root.querySelector('.youtube-carousel-track')
+      );
+
+      if ($carousel.length && $carousel.hasClass('owl-loaded')) {
+        $carousel.trigger('destroy.owl.carousel');
+        $carousel.removeClass('owl-loaded owl-hidden');
+        $carousel.find('.owl-stage-outer').children().unwrap();
+        $carousel.find('.owl-stage').children().unwrap();
+      }
+    }
+
+    initialized = false;
+  }
+
+  function initCarousel() {
+    if (
+      !document.getElementById(sectionId) ||
+      initialized ||
+      !window.jQuery ||
+      !window.jQuery.fn ||
+      !window.jQuery.fn.owlCarousel
+    ) {
+      return;
+    }
+
+    const $ = window.jQuery;
+    const $carousel = $(root).find('.youtube-carousel-track');
+
+    if (!$carousel.length || !$carousel.children().length) {
+      return;
+    }
+
+    root.querySelectorAll('.youtube-video-wrapper').forEach(
+      createVideo
+    );
+
+    const desktopItems = Number(root.dataset.desktopItems);
+    const tabletItems = Number(root.dataset.tabletItems);
+    const mobileItems = Number(root.dataset.mobileItems);
+
+    $carousel.owlCarousel({
+      loop: root.dataset.loop === 'true',
+      margin: Number(root.dataset.margin),
+      nav: root.dataset.nav === 'true',
+      dots: root.dataset.dots === 'true',
+      autoplay: root.dataset.autoplay === 'true',
+      autoplayTimeout: Number(root.dataset.autoplaySpeed),
+      autoplayHoverPause: true,
+      smartSpeed: 600,
+      responsive: {
+        0: {
+          items: mobileItems
+        },
+        768: {
+          items: tabletItems
+        },
+        992: {
+          items: desktopItems
+        }
+      },
+      navText: [
+        '<span aria-label="Previous">‹</span>',
+        '<span aria-label="Next">›</span>'
+      ]
+    });
+
+    initialized = true;
+  }
+
+  function onSectionLoad(event) {
+    if (event.detail.sectionId === sectionId) {
+      const currentRoot = document.getElementById(sectionId);
+
+      if (currentRoot) {
+        initCarousel();
+      }
+    }
+  }
+
+  function onSectionUnload(event) {
+    if (event.detail.sectionId === sectionId) {
+      destroyCarousel();
+
+      document.removeEventListener(
+        'shopify:section:load',
+        onSectionLoad
+      );
+
+      document.removeEventListener(
+        'shopify:section:unload',
+        onSectionUnload
+      );
+
+      delete window[registryKey][sectionId];
+    }
+  }
+
+  document.addEventListener(
+    'shopify:section:load',
+    onSectionLoad
+  );
+
+  document.addEventListener(
+    'shopify:section:unload',
+    onSectionUnload
+  );
+
+  window[registryKey][sectionId] = {
+    load: onSectionLoad,
+    unload: onSectionUnload,
+    destroy: destroyCarousel
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener(
+      'DOMContentLoaded',
+      initCarousel,
+      { once: true }
+    );
+  } else {
+    initCarousel();
+  }
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "YouTube Video Carousel",
+  "settings": [
+    {
+      "type": "select",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": "lg",
+      "options": [
+        {"value": "0", "label": "None"},
+        {"value": "xs", "label": "Extra Small"},
+        {"value": "sm", "label": "Small"},
+        {"value": "md", "label": "Medium"},
+        {"value": "lg", "label": "Large"},
+        {"value": "xl", "label": "Extra Large"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": "lg",
+      "options": [
+        {"value": "0", "label": "None"},
+        {"value": "xs", "label": "Extra Small"},
+        {"value": "sm", "label": "Small"},
+        {"value": "md", "label": "Medium"},
+        {"value": "lg", "label": "Large"},
+        {"value": "xl", "label": "Extra Large"}
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Videos"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Responsive Settings"
+    },
+    {
+      "type": "select",
+      "id": "desktop_items",
+      "label": "Videos per row - Desktop",
+      "default": "3",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"},
+        {"value": "3", "label": "3"},
+        {"value": "4", "label": "4"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "tablet_items",
+      "label": "Videos per row - Tablet",
+      "default": "2",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"},
+        {"value": "3", "label": "3"}
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_items",
+      "label": "Videos per row - Mobile",
+      "default": "1",
+      "options": [
+        {"value": "1", "label": "1"},
+        {"value": "2", "label": "2"}
+      ]
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Space between videos",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay interval",
+      "min": 1000,
+      "max": 9000,
+      "step": 500,
+      "default": 3000,
+      "unit": "ms"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Infinite Loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Show Navigation Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Show Dots",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "youtube_video",
+      "name": "YouTube Video",
+      "settings": [
+        {
+          "type": "select",
+          "id": "video_input_type",
+          "label": "Video Input Type",
+          "default": "url",
+          "options": [
+            {
+              "value": "url",
+              "label": "YouTube URL"
+            },
+            {
+              "value": "embed",
+              "label": "YouTube Embed Code"
+            }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "youtube_url",
+          "label": "YouTube Video URL"
+        },
+        {
+          "type": "textarea",
+          "id": "embed_code",
+          "label": "YouTube Embed Code",
+          "info": "Paste the complete iframe embed code from YouTube."
+        },
+        {
+          "type": "text",
+          "id": "video_title",
+          "label": "Video Title"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [
+    {
+      "name": "e-youtube-carousel"
+    }
+  ]
+}
+{% endschema %}
